@@ -1,0 +1,54 @@
+/* :root{
+  --vis: 0%;
+} */
+html {
+  margin: 0px; 
+  width: 100%; 
+  height: 100%; 
+  overflow: hidden;
+}
+body {
+  /* padding: 50px; */
+  /* font: 14px; Calibri, sans-serif; */
+  font-size: 14pt;
+  font-family: 'Lato', sans-serif !important;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.info {
+  padding: 6px 8px;
+  font: 14px/16px Calibri, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.info h4 {
+  margin: 0 0 5px;
+  color: #777;
+}
+
+button:disabled {
+  background: #F5F5F5;
+  color : #C3C3C3;
+}
+
+#label {
+  opacity: var(--vis);
+  transition: all 1s ease;
+  color: var(--fontcolour)
+}
+
+div.modalcontent{
+
+   /* background-color: lightblue; */
+  width: 100%;
+  height: 50vh; 
+  overflow: scroll;
+
+}
+
+/* SVG Stuff */

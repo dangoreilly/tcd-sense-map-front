@@ -1,0 +1,300 @@
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato&family=PT+Mono&display=swap" rel="stylesheet">
+        
+        <title>TCDSense - {{buildingInfo.name}}</title>
+
+        <style>
+
+            html {
+                --tcdsense-cream-one: #fce891;
+                --tcdsense-cream-two: #fff0ad;
+                --tcdsense-blue-one: #0087a2;
+                --tcdsense-blue-two: #c2f4fe;
+                --tcdsense-green-one: #179942;
+            }
+
+            .nav-item {
+                background-color: var(--tcdsense-blue-two); 
+                color: #000000; 
+                border-radius:0.25rem;
+                margin: 0.5rem;
+                font-weight: bolder; 
+                font-family: 'PT Mono', monospace
+            }
+            body {
+                font-family: 'Lato', sans-serif;
+                background-color: var(--tcdsense-blue-two); 
+            }
+
+            .accordion-button {
+                /*background-color: var(--tcdsense-blue-two);*/
+                font-family: 'PT Mono', monospace;
+                font-weight: bolder; 
+            }
+
+            .accordion-collapse{
+            }
+
+            #summary {
+                
+                border-radius: 3pt;
+                background-color: white;
+                padding: 1rem;
+            }
+
+            @media (max-width:992px){
+                .navbar-nav{
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-left: auto;
+                    padding-right: auto;
+                    width: fit-content;
+                }
+                .nav-item{
+                    width: 100%;
+                    margin-left: auto;
+                    margin-right: auto;
+                    padding-left: auto;
+                    padding-right: auto;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-center py-3" style="background-color:#0087A2; margin:auto">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img width="40" height="40" src="/images/TCDSenseMapLogo.svg" style="vertical-align:bottom; margin-left:1rem; margin-right:1rem;"></img>
+                    <span class="fs-4" style="font-weight: bolder; font-family: 'PT Mono', monospace"><span style="color: #fce891">TCD</span><span style="color: #fff0ad">Sense</span></span>
+                </a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse show" id="navbarNav">
+                    <ul class="navbar-nav" style="margin-left:auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Campus Map</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Report an Issue</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container" style="margin-top:1rem" > 
+            <div class="row row-cols-1 row-cols-sm-2 gy-4">
+                <div class="col themed-grid-col" id="summary">
+                    <h1>{{buildingInfo.name}} (#{{buildingInfo.id}})</h1>
+                    
+                    <p id="aka" style="display:block"><b>Also Known as:</b> {{buildingInfo.aka}}</p>
+                    
+                    <h3>Description</h3>
+                    <p>{{buildingInfo.description}}</p>
+                    <h3>Sensory Overview</h3>
+                    <p>{{buildingInfo.sensoryOverview}}</p>
+
+                </div>
+            
+            <div class="col themed-grid-col" >
+                <img src="{{buildingInfo.primaryImage}}" class="img-fluid" alt="{{buildingInfo.name}}}" >
+            </div>
+            </div>
+        </div>
+
+        <div class="container" id="sensoryDetailsContainer" style="margin-top: 1rem;"> 
+            <div class="row row-cols-1 row-cols-sm-2 gy-4">
+                <div class="col themed-grid-col">
+                    <div class="accordion" id="sensoryDetailsAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Sound
+                            </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#sensoryDetailsAccordion">
+                                <div class="accordion-body">
+                                    {{buildingInfo.sensoryDetails.sound}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                Sight
+                            </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo" data-bs-parent="#sensoryDetailsAccordion">
+                                <div class="accordion-body">
+                                    {{buildingInfo.sensoryDetails.sight}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                Touch
+                            </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#sensoryDetailsAccordion">
+                                <div class="accordion-body">
+                                    {{buildingInfo.sensoryDetails.touch}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                Smell
+                            </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour" data-bs-parent="#sensoryDetailsAccordion">
+                                <div class="accordion-body">
+                                    {{buildingInfo.sensoryDetails.smell}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFive">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                Movement
+                            </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse show" aria-labelledby="headingFive" data-bs-parent="#sensoryDetailsAccordion">
+                                <div class="accordion-body">
+                                    {{buildingInfo.sensoryDetails.movement}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col themed-grid-col">
+                    <div class="card" style="width: 100%;">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Tips</h5>
+                            <p class="card-text">Some tips</p>
+                            <a href="#" class="btn btn-primary">Submit a tip</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" id="gallery" style="margin-top: 1rem; margin-bottom: 3rem;">
+            <div class="row row-cols-1 row-cols-md-3 gy-4">
+            
+            {{#buildingInfo.images}}
+            <div class="col themed-grid-col">
+                <div class="card" style="width:1fr; margin:auto;" onclick="modal(this.src)">
+                    <input type="image" src="{{url}}" class="card-img-top" alt="caption" data-bs-toggle="modal" data-bs-target="#pictureModal" data-bs-src="{{url}}" data-bs-cap="{{caption}}"/>
+                    <div class="card-body">
+                        <!-- <h5 class="card-title">Card title</h5> -->
+                        <p class="card-text">{{caption}}</p>
+                        <!--<a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                </div>
+            </div>
+            {{/buildingInfo.images}}
+        </div>
+
+        <div class="modal fade" id="pictureModal" tabindex="-1" aria-labelledby="pictureModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pictureModalLabel">text</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <img id="modal-img" src="" alt="" width="100%">
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script>
+
+            //Check if there is an AKA field. If there isn't then don't display the AKA field
+            if ("{{buildingInfo.aka}}" == ""){
+                document.getElementById("aka").style = "display:none";
+            }
+
+            //Check if there is sensory data. If there isn't, then don't display it
+            //TODO: Display Block check for boolean
+
+            //Check if there are photos. If there are, display them
+            //TODO: Server can pass boolean
+
+            //Modal controls for seeing photos bigger
+
+            var picModal = document.getElementById('pictureModal')
+            picModal.addEventListener('show.bs.modal', function (event) {
+
+                // Button that triggered the modal
+                let button = event.relatedTarget
+
+                // Extract info from data-bs-* attributes
+                let img_src = button.getAttribute('data-bs-src')
+                console.log(img_src)
+                let img_cap = button.getAttribute('data-bs-cap')
+                console.log(img_cap)
+                
+                // Update the modal's content.
+                let modalTitle = picModal.querySelector('.modal-title');
+                let modalPic = picModal.querySelector('#modal-img');
+
+                modalTitle.textContent = img_cap;
+                modalPic.src = img_src;
+                modalPic.alt = img_cap;
+            })
+
+            // For accordions
+            var collapseElementList = [].slice.call(document.querySelectorAll('.collapse'))
+            var collapseList = collapseElementList.map(function (collapseEl) {
+                return new bootstrap.Collapse(collapseEl)
+            });
+
+        </script>
+        <!--<style>
+            @media (min-width:450px) {
+                #topPills {
+                    display: block;
+                }
+            
+            }
+            @media (max-width:450px) {
+                #topPills {
+                    display: none;
+                }
+            
+            }
+        </style>-->
+
+    </body>
+
+</html>

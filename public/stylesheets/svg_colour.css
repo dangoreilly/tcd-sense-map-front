@@ -1,0 +1,156 @@
+
+      .cls-1, .cls-8 {
+        fill: #e7930b;
+      }
+
+      .Graphic-Style-3, .cls-1, .cls-3 {
+        stroke: #4d4d4d;
+      }
+
+      .Graphic-Style-2, .Graphic-Style-3, .cls-1, .cls-10, .cls-2, .cls-22, .cls-3, .cls-4, .cls-5, .cls-7, .cls-8, .cls-9 {
+        stroke-miterlimit: 10;
+      }
+
+      .Graphic-Style-2, .Graphic-Style-3, .cls-1, .cls-10, .cls-3, .cls-5 {
+        stroke-width: 1.42px;
+      }
+
+      .cls-2 {
+        fill: #65e1e1;
+      }
+
+      .cls-2, .cls-4 {
+        stroke: #006837;
+      }
+
+      .cls-2, .cls-4, .cls-7 {
+        stroke-linecap: square;
+      }
+
+      .Graphic-Style-3 {
+        fill: #c8aa78;
+      }
+
+      .cls-3 {
+        fill: #d6d7db;
+      }
+
+      .cls-4 {
+        fill: #b0e140;
+      }
+
+      .cls-5 {
+        fill: #dc281e;
+      }
+
+      .Graphic-Style-2, .cls-10, .cls-22, .cls-5, .cls-7, .cls-9 {
+        stroke: #000;
+      }
+
+      .cls-6 {
+        opacity: 0.06;
+      }
+
+      .cls-10, .cls-7, .cls-9 {
+        fill: none;
+      }
+
+      .cls-7 {
+        stroke-dasharray: 12;
+      }
+
+      .Graphic-Style-2 {
+        fill: #40568f;
+      }
+
+      .cls-8 {
+        stroke: #333;
+        opacity: 0.2;
+      }
+
+      .cls-9 {
+        stroke-width: 1.42px;
+      }
+
+      .cls-11 {
+        font-size: 16px;
+      }
+
+      .cls-11, .cls-22 {
+        font-family: Calibri-Bold, Calibri;
+        font-weight: 700;
+      }
+
+      .cls-12 {
+        letter-spacing: -0.02em;
+      }
+
+      .cls-13 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-14 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-15 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-16 {
+        letter-spacing: 0.01em;
+      }
+
+      .cls-17 {
+        letter-spacing: 0em;
+      }
+
+      .cls-18 {
+        letter-spacing: -0.03em;
+      }
+
+      .cls-19 {
+        letter-spacing: -0.05em;
+      }
+
+      .cls-20 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-21 {
+        letter-spacing: -0.02em;
+      }
+
+      .cls-22 {
+        font-size: 64px;
+        fill: #fff;
+        stroke-width: 1.42px;
+      }
+
+      .cls-23 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-24 {
+        letter-spacing: -0.02em;
+      }
+
+      .cls-25 {
+        letter-spacing: 0em;
+      }
+
+      .cls-26 {
+        letter-spacing: -0.01em;
+      }
+
+      .cls-27 {
+        letter-spacing: -0.03em;
+      }
+
+      table, th, td {
+        border: double;
+        }
+
+      th, td{
+          padding:10px;
+      }
