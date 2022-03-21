@@ -47,12 +47,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/add', addRouter);
-app.use('/addBuilding', addBuildingRouter);
-app.use('/update', updateRouter);
-app.use('/updateBuilding', updateBuildingRouter);
-app.use('/getBuilding', getBuildingRouter);
-app.use('/get', getRouter);
+// app.use('/add', addRouter);
+// app.use('/addBuilding', addBuildingRouter);
+// app.use('/update', updateRouter);
+// app.use('/updateBuilding', updateBuildingRouter);
+// app.use('/getBuilding', getBuildingRouter);
+// app.use('/get', getRouter);
 app.use('/colour', colourRouter);
 app.use('/info', infoRouter);
 

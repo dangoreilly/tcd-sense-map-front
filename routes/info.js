@@ -26,7 +26,10 @@ router.get('/:id', function(req, res, next) {
       "movement":"The only access to upper levels is by stairs, so could be hard work for people of limited mobility. ",
       "smell":"No smell information"},
 
-      "primaryImage":"https://tcd-sense-map-assets.fra1.digitaloceanspaces.com/demo/23.jpg",
+      "primaryImage":{
+        "src":"https://tcd-sense-map-assets.fra1.digitaloceanspaces.com/demo/23.jpg",
+        "caption":"Caption"
+      },
 
       "images":[
         {
