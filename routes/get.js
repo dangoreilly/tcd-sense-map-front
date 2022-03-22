@@ -42,8 +42,8 @@ router.get('/all', function(req, res, next) {
     });
 
     // let buildings = response.data;
-    console.log(buildings[0]);
-    console.log(buildings[0].geometry);
+    // console.log(buildings[0]);
+    // console.log(buildings[0].geometry);
     res.json(buildings);
     console.log("buildings read successfully from server");
 
