@@ -12,6 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=PT+Mono&display=swap" rel="stylesheet">
         
         <title>TCDSense - {{buildingInfo.name}}</title>
+        <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapLogo.svg">
 
         <style>
 
