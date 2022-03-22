@@ -29,7 +29,7 @@ var indexRouter = require('./routes/index');
 // var updateRouter = require('./routes/update');
 // var updateBuildingRouter = require('./routes/updateBuilding');
 // var getBuildingRouter = require('./routes/getBuilding');
-// var getRouter = require('./routes/get');
+var getRouter = require('./routes/get');
 var colourRouter = require('./routes/colour');
 var infoRouter = require('./routes/info');
 
@@ -52,7 +52,7 @@ app.use('/', indexRouter);
 // app.use('/update', updateRouter);
 // app.use('/updateBuilding', updateBuildingRouter);
 // app.use('/getBuilding', getBuildingRouter);
-// app.use('/get', getRouter);
+app.use('/get', getRouter);
 app.use('/colour', colourRouter);
 app.use('/info', infoRouter);
 
