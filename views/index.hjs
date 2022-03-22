@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style=" --vis:0%;">
+<html style=" --vis-in:0%;--vis-out:0%;">
     <!-- style="margin: 0px; height: 100%; overflow: hidden;" -->
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
 

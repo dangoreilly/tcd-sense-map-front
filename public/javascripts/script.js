@@ -79,11 +79,11 @@ overworld_map.on('zoom', (e) => {
 
     //info.update(overworld_map.zoom);
     console.log(overworld_map.getZoom());
-    let buildingtags = document.getElementsByName("building");
-    let visible_prefix = "<p name='building', class='label', style='opacity: 100%'>";
-    let invisible_prefix = "<p name='building', class='label', style='opacity: 0%'>";
-    let cap = "%'>";
-    let suffix = "</p>";
+    // let buildingtags = document.getElementsByName("building");
+    // let visible_prefix = "<p name='building', class='label', style='opacity: 100%'>";
+    // let invisible_prefix = "<p name='building', class='label', style='opacity: 0%'>";
+    // let cap = "%'>";
+    // let suffix = "</p>";
     let htmlStyle = "margin: 0px; width: 100%; height: 100%; overflow: hidden;";
 
     if (overworld_map.getZoom() > 0.5 && overworld_map.getZoom() < 2){
@@ -97,8 +97,8 @@ overworld_map.on('zoom', (e) => {
             // });
         // }
 
-        document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%";
-        document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%; --vis-out: 100%";
+        // document.documentElement.style.cssText = htmlStyle + "--vis-out: 100%";
 
 
     }
@@ -113,14 +113,14 @@ overworld_map.on('zoom', (e) => {
             // });
         // }
         
-        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%";
-        document.documentElement.style.cssText = htmlStyle + "--vis-out: 100%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%; --vis-out: 0%";
+        // document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
     }
     else{
         // bigText.remove()
         // littleText.remove();
-        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%";
-        document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%; --vis-out: 0%";
+        // document.documentElement.style.cssText = htmlStyle + ";
     }
 
 
@@ -194,10 +194,12 @@ function onEachFeature(feature, layer) {
 
     if (feature) {
 
-        let contentOfThePopup = "<p name='building'> <span class='zoomedOutLabel'>" + feature.properties.ZoomedOutLabel + "</span><span class='zoomedOutLabel'>" + feature.properties.ZoomedInLabel + "</span></p>";
+        let contentOfTheFirstPopup = "<p name='building'  class='zoomedInLabel'>" + feature.properties.ZoomedInLabel + " </p>";
+        let contentOfTheSecondPopup = "<p name='building' class='zoomedOutLabel'>" + feature.properties.ZoomedOutLabel + "</p>";
         //layer.bindPopup(contentOfThePopup, {closeButton: false, offset: L.point(0, -20)});
 
-        layer.bindTooltip(contentOfThePopup, {direction: "top", opacity:1, permanent: true}).openTooltip();
+        layer.bindTooltip(contentOfTheFirstPopup, {direction: "top", opacity:1, permanent: true}).addTo(overworld_map);
+        layer.bindTooltip(contentOfTheSecondPopup, {direction: "top", opacity:1, permanent: true}).openTooltip();
 
         //littleText.bindTooltip(tip);
         //tooltips.push(tip);
