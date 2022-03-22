@@ -36,10 +36,17 @@ button:disabled {
   color : #C3C3C3;
 }
 
-#label {
-  opacity: var(--vis);
+.zoomedOutLabel, .zoomedInLabel {
   transition: all 1s ease;
   color: var(--fontcolour)
+}
+
+.zoomedOutLabel{
+  opacity: var(--vis-out);
+}
+
+.zoomedInLabel{
+  opacity: var(--vis-in);
 }
 
 div.modalcontent{
