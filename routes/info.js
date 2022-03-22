@@ -36,7 +36,7 @@ router.get('/:id', function(req, res, next) {
         "name":B.Name || "",
         "aka":B.aka || "",
         "description":B.Description || "",
-        "sensoryOverview":B.sensoryDetails || "",
+        "sensoryOverview":B.SensoryOverview || "",
 
         "sensoryDetails":{
           "sound":B.Sound || "",
