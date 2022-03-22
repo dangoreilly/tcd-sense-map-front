@@ -165,12 +165,12 @@ function onEachFeature(feature, layer) {
         '</div></div>';
         //cheap and dirty button disabler
         function checkEnabled(chk){
-            if(check) return "";
+            if(chk) return "";
             else return "disabled";
         }
 
-        let modal_info_button = '<div style="width=800px;"> <button ' + checkEnabled(feature.properties.sensoryAvailable) + `class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/info/${feature.properties.bldID}">More Details</button>`;
-        let modal_map_button = '<div style="width=800px;"> <button ' + checkEnabled(false) + 'class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/">More Details</button>';
+        let modal_info_button = '<div style="width=800px;"> <a class="btn ' + checkEnabled(feature.properties.sensoryAvailable) + `" href="/info/${feature.properties.bldID}">More Details</a>`;
+        let modal_map_button = '<a class="btn ' + checkEnabled(false) + '" style="display:inline-flex; width=45%;" href="/info/${feature.properties.bldID}">Internal Mapping</a> </div>';
 
         
 
@@ -298,7 +298,7 @@ function openInfoModal() {
         <p> TCD Sense - The Trinity Sensory Processing Project - aims to make Trinity more inclusive by reviewing and improving new and existing spaces, building sensory awareness and delivering specialist supports to students who experience barriers to managing and adapting the sensory environments of college.</p>
         <br>
         <p> Press the X button in the top right to close this modal and view the map. Click/tap on a building to see the available sensory information, or click below for more information about the project</p>
-        <button  class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href='https://www.tcd.ie/disability/services/tcdsense.php'">More Information about the TCD Sense Project</button>
+        <a  class="btn welcome" href='https://www.tcd.ie/disability/services/tcdsense.php'>More Information about the TCD Sense Project</a>
     `
     }
     );
