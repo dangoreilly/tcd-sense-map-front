@@ -14,17 +14,6 @@ const config = {
 
 /* GET home page. */
 router.get('/:id', function(req, res, next) {
-
-  console.log(req.params);
-
-  if (req.params.id == "42"){
-
-    
-  
-    res.render('info', {buildingInfo});
-
-  }
-  else{
   
     axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?filters[bldID][$eq]=${req.params.id}&populate=*`, config)
     .then(function (response) {
@@ -80,11 +69,6 @@ router.get('/:id', function(req, res, next) {
       return;
     });
     
-
-    
-  
-  
-  }
 
 });
 
