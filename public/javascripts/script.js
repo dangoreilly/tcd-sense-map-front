@@ -152,16 +152,16 @@ function onEachFeature(feature, layer) {
     layer.on('click', function (e){
         //window.location.href = feature.properties.link;
 
-        let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.attributes.Name +'</h1><div class="modalcontent">';
-        let modal_aka = '<p><em>Also known as: ' + feature.attributes.aka + '</em></p>';
-        let modal_sensorycontent = '<p><b>Description</b><br>' + feature.attributes.Description + '</p>' +
-        '<p><b>Sensory Overview</b><br>' + feature.attributes.SensoryOverview + '</p>' +
+        let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.properties.attributes.Name +'</h1><div class="modalcontent">';
+        let modal_aka = '<p><em>Also known as: ' + feature.properties.attributes.aka + '</em></p>';
+        let modal_sensorycontent = '<p><b>Description</b><br>' + feature.properties.attributes.Description + '</p>' +
+        '<p><b>Sensory Overview</b><br>' + feature.properties.attributes.SensoryOverview + '</p>' +
         '<p><b>Sensory Breakdown</b><br><div style="margin-left: 40px; background-color: #eee; padding:10px">' + 
-            '<p><b>Sounds</b><br>' + feature.attributes.Sound + '</p>' +
-            '<p><b>Sights</b><br>' + feature.attributes.Sight + '</p>' +
-            '<p><b>Touch</b><br>' + feature.attributes.Touch + '</p>' +
-            '<p><b>Movement/Body Position</b><br>' + feature.attributes.Movement + '</p>' +
-            '<p><b>Smell</b><br>' + feature.attributes.Smell + '</p><br>' +
+            '<p><b>Sounds</b><br>' + feature.properties.attributes.Sound + '</p>' +
+            '<p><b>Sights</b><br>' + feature.properties.attributes.Sight + '</p>' +
+            '<p><b>Touch</b><br>' + feature.properties.attributes.Touch + '</p>' +
+            '<p><b>Movement/Body Position</b><br>' + feature.properties.attributes.Movement + '</p>' +
+            '<p><b>Smell</b><br>' + feature.properties.attributes.Smell + '</p><br>' +
         '</div></div>';
         //cheap and dirty button disabler
         function checkEnabled(chk){
@@ -169,7 +169,7 @@ function onEachFeature(feature, layer) {
             else return "disabled";
         }
 
-        let modal_info_button = '<div style="width=800px;"> <button ' + checkEnabled(feature.attributes.sensoryAvailable) + `class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/info/${feature.attributes.bldID}">More Details</button>`;
+        let modal_info_button = '<div style="width=800px;"> <button ' + checkEnabled(feature.properties.attributes.sensoryAvailable) + `class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/info/${feature.properties.attributes.bldID}">More Details</button>`;
         let modal_map_button = '<div style="width=800px;"> <button ' + checkEnabled(false) + 'class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/">More Details</button>';
 
         
@@ -194,7 +194,7 @@ function onEachFeature(feature, layer) {
 
     if (feature) {
 
-        let contentOfThePopup = "<p name='building'> <span class='zoomedOutLabel'>" + feature.attributes.zoomedOutLabel + "</span><span class='zoomedOutLabel'>" + feature.attributes.zoomedInLabel + "</span></p>";
+        let contentOfThePopup = "<p name='building'> <span class='zoomedOutLabel'>" + feature.properties.attributes.zoomedOutLabel + "</span><span class='zoomedOutLabel'>" + feature.properties.attributes.zoomedInLabel + "</span></p>";
         //layer.bindPopup(contentOfThePopup, {closeButton: false, offset: L.point(0, -20)});
 
         layer.bindTooltip(contentOfThePopup, {direction: "top", opacity:1, permanent: true}).openTooltip();
