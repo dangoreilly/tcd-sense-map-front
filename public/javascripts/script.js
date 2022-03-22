@@ -84,7 +84,7 @@ overworld_map.on('zoom', (e) => {
     let suffix = "</p>";
     let htmlStyle = "margin: 0px; width: 100%; height: 100%; overflow: hidden;";
 
-    if (overworld_map.getZoom() > 0.5){
+    if (overworld_map.getZoom() > 0.5 && overworld_map.getZoom() < 2){
         // bigText.remove();
         // littleText.addTo(overworld_map);
 
@@ -95,7 +95,8 @@ overworld_map.on('zoom', (e) => {
             // });
         // }
 
-        document.documentElement.style.cssText = htmlStyle + "--vis: 100%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
 
 
     }
@@ -110,11 +111,14 @@ overworld_map.on('zoom', (e) => {
             // });
         // }
         
-        document.documentElement.style.cssText = htmlStyle + "--vis: 0%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-out: 100%";
     }
     else{
         // bigText.remove()
         // littleText.remove();
+        document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%";
+        document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
     }
 
 
@@ -140,27 +144,35 @@ function style(feature) {
 
 function onEachFeature(feature, layer) {
 
-    console.log("Loading " + feature.name)
+    // console.log("Loading " + feature.name)
 
     //bind click
     layer.on('click', function (e){
         //window.location.href = feature.properties.link;
 
-        let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.name +'</h1><div class="modalcontent">';
-        let modal_aka = '<p><em>Also known as: ' + feature.aka + '</em></p>';
-        let modal_sensorycontent = '<p><b>Description</b><br>' + feature.description + '</p>' +
-        '<p><b>Sensory Overview</b><br>' + feature.sensoryOverview + '</p>' +
+        let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.attributes.Name +'</h1><div class="modalcontent">';
+        let modal_aka = '<p><em>Also known as: ' + feature.attributes.aka + '</em></p>';
+        let modal_sensorycontent = '<p><b>Description</b><br>' + feature.attributes.Description + '</p>' +
+        '<p><b>Sensory Overview</b><br>' + feature.attributes.SensoryOverview + '</p>' +
         '<p><b>Sensory Breakdown</b><br><div style="margin-left: 40px; background-color: #eee; padding:10px">' + 
-            '<p><b>Sounds</b><br>' + feature.sensoryDetails.sound + '</p>' +
-            '<p><b>Sights</b><br>' + feature.sensoryDetails.sight + '</p>' +
-            '<p><b>Touch</b><br>' + feature.sensoryDetails.touch + '</p>' +
-            '<p><b>Movement/Body Position</b><br>' + feature.sensoryDetails.movement + '</p>' +
-            '<p><b>Smell</b><br>' + feature.sensoryDetails.smell + '</p><br>' +
+            '<p><b>Sounds</b><br>' + feature.attributes.Sound + '</p>' +
+            '<p><b>Sights</b><br>' + feature.attributes.Sight + '</p>' +
+            '<p><b>Touch</b><br>' + feature.attributes.Touch + '</p>' +
+            '<p><b>Movement/Body Position</b><br>' + feature.attributes.Movement + '</p>' +
+            '<p><b>Smell</b><br>' + feature.attributes.Smell + '</p><br>' +
         '</div></div>';
+        //cheap and dirty button disabler
+        function checkEnabled(chk){
+            if(check) return "";
+            else return "disabled";
+        }
 
-        let modal_buttons = '<div style="width=800px;"> <button disabled class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/">More Details</button>' + //'<br>' +
-        '<span style="display:inline-flex; width: 5%;"></span>'+
-        '<button disabled  class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/">Internal Mapping</button>';
+        let modal_info_button = '<div style="width=800px;"> <button ' + checkEnabled(feature.attributes.sensoryAvailable) + `class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/info/${feature.attributes.bldID}">More Details</button>`;
+        let modal_map_button = '<div style="width=800px;"> <button ' + checkEnabled(false) + 'class="centered" style="display:inline-flex; width=45%;" onclick="window.location.href=/">More Details</button>';
+
+        
+
+        let modal_buttons = modal_info_button + '<span style="display:inline-flex; width: 5%;"></span>' + modal_map_button;
 
         let modal_content = modal_title;
         
@@ -174,13 +186,13 @@ function onEachFeature(feature, layer) {
 
     });
 
-    if (urlParams.has(feature.name)){
-        highlightFeature_overload(layer);
-    }
+    // if (urlParams.has(feature.name)){
+    //     highlightFeature_overload(layer);
+    // }
 
-    if (feature && feature.name) {
+    if (feature) {
 
-        let contentOfThePopup = "<p name='building', class='label'>" + feature.name + "</p>";
+        let contentOfThePopup = "<p name='building'> <span class='zoomedOutLabel'>" + feature.attributes.zoomedOutLabel + "</span><span class='zoomedOutLabel'>" + feature.attributes.zoomedInLabel + "</span></p>";
         //layer.bindPopup(contentOfThePopup, {closeButton: false, offset: L.point(0, -20)});
 
         layer.bindTooltip(contentOfThePopup, {direction: "top", opacity:1, permanent: true}).openTooltip();
