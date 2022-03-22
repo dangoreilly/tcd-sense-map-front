@@ -1,3 +1,4 @@
+
 let saveLocations = false;
 let coordinates = [];
 // let coordinates_array = [];
@@ -49,7 +50,7 @@ $.ajax({
         else if (typeof data === 'string')
         _buildings = JSON.parse(data).responseJSON; // parse if its string
 
-        // console.log(JSON.stringify(_buildings, null, 1));
+         console.log(JSON.stringify(_buildings, null, 1));
         setBuildings(_buildings);
 
     }
@@ -57,6 +58,7 @@ $.ajax({
 
 function setBuildings(blds){
     _buildings = blds;
+        //console.log(_buildings);
 }
 
   //console.log("_buildings");

@@ -25,14 +25,25 @@ router.get('/all', function(req, res, next) {
     // handle success
     console.log(response.status);
     let buildings = [];
+    let _buildings = response.data.data;
+    // console.log(_buildings[0]);
 
-    response.data.forEach(element => {
+    _buildings.forEach(element => {
 
-      buildings.push({"attibutes":element.attibutes, "type":"Feature", "geometry":element.attibutes.geometry});
+      buildings.push({
+        "properties":element.attributes, 
+        "type":"Feature", 
+        "geometry":{
+          "type": "Polygon",
+          "coordinates":element.attributes.geometry.coordinates
+        }
+      });
       
     });
 
     // let buildings = response.data;
+    console.log(buildings[0]);
+    console.log(buildings[0].geometry);
     res.json(buildings);
     console.log("buildings read successfully from server");
 
