@@ -168,9 +168,19 @@ function onEachFeature(feature, layer) {
             if(chk) return "";
             else return "disabled";
         }
+        function provideLink(chk, url){
+            if(chk) return `href="/info/${url}"`;
+            else return "";
 
-        let modal_info_button = '<div style="width=800px;"> <a class="btn ' + checkEnabled(feature.properties.sensoryAvailable) + `" href="/info/${feature.properties.bldID}">More Details</a>`;
-        let modal_map_button = '<a class="btn ' + checkEnabled(false) + '" style="display:inline-flex; width=45%;" href="/info/${feature.properties.bldID}">Internal Mapping</a> </div>';
+        }
+
+        let modal_info_button = '<div style="width=800px;"> <a class="btn ' + 
+            checkEnabled(feature.properties.infoPageEnabled) + '" ' + 
+            provideLink(feature.properties.infoPageEnabled, feature.properties.bldID) + '">More Details</a>';
+        
+        let modal_map_button = '<a class="btn ' + 
+            checkEnabled(false) + '" style="display:inline-flex; width=45%;" ' + 
+            provideLink(false, "url") + '>Internal Mapping</a> </div>';
 
         
 
