@@ -124,10 +124,14 @@
                         
                         <p id="aka" style="display:block"><b>Also Known as:</b> {{buildingInfo.aka}}</p>
                         
-                        <h3>Description</h3>
-                        <p>{{buildingInfo.description}}</p>
-                        <h3>Sensory Overview</h3>
-                        <p>{{buildingInfo.sensoryOverview}}</p>
+                        <div id="description">
+                            <h3>Description</h3>
+                            <p>{{buildingInfo.description}}</p>
+                        </div>
+                        <div class="sensoryinfo" style="display:{{buildingInfo.sensoryAvailable}};">
+                            <h3>Sensory Overview</h3>
+                            <p>{{buildingInfo.sensoryOverview}}</p>
+                        </div>
 
                     </div>
                 </div>
@@ -138,7 +142,7 @@
             </div>
         </div>
 
-        <div class="container" id="sensoryDetailsContainer" style="margin-top: 1rem;"> 
+        <div class="container" id="sensoryDetailsContainer" style="margin-top: 1rem; display:{{buildingInfo.sensoryAvailable}}"> 
             <div class="row row-cols-1 row-cols-sm-2 gy-4">
                 <div class="col themed-grid-col">
                     <div class="accordion" id="sensoryDetailsAccordion">

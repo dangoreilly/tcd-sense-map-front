@@ -12,6 +12,8 @@ const config = {
 
 //const buildings = require('../models/building')
 
+var default_image = {"src": "../public/images/TCDSenseMapLogo.svg", "alt":"No image available"};
+
 /* GET home page. */
 router.get('/:id', function(req, res, next) {
   
@@ -24,19 +26,34 @@ router.get('/:id', function(req, res, next) {
 
       let im = B.Gallery.data;
 
-      im.forEach(element => {
-        images.push({
-          "url":element.attributes.url,
-           "alt":element.attributes.alternativeText || "",
-          "caption":element.attributes.caption || ""
+      if (im != null && im != []){
+        im.forEach(element => {
+          images.push({
+            "url":element.attributes.url || "",
+            "alt":element.attributes.alternativeText || "",
+            "caption":element.attributes.caption || ""
+          });
         });
-      });
+      }
+      let _PrimaryImage;
+
+      if (B.PrimaryImage.data == null){
+        _PrimaryImage = default_image;
+      }
+      else {
+        _PrimaryImage = {
+          "src":B.PrimaryImage.data.attributes.url || "",
+          "alt":B.PrimaryImage.data.attributes.alternativeText || ""
+        }
+      }
       
       var buildingInfo = {
         "name":B.Name || "",
         "aka":B.aka || "",
         "description":B.Description || "",
         "sensoryOverview":B.SensoryOverview || "",
+
+        "sensoryAvailable": (B.sensoryAvailable ? "block" : "none"),
 
         "sensoryDetails":{
           "sound":B.Sound || "",
@@ -48,8 +65,8 @@ router.get('/:id', function(req, res, next) {
         "tips":B.Tips || "",
   
         "primaryImage":{
-          "src":B.PrimaryImage.data.attributes.url,
-          "alt":B.PrimaryImage.data.attributes.alternativeText || ""
+          "src": _PrimaryImage.src || "",
+          "alt": _PrimaryImage.src || ""
         },
   
         "images":images

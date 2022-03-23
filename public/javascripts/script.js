@@ -154,8 +154,8 @@ function onEachFeature(feature, layer) {
 
         let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.properties.Name +'</h1><div class="modalcontent">';
         let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
-        let modal_sensorycontent = '<p><b>Description</b><br>' + feature.properties.Description + '</p>' +
-        '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>' +
+        let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
+        let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>' +
         '<p><b>Sensory Breakdown</b><br><div style="margin-left: 40px; background-color: #eee; padding:10px">' + 
             '<p><b>Sounds</b><br>' + feature.properties.Sound + '</p>' +
             '<p><b>Sights</b><br>' + feature.properties.Sight + '</p>' +
@@ -188,11 +188,17 @@ function onEachFeature(feature, layer) {
 
         let modal_content = modal_title;
         
-        if (feature.aka != ""){
+        if (feature.aka != "" && feature.aka != "null" && feature.aka != null){
             modal_content += modal_aka;
         }
+        
+        modal_content += modal_Description;
+        
+        if (feature.properties.sensoryAvailable){
+            modal_content += modal_sensorycontent;
+        }
 
-        modal_content += modal_sensorycontent + modal_buttons;
+        modal_content += modal_buttons;
 
         overworld_map.openModal({content: modal_content});
 
