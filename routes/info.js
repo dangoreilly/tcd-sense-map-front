@@ -12,7 +12,7 @@ const config = {
 
 //const buildings = require('../models/building')
 
-var default_image = {"src": "../public/images/TCDSenseMapLogo.svg", "alt":"No image available"};
+var default_image = {"src": "/public/images/TCDSenseMapLogo.svg", "alt":"No image available"};
 
 /* GET home page. */
 router.get('/:id', function(req, res, next) {
