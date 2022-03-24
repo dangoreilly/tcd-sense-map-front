@@ -214,7 +214,13 @@
                         
                         <div class="card-body">
                             <h5 class="card-title">Tips</h5>
-                            <p class="card-text">{{buildingInfo.tips}}</p>
+                            <p class="card-text">
+                                <ul>
+                                {{#buildingInfo.tips}}
+                                <li>{{.}}</li>
+                                {{/buildingInfo.tips}}
+                                </ul>
+                            </p>
                             <a href="#" class="btn btn-primary" >Submit a tip</a>
                         </div>
                     </div>

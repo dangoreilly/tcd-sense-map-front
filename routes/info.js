@@ -14,7 +14,7 @@ const config = {
 
 var default_image = {"src": "/public/images/TCDSenseMapLogo.svg", "alt":"No image available"};
 
-/* GET home page. */
+/* GET info page. */
 router.get('/:id', function(req, res, next) {
   
     axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?filters[bldID][$eq]=${req.params.id}&populate=*`, config)
@@ -26,6 +26,7 @@ router.get('/:id', function(req, res, next) {
 
       let im = B.Gallery.data;
 
+      // Process images for gallery, make sure one exists. Pass empty data if it doesn't
       if (im != null && im != []){
         im.forEach(element => {
           images.push({
@@ -35,6 +36,8 @@ router.get('/:id', function(req, res, next) {
           });
         });
       }
+
+      // Process image for top of page. If one doesn't exist, send the default
       let _PrimaryImage;
 
       if (B.PrimaryImage.data == null){
@@ -46,6 +49,17 @@ router.get('/:id', function(req, res, next) {
           "alt":B.PrimaryImage.data.attributes.alternativeText || ""
         }
       }
+
+      // Process tips. Take in string with - delimiters and return a string array
+      //that mustache will turn into a ul
+      let tips = B.Tips.split("-") || "";
+      // First element will probably be empty because of split.
+      // Gotta pop, flip it and reverse it. Not in that order
+      if (tips[0] == ""){
+        tips.reverse();
+        tips.pop();
+        tips.reverse()
+      } 
       
       var buildingInfo = {
         "name":B.Name || "",
@@ -62,7 +76,7 @@ router.get('/:id', function(req, res, next) {
           "movement":B.Movement || "",
           "smell":B.Smell || ""
         },
-        "tips":B.Tips || "",
+        "tips": tips || "",
   
         "primaryImage":{
           "src": _PrimaryImage.src || "",
