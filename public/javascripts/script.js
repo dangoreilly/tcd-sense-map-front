@@ -152,7 +152,7 @@ function onEachFeature(feature, layer) {
     layer.on('click', function (e){
         //window.location.href = featurepropertieslink;
 
-        let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.properties.Name +'</h1><div class="modalcontent">';
+        // let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.properties.Name +'</h1><div class="modalcontent">';
         let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
         let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
         let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>' +
@@ -174,19 +174,19 @@ function onEachFeature(feature, layer) {
 
         }
 
-        let modal_info_button = '<div style="width=800px;"> <a class="btn ' + 
-            checkEnabled(feature.properties.infoPageEnabled) + '" ' + 
-            provideLink(feature.properties.infoPageEnabled, feature.properties.bldID) + '">More Details</a>';
+        let modal_info_button = {
+            text: "More Details",
+            link: `/info/${feature.properties.bldID}`,
+            disabled: !feature.properties.infoPageEnabled
+        }
         
-        let modal_map_button = '<a class="btn ' + 
-            checkEnabled(false) + '" style="display:inline-flex; width=45%;" ' + 
-            provideLink(false, "url") + '>Internal Mapping</a> </div>';
-
-        
-
-        let modal_buttons = modal_info_button + '<span style="display:inline-flex; width: 5%;"></span>' + modal_map_button;
-
-        let modal_content = modal_title;
+        let modal_map_button = {
+            text: "Internal Map",
+            link: `/map/${feature.properties.bldID}`,
+            disabled: (!feature.properties.mapped) || true
+        }
+          
+        let modal_content = "";
         
         if (feature.aka != "" && feature.aka != "null" && feature.aka != null){
             modal_content += modal_aka;
@@ -198,9 +198,10 @@ function onEachFeature(feature, layer) {
             modal_content += modal_sensorycontent;
         }
 
-        modal_content += modal_buttons;
+        // modal_content += modal_buttons;
 
-        overworld_map.openModal({content: modal_content});
+        // overworld_map.openModal({content: modal_content});
+        openInfoModel(feature.properties.Name, modal_content, {modal_info_button, modal_map_button});
 
     });
 
@@ -262,7 +263,8 @@ info.onAdd = function (overworld_map) {
     this.button = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     // this.button.title = "Click on buildings to get sensory information and access the internal map, if one exists";
      this.button.value = "i";
-    this.button.innerHTML = '<input onclick="openInfoModal()" type="button" value="i" id="infoButton"></input><div id="infoBox"><\div>';
+    this.button.innerHTML = '<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#welcomeModal" style="margin-top:0">i</button>';
+    this.button.style = "padding:0;"
 
     return this.button;
 };
@@ -289,38 +291,38 @@ function fadeLayerLeaflet(lyr, startOpacity, finalOpacity, opacityStep, delay) {
 
 
 
-function changeInfo(){
+// function changeInfo(){
 
-    if (document.getElementById("infoButton").value == "i"){
+//     if (document.getElementById("infoButton").value == "i"){
 
-        document.getElementById("infoButton").value="x";
-        document.getElementById("infoBox").innerHTML="Click on buildings to get sensory information and access the internal map, if one exists";
+//         document.getElementById("infoButton").value="x";
+//         document.getElementById("infoBox").innerHTML="Click on buildings to get sensory information and access the internal map, if one exists";
 
-    }
+//     }
 
-    else {
+//     else {
 
-        document.getElementById("infoButton").value="i";
-        document.getElementById("infoBox").innerHTML="";
+//         document.getElementById("infoButton").value="i";
+//         document.getElementById("infoBox").innerHTML="";
 
-    }
-}
+//     }
+// }
 
 info.addTo(overworld_map);
-openInfoModal();
+// openInfoModal();
 
-function openInfoModal() {
-    overworld_map.openModal({
-        content: `
-        <h1>Welcome</h1>
-        <p> TCD Sense - The Trinity Sensory Processing Project - aims to make Trinity more inclusive by reviewing and improving new and existing spaces, building sensory awareness and delivering specialist supports to students who experience barriers to managing and adapting the sensory environments of college.</p>
-        <br>
-        <p> Press the X button in the top right to close this modal and view the map. Click/tap on a building to see the available sensory information, or click below for more information about the project</p>
-        <a  class="btn welcome" href='https://www.tcd.ie/disability/services/tcdsense.php'>More Information about the TCD Sense Project</a>
-    `
-    }
-    );
-}
+// function openInfoModal() {
+//     overworld_map.openModal({
+//         content: `
+//         <h1>Welcome</h1>
+//         <p> TCD Sense - The Trinity Sensory Processing Project - aims to make Trinity more inclusive by reviewing and improving new and existing spaces, building sensory awareness and delivering specialist supports to students who experience barriers to managing and adapting the sensory environments of college.</p>
+//         <br>
+//         <p> Press the X button in the top right to close this modal and view the map. Click/tap on a building to see the available sensory information, or click below for more information about the project</p>
+//         <a  class="btn welcome" href='https://www.tcd.ie/disability/services/tcdsense.php'>More Information about the TCD Sense Project</a>
+//     `
+//     }
+//     );
+// }
 
 function highlightFeature(e) {
     var layer = e.target;
