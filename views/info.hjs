@@ -13,17 +13,19 @@
         
         <title>TCDSense - {{buildingInfo.name}}</title>
         <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapLogo.svg">
+        
+        <link rel="stylesheet" href="/stylesheets/style.css" />
 
         <style>
 
-            html {
+            {{!-- html {
                 --tcdsense-cream-one: #fce891;
                 --tcdsense-cream-two: #fff0ad;
                 --tcdsense-blue-one: #0087a2;
                 --tcdsense-blue-two: #c2f4fe;
                 --tcdsense-green-one: #179942;
                 --tcdsense-pink: #e53397;
-            }
+            } --}}
 
             .nav-item {
                 background-color: var(--tcdsense-blue-two); 
@@ -44,14 +46,14 @@
                 font-weight: bolder; 
             }
 
-            h1, .btn, .btn-primary{
+            {{!-- h1, .btn, .btn-primary{
                 font-family: 'PT Mono', monospace;
             }
 
             h1 {
                 
                 font-weight: bolder; 
-            }
+            } --}}
 
             #summary {
                 
@@ -61,14 +63,14 @@
                 
             }
 
-            .btn, .btn-primary{
+            {{!-- .btn, .btn-primary{
                 background-color: var(--tcdsense-green-one);
                 border-color: hsl(88, 74%, 35%);
             }
             .btn:hover{
                 background-color: var(--tcdsense-pink);
                 border-color: hsl(0, 0%, 0%);
-            }
+            } --}}
 
             @media (max-width:992px){
                 .navbar-nav{
