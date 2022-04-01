@@ -156,7 +156,7 @@ function onEachFeature(feature, layer) {
         let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
         let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
         let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>' +
-        '<p><b>Sensory Breakdown</b><br><div style="margin-left: 40px; background-color: #eee; padding:10px">' + 
+        '<p><b>Sensory Breakdown</b><br><div style="background-color: #eee; padding:10px">' + 
             '<p><b>Sounds</b><br>' + feature.properties.Sound + '</p>' +
             '<p><b>Sights</b><br>' + feature.properties.Sight + '</p>' +
             '<p><b>Touch</b><br>' + feature.properties.Touch + '</p>' +
@@ -201,7 +201,7 @@ function onEachFeature(feature, layer) {
         // modal_content += modal_buttons;
 
         // overworld_map.openModal({content: modal_content});
-        openInfoModel(feature.properties.Name, modal_content, {modal_info_button, modal_map_button});
+        openInfoModal(feature.properties.Name, modal_content, [modal_info_button, modal_map_button]);
 
     });
 

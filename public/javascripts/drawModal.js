@@ -1,16 +1,20 @@
-//Function for drawing mapModal with plaintext title, html content, and button objects
+//Function for drawing mapModal with plaintext title, html content, and buttons array
 // Button = {title:STRING, link:STRING, disabled:BOOL}
 
 function openInfoModal(_title, _bodyhtml, buttons){
     console.log("openInfoModel called");
+    console.log(_title);
+    console.log(_bodyhtml);
+    console.log(buttons);
+
     let mapModal = document.getElementById('mapModal')
 
     let modalTitle = mapModal.querySelector('.modal-title');
-    let modalBody = mapModal.querySelector('#modal-body');
-    let modalFoot = mapModal.querySelector('#modal-footer');
+    let modalBody = mapModal.querySelector('.modal-body');
+    let modalFoot = mapModal.querySelector('.modal-footer');
 
     modalTitle.textContent = _title;
-    modalBody.SetHTML(_bodyhtml);
+    modalBody.innerHTML = _bodyhtml;
 
     let _tempHtml = "";
 
@@ -27,6 +31,7 @@ function openInfoModal(_title, _bodyhtml, buttons){
 
     modalFoot.innerHTML = _tempHtml;
 
-    mapModal.show(); 
+    var myModal = new bootstrap.Modal(document.getElementById('mapModal'))
+    myModal.show(); 
 
 }
