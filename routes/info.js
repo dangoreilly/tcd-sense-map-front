@@ -27,13 +27,17 @@ router.get('/:id', function(req, res, next) {
       let im = B.Gallery.data;
 
       // Process images for gallery, make sure one exists. Pass empty data if it doesn't
+      let numImages = 1;
       if (im != null && im != []){
         im.forEach(element => {
           images.push({
             "url":element.attributes.url || "",
             "alt":element.attributes.alternativeText || "",
-            "caption":element.attributes.caption || ""
+            "caption":element.attributes.caption || "",
+            "index": numImages
           });
+          //iterate over the number of images each time one is added to get the index for carousel
+          numImages++;
         });
       }
 
