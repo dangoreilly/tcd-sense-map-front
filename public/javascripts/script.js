@@ -1,6 +1,12 @@
 
 let saveLocations = false;
 let coordinates = [];
+
+var wayfind_end;
+var wayfind_start;
+var startListenFlag = false;
+var endListenFlag = false;
+var wayfind_listening = false;
 // let coordinates_array = [];
 
 const queryString = window.location.search;
@@ -16,6 +22,8 @@ const overworld_map = L.map('overworld', {
     zoomDelta: 0.25,
     maxZoom: 2.5
 });
+
+var route = L.polyline([[0,0],[0,0]], {color: 'red'}).addTo(overworld_map);
 
 const bounds = [[0,0], [1000,1000]];
 
@@ -68,6 +76,33 @@ overworld_map.on('click', (e) => {
 
     if (urlParams.has('drawPolygons')) {
         draw_clicks(overworld_map, e)
+    }
+
+    if (endListenFlag || startListenFlag){
+
+        //Buffer needed because leaflet tricks click on control as a click on the map
+        if(wayfind_listening){
+            
+            if (endListenFlag) {
+                wayfind_end = e.latlng;
+            }
+            else {
+                wayfind_start = e.latlng;
+            }
+            
+            startListenFlag = false;
+            endListenFlag = false;
+            wayfind_listening = false;
+            wayfind.update();
+            if (typeof wayfind_start !== 'undefined' && typeof wayfind_end !== 'undefined'){
+                
+                findWay(overworld_map, [wayfind_start, wayfind_end], route);
+
+            }
+        }
+        else {
+            wayfind_listening = true;
+        }
     }
     
 

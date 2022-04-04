@@ -43,6 +43,7 @@
     <script src="javascripts/draw-nodes.js"></script>
     <script src="javascripts/drawModal.js"></script>
     <script src="javascripts/script.js"></script>
+    <script src="javascripts/wayfinding.js"></script>
 
     
 
