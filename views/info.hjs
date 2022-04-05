@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Lato&family=PT+Mono&display=swap" rel="stylesheet">
         
         <title>TCDSense - {{buildingInfo.name}}</title>
-        <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapLogo.svg">
+        <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapFavicon.svg">
         
         <link rel="stylesheet" href="/stylesheets/style.css" />
 
@@ -93,7 +93,7 @@
         <nav class="navbar navbar-expand-lg navbar-light justify-content-center py-3" style="background-color:#0087A2; margin:auto">
             <div class="container-fluid">
                 <a class="navbar-brand" href="../">
-                    <img width="40" height="40" src="/images/TCDSenseMapLogo.svg" style="vertical-align:bottom; margin-left:1rem; margin-right:1rem;" ></img>
+                    <img width="60" height="60" src="/images/TCDSenseMapLogo.svg" style="vertical-align:bottom; margin-left:1rem; margin-right:1rem;" ></img>
                     <span class="fs-4" style="font-weight: bolder; font-family: 'PT Mono', monospace"><span style="color: #fce891">TCD</span><span style="color: #fff0ad">Sense</span></span>
                 </a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
