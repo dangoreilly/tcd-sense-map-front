@@ -64,6 +64,7 @@ function findWay(map, points, route){
 
     // let route = L.polyline([start.ll,end.ll], {color: 'red'}).addTo(map);
     route.setLatLngs([start.ll,end.ll]);
+    route.setStyle({opacity:1});
     route.redraw();
 }
 

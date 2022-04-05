@@ -23,7 +23,7 @@ const overworld_map = L.map('overworld', {
     maxZoom: 2.5
 });
 
-var route = L.polyline([[0,0],[0,0]], {color: 'red'}).addTo(overworld_map);
+var route = L.polyline([[0,0],[0,0]], {color: 'red', opacity: 0}).addTo(overworld_map);
 
 const bounds = [[0,0], [1000,1000]];
 
