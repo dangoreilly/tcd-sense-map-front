@@ -190,14 +190,14 @@ function onEachFeature(feature, layer) {
         // let modal_title = '<h1 style="margin-bottom:0.1rem;">'+ feature.properties.Name +'</h1><div class="modalcontent">';
         let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
         let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
-        let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>' +
-        '<p><b>Sensory Breakdown</b><br><div style="background-color: #eee; padding:10px">' + 
-            '<p><b>Sounds</b><br>' + feature.properties.Sound + '</p>' +
-            '<p><b>Sights</b><br>' + feature.properties.Sight + '</p>' +
-            '<p><b>Touch</b><br>' + feature.properties.Touch + '</p>' +
-            '<p><b>Movement/Body Position</b><br>' + feature.properties.Movement + '</p>' +
-            '<p><b>Smell</b><br>' + feature.properties.Smell + '</p><br>' +
-        '</div></div>';
+        let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>';
+        // '<p><b>Sensory Breakdown</b><br><div style="background-color: #eee; padding:10px">' + 
+        //     '<p><b>Sounds</b><br>' + feature.properties.Sound + '</p>' +
+        //     '<p><b>Sights</b><br>' + feature.properties.Sight + '</p>' +
+        //     '<p><b>Touch</b><br>' + feature.properties.Touch + '</p>' +
+        //     '<p><b>Movement/Body Position</b><br>' + feature.properties.Movement + '</p>' +
+        //     '<p><b>Smell</b><br>' + feature.properties.Smell + '</p><br>' +
+        // '</div></div>';
         //cheap and dirty button disabler
         function checkEnabled(chk){
             if(chk) return "";
@@ -210,7 +210,7 @@ function onEachFeature(feature, layer) {
         }
 
         let modal_info_button = {
-            text: "More Details",
+            text: "More Info",
             link: `/info/${feature.properties.bldID}`,
             disabled: !feature.properties.infoPageEnabled
         }
@@ -219,6 +219,12 @@ function onEachFeature(feature, layer) {
             text: "Internal Map",
             link: `/map/${feature.properties.bldID}`,
             disabled: (!feature.properties.mapped) || true
+        }
+        
+        let modal_physical_access_button = {
+            text: "Physical Access",
+            link: `/map/${feature.properties.bldID}`,
+            disabled: true
         }
           
         let modal_content = "";
@@ -229,14 +235,14 @@ function onEachFeature(feature, layer) {
         
         modal_content += modal_Description;
         
-        if (feature.properties.sensoryAvailable){
-            modal_content += modal_sensorycontent;
-        }
+        // if (feature.properties.sensoryAvailable){
+        //     modal_content += modal_sensorycontent;
+        // }
 
-        // modal_content += modal_buttons;
+        modal_content += modal_sensorycontent;
 
         // overworld_map.openModal({content: modal_content});
-        openInfoModal(feature.properties.Name, modal_content, [modal_info_button, modal_map_button]);
+        openInfoModal(feature.properties.Name, modal_content, [modal_info_button, modal_physical_access_button, modal_map_button]);
 
     });
 

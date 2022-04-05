@@ -2,10 +2,10 @@
 // Button = {title:STRING, link:STRING, disabled:BOOL}
 
 function openInfoModal(_title, _bodyhtml, buttons){
-    console.log("openInfoModel called");
-    console.log(_title);
-    console.log(_bodyhtml);
-    console.log(buttons);
+    // console.log("openInfoModel called");
+    // console.log(_title);
+    // console.log(_bodyhtml);
+    // console.log(buttons);
 
     let mapModal = document.getElementById('mapModal')
 
