@@ -9,6 +9,8 @@ html {
   --tcdsense-blue-two: #c2f4fe;
   --tcdsense-green-one: #179942;
   --tcdsense-pink: #e53397;
+
+  --background-colour: #fff9ec;
 }
 
 
@@ -102,6 +104,7 @@ h5 {
 .welcome {  
   padding-bottom:0.25rem;
   padding-top:0.25rem;
+  background-color: var(--background-colour);
 }
 
 .info, .wayfind {
