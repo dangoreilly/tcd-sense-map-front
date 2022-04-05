@@ -92,7 +92,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-light justify-content-center py-3" style="background-color:#0087A2; margin:auto">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="../">
                     <img width="40" height="40" src="/images/TCDSenseMapLogo.svg" style="vertical-align:bottom; margin-left:1rem; margin-right:1rem;" ></img>
                     <span class="fs-4" style="font-weight: bolder; font-family: 'PT Mono', monospace"><span style="color: #fce891">TCD</span><span style="color: #fff0ad">Sense</span></span>
                 </a>

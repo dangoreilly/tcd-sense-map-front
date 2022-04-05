@@ -87,7 +87,8 @@ router.get('/:id', function(req, res, next) {
           "alt": _PrimaryImage.src || ""
         },
   
-        "images":images
+        "images":images,
+        "physicalAccess":B.PhysicalAccessLink || "#"
   
       }
 

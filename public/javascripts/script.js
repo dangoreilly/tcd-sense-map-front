@@ -223,8 +223,8 @@ function onEachFeature(feature, layer) {
         
         let modal_physical_access_button = {
             text: "Physical Access",
-            link: `/map/${feature.properties.bldID}`,
-            disabled: true
+            link: `${feature.properties.PhysicalAccessLink}`,
+            disabled: (feature.properties.PhysicalAccessLink == "#" || feature.properties.PhysicalAccessLink == null) ? true : false
         }
           
         let modal_content = "";
