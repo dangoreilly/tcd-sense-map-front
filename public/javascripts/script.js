@@ -370,9 +370,10 @@ function highlightFeature(e) {
 
     layer.setStyle({
         weight: 5,
-        color: '#666',
-        dashArray: '',
-        fillOpacity: 0.7
+        color: '#E53397',
+        fillOpacity: 1,
+        opacity: 0.5
+        
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
