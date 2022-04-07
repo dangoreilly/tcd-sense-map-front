@@ -100,7 +100,7 @@
 .leaflet-overlay-pane { z-index: 400; }
 .leaflet-shadow-pane  { z-index: 500; }
 .leaflet-marker-pane  { z-index: 600; }
-.leaflet-tooltip-pane   { z-index: 650; opacity:var(--vis); transition: all 0.5s ease;}
+ .leaflet-tooltip-pane   { z-index: 650; } /*opacity:var(--vis); transition: all 0.5s ease; */
 .leaflet-popup-pane   { z-index: 700; }
 
 .leaflet-map-pane canvas { z-index: 100; }

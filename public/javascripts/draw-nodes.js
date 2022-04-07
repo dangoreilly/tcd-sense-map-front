@@ -4,6 +4,68 @@ var wayFindingNodes = [];
 let coordinates_array = [];
 let coordinates_array_draw = [];
 
+var connections_gbl = [];
+var activeNode = null;
+
+var nodeExists = false;
+
+const stairsColour = "#ff3333"
+const notStairsColour = "#3388ff"
+const activeColour = "#26ff4a"
+
+class wfNode{
+
+
+
+    name;
+    coords;
+    connects;
+    stairs;
+    marker;
+
+
+    constructor(name, coords){
+
+        let options = {
+            fillColor: notStairsColour,
+            color: "#fff",
+            fillOpacity: 0.7,
+            opacity: 0.5
+        }
+
+        this.name = name;
+        this.coords = coords;
+        this.connects = [];
+        this.stairs = false;
+        this.marker = L.circleMarker(coords, options);
+    }
+
+    // get name(){
+    //     return this.name;
+    // }
+
+    // get coords(){
+    //     return this.coords;
+    // }
+
+    // get connects(){
+    //     return this.connects;
+    // }
+
+    // get stairs(){
+    //     return this.stairs;
+    // }
+
+    // get marker(){
+    //     return this.marker;
+    // }
+
+    // set stairs(strs){
+    //     this.stairs = strs;
+    // }
+
+}
+
 // Based on method by hanesh
 // https://stackoverflow.com/questions/41871519/leaflet-js-quickest-path-with-custom-points
 
@@ -27,259 +89,288 @@ function alphaNumeric(num){
 
 
 function drawNode(e, mymap) {
-    var node = [];
-    node[0] = e.latlng.lat;
-    node[1] = e.latlng.lng;
-    let nodeName = floor + "_" + alphaNumeric(curr_node);
-    addNodes(node, nodeName, mymap);
-    addNodesToJSON(node, nodeName, floor);
+    // let node = [];
+    // node[0] = e.latlng.lat;
+    // node[1] = e.latlng.lng;    
 
-    console.log("Logging node " + nodeName + ": " + node);
+    let nodeName = alphaNumeric(curr_node);
+    // addNodes(node, nodeName, mymap);
+    let node = newNode(nodeName, [e.latlng.lat, e.latlng.lng]);
+    addNodeToMap(node, mymap) 
+    // addNodesToJSON(node, nodeName, floor);
+
+    console.log("Logging node " + node.name + ": " + node.coords);
 
     curr_node += 1;
 
 }
 
-function draw_clicks(mymap, e){
+function newNode(_name, _coords){
 
-    if (coordinates_array != undefined) {
+    let _node = new wfNode(_name,_coords)
 
-        try{
-            polyline.remove(mymap);
-        } catch (error) {
-            console.error(error);
-            // expected output: ReferenceError: nonExistentFunction is not defined
-            // Note - error messages will vary depending on browser
-          }
+    // console.log(_node);
 
-        coordinates_array_draw = [...coordinates_array_draw, [e.latlng["lat"], e.latlng["lng"]]];
-        coordinates_array = [...coordinates_array, [e.latlng["lng"], e.latlng["lat"]]];
+    wayFindingNodes.push(_node);
 
-        let polyline = L.polyline(coordinates_array_draw).addTo(mymap);
-        polyline.redraw()
-
-        if (coordinates_array.length == 1){
-
-            let newMarker = new L.marker(e.latlng).addTo(mymap).on('click', function() {    
-            
-                console.log(JSON.stringify(coordinates_array).replace(/],/g,"],\n"));
-                coordinates_array = [];
-                coordinates_array_draw = [];
-            
-            });
-            //console.log("newMarker added");
-        }
-        console.log(JSON.stringify(coordinates_array).replace(/],/g,"],\n"));
-    } 
-    else {
-
-        coordinates_array_draw = [
-            [e.latlng["lat"], e.latlng["lng"]]
-        ];
-
-        coordinates_array = [
-            [e.latlng["lat"], e.latlng["lng"]]
-        ];
-
-    }
-
-    coordinates = [
-        [e.latlng["lat"], e.latlng["lng"]]
-    ];
-
+    return _node
 }
 
-function drawFromJSON(){
-
-    for (i = 0; i < wayFindingNodes.length; i++){
-        addNodes(
-            wayFindingNodes[i].id,
-            wayFindingNodes[i].coords,
-            wayFindingNodes[i].floor,
-            wayFindingNodes[i].map,
-            wayFindingNodes[i].room
-        );
-        
-    console.log("Logging node " + nodeName + ": " + node);
-    curr_node += 1;
-    
-    }
-
-}
-
-function addNodesToJSON(nodeName, node, floor, map = [], room = false){
-
-    let nodeButJson =  {
-        "id": nodeName,
-        "coords": node,
-        "map": map,
-        "floor": floor,
-        "room": room
-    }
-
-    wayFindingNodes.push(nodeButJson);
-
-}
-
-function addConnection(node, connection){
-
-    node.map.push(connection);
-
-}
-
-function removeConnection(node, connection){
-
-    let spliceIndex = node.map.indexOf(connection);
-    node.map.splice(spliceIndex, 1);
-    rebuildMap();
-
-}
-
-function rebuildMap(){
-    console.log("rebuildMap(): Function not built yet");
-}
-
-function addNodes(polyNodes,num,mymap){
+function addNodeToMap(node, map){
     // Just draw the nodes and add the code 
     // Adding to JSON is handled elsewhere 
     // so that they can be drawn from the JSON on a build
 
-    var marker = L.marker([polyNodes[0], polyNodes[1]]).bindPopup(num).addTo(mymap);
-    var myIcon = L.icon({
+    // console.log(map);
+    let _marker = node.marker.addTo(map);
 
-        iconUrl: '../css/images/point.png',
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
-        popupAnchor: [-3, -76]
+    // var marker = L.marker(node.coords).addTo(map);
+    // var myIcon = L.icon({
 
-    });
+    //     iconUrl: '../css/images/point.png',
+    //     iconSize: [16, 16],
+    //     iconAnchor: [8, 8],
+    //     popupAnchor: [-3, -76]
 
-    marker.setIcon(myIcon);
+    // });
 
-    if (urlParams.has('nodeNames')) {
+    // marker.setIcon(myIcon);
+
+    // if (urlParams.has('nodeNames')) {
     
-        marker.on('mouseover',function(ev) {
-            marker.openPopup();
-        })
-        console.log()
+    //     marker.on('mouseover',function(ev) {
+    //         marker.openPopup();
+    //     })
+    //     console.log()
     
-    }
+    // }
 
-    marker.on('click',function(e){
+    _marker.on('click',function(e){
         // This adds the functions directly to the marker
         // I previously deleted this line thinking it was superfluous
         // It was not
 
-        if(window.event.ctrlKey){
-            // Selects the node for webbing
-
-            if (selected_node == ''){
-
-                curr_ctrl_pt = [polyNodes[0], polyNodes[1]];
-                var oldText = document.getElementById('nodes').innerHTML;
-                document.getElementById('nodes').innerHTML = oldText + num + ':{';
-
-                var myIcon_2 = L.icon({
-
-                    iconUrl: '../css/images/point_c.png',
-                    iconSize: [16, 16],
-                    iconAnchor: [8, 8],
-                    popupAnchor: [-3, -76]
-
-                });
-
-                this.setIcon(myIcon_2); // custom marker to show that the node has been declared. This is just for your own reference
-                selected_node = num;
-            }
-            else if (selected_node == num){
-
-                this.setIcon(myIcon);
-                
-                var oldText = document.getElementById('nodes').innerHTML;
-                document.getElementById('nodes').innerHTML = oldText + '},';
-
-                selected_node = '';
-            }
+        if (activeNode != null){
+            console.log(`${node.name} clicked, ${activeNode.name} is active`);
+        }
+        else {
+            console.log(`${node.name} clicked, no active node`);
         }
 
-        else if(window.event.altKey && window.event.ctrlKey){
-            // Key for connecting to a Room - it should be prohibitively expensive to go via a room
-            // And if a room has two doors, it should cost the same to enter from either direction
-
-            var oldText = document.getElementById('nodes').innerHTML;
-            document.getElementById('nodes').innerHTML = oldText + num + ':1000,';
-
-            let polypoints = [];
-            L.polyline([polyNodes,curr_ctrl_pt], {color: 'yellow'}).addTo(mymap);
-
-        }
-        else if(window.event.altKey && window.event.shiftKey){
-            // Behaviour for a non-accessible path
-            // 'inaccessible' will be browser flag to increase path based on user choice
-
-            var oldText = document.getElementById('nodes').innerHTML;
-            document.getElementById('nodes').innerHTML = oldText + num + ':' + getDistanceFromLatLonInM(polyNodes[0], polyNodes[1],curr_ctrl_pt[0],curr_ctrl_pt[1]) + '+inaccessible,';
-
-            let polypoints = [];
-            L.polyline([polyNodes,curr_ctrl_pt], {color: 'red'}).addTo(mymap);
-        }
-        else if(window.event.altKey){
+        if(window.event.altKey){
             // Default behaviour for adding a node
 
-            var oldText = document.getElementById('nodes').innerHTML;
-            document.getElementById('nodes').innerHTML = oldText + num + ':' + getDistanceFromLatLonInM(polyNodes[0], polyNodes[1],curr_ctrl_pt[0],curr_ctrl_pt[1]) + ',';
+            printAllNodes();
 
-            let polypoints = [];
-            L.polyline([polyNodes,curr_ctrl_pt], {color: 'green'}).addTo(mymap);
         }
 
-        else if(window.event.shiftKey){
-            // Print nodes
+        else{
             
-            let nodeArray_temp = document.getElementById('nodes').innerHTML.split(',},');
+            if(node == activeNode){
+                // console.log(node);
 
-            let nodeId = '';
-            let nodeMap = '';
-            let split_temp = '';
-
-            nodeArray_temp.forEach(element => {
-
-                element += '}';
-                console.log(element);
-
-                split_temp = element.split(':');
+                if(window.event.shiftKey){
+                    
+                    toggleAccess(node);
+                    
+                    console.log(`${node.name} clicked, no active node`);
                 
-                nodeId = split_temp[0];
-                nodeMap = split_temp[1];
+                }
+                else{
 
-                let nodeButJson =  {
-                    "id": nodeId,
-                    "coords": nodeCoords,
-                    "map": nodeConnections,
-                    "floor": nodeFloor
+                    setActiveNode(null);
+
                 }
 
-                printJsonToTextArea("nodes-json", nodeId, curr_ctrl_pt, nodeMap, floor);
+            }
+            else if (activeNode != null){
+                toggleConnection(node, activeNode);
+            }
+            else {
+                setActiveNode(node);
+            }
 
-            });
-            
         }
+
+        
+            
     })
 }
 
-function printJsonToTextArea(textAreaId, nodeId, nodeCoords, nodeConnections, nodeFloor){
+function printAllNodes(){
+    console.print("This function will take all the nodes and all the connections, splice them together and then print them to the console");
+}
 
+function toggleConnection(node, ActiveNode) {
+    // Function takes in two nodes
+    // Checks connections_gbl for an existing connection between the nodes
+    // if one exists, delete it
+    // if not, compute distance between points and push a connection object
+    /* connection = {
+                        pointA: node,
+                        pointB: node
+                        dist: float
+                        line: L.polyline
+                    } */
 
+    console.log("toggleConnection not yet populated");
+}
 
+function toggleAccess(node){
+    // Function takes in a node and flips stairs boolean and updates marker colour
+    node.stairs= !node.stairs
 
-    document.getElementById(textAreaId).innerHTML += JSON.stringify(nodeButJson) + "<br>";
+    updateColour(node);
+
+    node.marker.redraw();
+    console.log(`${node.name} toggled to stairs:${node.stairs}`);
 
 }
 
-function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
+function updateColour(node) {
+    
+    // console.log("Updating colour");
+    // console.log(node)
+
+    if (!node.stairs){
+        node.marker.setStyle({fillColor: notStairsColour});
+        console.log(`updateColour(${node.name}):notStairsColour`);
+    }
+    else{
+        node.marker.setStyle({fillColor: stairsColour});
+        console.log(`updateColour(${node.name}):stairsColour`);
+    }
+}
+
+function setActiveNode(node){
+
+    if (activeNode != null){
+        updateColour(activeNode);
+    }
+
+    activeNode = node;
+
+    if (activeNode != null){
+        node.marker.setStyle({fillColor: activeColour});
+        console.log(`Active Node Set: ${activeNode.name}`)
+    }
+    else {
+        console.log("Active Node Unset")
+    }
+}
+
+// function printJsonToTextArea(textAreaId, nodeId, nodeCoords, nodeConnections, nodeFloor){
+
+
+
+
+//     document.getElementById(textAreaId).innerHTML += JSON.stringify(nodeButJson) + "<br>";
+
+// }
+
+// function getDistanceFromLatLonInM(lat1,lon1,lat2,lon2) {
  
-    let run = lat1 - lat2;
-    let rise = lon1 - lon2;
+//     let run = lat1 - lat2;
+//     let rise = lon1 - lon2;
 
-    return (Math.sqrt(run*run + rise*rise)).toFixed(1);
-}
+//     return (Math.sqrt(run*run + rise*rise)).toFixed(1);
+// }
+
+// function draw_clicks(mymap, e){
+
+//     if (coordinates_array != undefined) {
+
+//         try{
+//             polyline.remove(mymap);
+//         } catch (error) {
+//             console.error(error);
+//             // expected output: ReferenceError: nonExistentFunction is not defined
+//             // Note - error messages will vary depending on browser
+//           }
+
+//         coordinates_array_draw = [...coordinates_array_draw, [e.latlng["lat"], e.latlng["lng"]]];
+//         coordinates_array = [...coordinates_array, [e.latlng["lng"], e.latlng["lat"]]];
+
+//         let polyline = L.polyline(coordinates_array_draw).addTo(mymap);
+//         polyline.redraw()
+
+//         if (coordinates_array.length == 1){
+
+//             let newMarker = new L.marker(e.latlng).addTo(mymap).on('click', function() {    
+            
+//                 console.log(JSON.stringify(coordinates_array).replace(/],/g,"],\n"));
+//                 coordinates_array = [];
+//                 coordinates_array_draw = [];
+            
+//             });
+//             //console.log("newMarker added");
+//         }
+//         console.log(JSON.stringify(coordinates_array).replace(/],/g,"],\n"));
+//     } 
+//     else {
+
+//         coordinates_array_draw = [
+//             [e.latlng["lat"], e.latlng["lng"]]
+//         ];
+
+//         coordinates_array = [
+//             [e.latlng["lat"], e.latlng["lng"]]
+//         ];
+
+//     }
+
+//     coordinates = [
+//         [e.latlng["lat"], e.latlng["lng"]]
+//     ];
+
+// }
+
+// function drawFromJSON(){
+
+//     for (i = 0; i < wayFindingNodes.length; i++){
+//         addNodes(
+//             wayFindingNodes[i].id,
+//             wayFindingNodes[i].coords,
+//             wayFindingNodes[i].floor,
+//             wayFindingNodes[i].map,
+//             wayFindingNodes[i].room
+//         );
+        
+//     console.log("Logging node " + nodeName + ": " + node);
+//     curr_node += 1;
+    
+//     }
+
+// }
+
+// function addNodesToJSON(nodeName, node, floor, map = [], room = false){
+
+//     let nodeButJson =  {
+//         "id": nodeName,
+//         "coords": node,
+//         "map": map,
+//         "floor": floor,
+//         "room": room
+//     }
+
+//     wayFindingNodes.push(nodeButJson);
+
+// }
+
+// function addConnection(node, connection){
+
+//     node.map.push(connection);
+
+// }
+
+// function removeConnection(node, connection){
+
+//     let spliceIndex = node.map.indexOf(connection);
+//     node.map.splice(spliceIndex, 1);
+//     rebuildMap();
+
+// }
+
+// function rebuildMap(){
+//     console.log("rebuildMap(): Function not built yet");
+// }

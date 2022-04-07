@@ -78,6 +78,11 @@ overworld_map.on('click', (e) => {
         draw_clicks(overworld_map, e)
     }
 
+    if (urlParams.has('drawNodes') && window.event.ctrlKey) {
+        
+        drawNode(e, overworld_map)
+    }
+
     if (endListenFlag || startListenFlag){
 
         //Buffer needed because leaflet tricks click on control as a click on the map

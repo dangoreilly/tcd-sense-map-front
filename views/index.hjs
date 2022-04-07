@@ -30,16 +30,16 @@
     <div id="overworld" style="height: 100%; width: 100%; margin: 0px;"></div> <!-- style="height: 600px; width: 1000px;" -->
 
     <link rel="stylesheet" href="stylesheets/leaflet.css">
-    <link rel="stylesheet" href="stylesheets/leaflet.fullscreen.css">
-    <link rel="stylesheet" href="stylesheets/leaflet.modal.css" />
+    {{!-- <link rel="stylesheet" href="stylesheets/leaflet.fullscreen.css"> --}}
+    {{!-- <link rel="stylesheet" href="stylesheets/leaflet.modal.css" /> --}}
     <link rel="stylesheet" href="stylesheets/style.css" />
     
-    
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 	{{!-- <script src="javascripts/buildings.js"></script> --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="javascripts/leaflet/leaflet.js"></script>
-    <script src="javascripts/leaflet/leaflet.fullscreen.js"></script>
-    <script src="javascripts/leaflet/L.Modal.min.js"></script>
+    {{!-- <script src="javascripts/leaflet/leaflet.js"></script> --}}
+    {{!-- <script src="javascripts/leaflet/leaflet.fullscreen.js"></script> --}}
+    {{!-- <script src="javascripts/leaflet/L.Modal.min.js"></script> --}}
     <script src="javascripts/draw-nodes.js"></script>
     <script src="javascripts/drawModal.js"></script>
     <script src="javascripts/script.js"></script>

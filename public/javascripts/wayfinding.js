@@ -63,9 +63,10 @@ function findWay(map, points, route){
 
 
     // let route = L.polyline([start.ll,end.ll], {color: 'red'}).addTo(map);
-    route.setLatLngs([start.ll,end.ll]);
+    route.setLatLngs([start.ll, [start.x*1.2, start.y*1.2], [end.x*1.2, end.y*1.2], end.ll]);
     route.setStyle({opacity:1});
     route.redraw();
 }
+
 
 wayfind.addTo(overworld_map)
