@@ -1,8 +1,8 @@
 var curr_node = 0;
 var selected_node = '';
 var wayFindingNodes = [];
-let coordinates_array = [];
-let coordinates_array_draw = [];
+// let coordinates_array = [];
+// let coordinates_array_draw = [];
 
 var connections_gbl = [];
 var activeNode = null;
@@ -30,7 +30,8 @@ class wfNode{
             fillColor: notStairsColour,
             color: "#fff",
             fillOpacity: 0.7,
-            opacity: 0.5
+            opacity: 0.5,
+            draggable: true
         }
 
         this.name = name;
@@ -38,35 +39,101 @@ class wfNode{
         this.connects = [];
         this.stairs = false;
         this.marker = L.circleMarker(coords, options);
+        wayFindingNodes.push(this);
     }
 
-    // get name(){
-    //     return this.name;
+    // updatePos(_coords){
+    //     this.coords = _coords;
+    //     this.marker.redraw();
+    //     // TODO:
+    //     // redraw connections
     // }
 
-    // get coords(){
-    //     return this.coords;
-    // }
+    connect(cntcn){
+        this.connects.push(cntcn);
+    }
+    
+    disconnect(cntcn){
+        let i = this.connects.indexOf(cntcn)
 
-    // get connects(){
-    //     return this.connects;
-    // }
+        if(i <= 0){
+            // Remove the connection from the local array
+            this.connects.splice(i,1);
+        }
+        else{
+            console.print(`Tried to remove a connection from ${this.name} (${cntcn.pointA.name}:${cntcn.pointB.name}), but it couldn't be found`);
+        }
+    }
 
-    // get stairs(){
-    //     return this.stairs;
-    // }
+    delete(){
+        let i = wayFindingNodes.indexOf(this);
 
-    // get marker(){
-    //     return this.marker;
-    // }
+        if(i <= 0){
+            // Remove the node from the global array
+            wayFindingNodes.splice(i,1);
 
-    // set stairs(strs){
-    //     this.stairs = strs;
-    // }
+            // Then go through and delete every connection it has
+            this.connects.forEach((e)=> {
+                e.delete();
+            })
+
+        }
+        else{
+            console.print(`Tried to remove ${this.name}, but it couldn't be found`);
+        }
+    }
 
 }
 
-// Based on method by hanesh
+class wfConnection{
+
+    pointA;
+    pointB;
+    length;
+    line;
+
+    constructor(_pointA, _pointB){
+
+        // The key details
+        this.pointA = _pointA;
+        this.pointB = _pointB;
+        this.length = dist2D(_pointA.coords, _pointB.coords);
+
+        // Draw it on the map so we can see what we're doing
+        this.line = L.polyline([_pointA.coords, _pointB.coords], {colour: "red"});
+
+        // Connect both ends to the nodes
+        // It has to be connected on both sides so that we can crawl in both directions
+        _pointA.connect(this);
+        _pointB.connect(this);
+
+        //Once all the details are set, add it to the global array
+        connections_gbl.push(this);
+
+
+    }
+
+
+    delete(){
+        let i = connections_gbl.indexOf(this);
+
+        if(i <= 0){
+            // Remove from global array
+            connections_gbl.splice(i,1);
+
+            // Remove from both local arrays
+            this.pointA.disconnect(this);
+            this.pointB.disconnect(this);
+        }
+        else{
+            console.print(`Tried to remove connection ${this.pointA.name}:${this.pointB.name}, but it couldn't be found`);
+        }
+    }
+    
+
+}
+
+// Inspired by method by hanesh
 // https://stackoverflow.com/questions/41871519/leaflet-js-quickest-path-with-custom-points
 
 
@@ -111,7 +178,7 @@ function newNode(_name, _coords){
 
     // console.log(_node);
 
-    wayFindingNodes.push(_node);
+    // wayFindingNodes.push(_node);
 
     return _node
 }
@@ -124,26 +191,23 @@ function addNodeToMap(node, map){
     // console.log(map);
     let _marker = node.marker.addTo(map);
 
-    // var marker = L.marker(node.coords).addTo(map);
-    // var myIcon = L.icon({
+    // Dragging doesn't seem to work.
+    // I can't find any reports online of this bug
+    // and I'm using a CDN distro of leaflet now
+    // So I hardly broke it myself.
+    // Event just doesn't seen to be firing at all
+    // I suspect compatibility issues between 'click'
+    // and 'drag'
 
-    //     iconUrl: '../css/images/point.png',
-    //     iconSize: [16, 16],
-    //     iconAnchor: [8, 8],
-    //     popupAnchor: [-3, -76]
+    // _marker.on('drag', function(e){
+    //     console.log("Marker being dragged");
+    //     node.updatePos(e.latlng);
+    // })
 
-    // });
-
-    // marker.setIcon(myIcon);
-
-    // if (urlParams.has('nodeNames')) {
-    
-    //     marker.on('mouseover',function(ev) {
-    //         marker.openPopup();
-    //     })
-    //     console.log()
-    
-    // }
+    // _marker.on('dragstart', function(e){
+    //     console.log("start of drag");
+    //     node.updatePos(e.latlng);
+    // })
 
     _marker.on('click',function(e){
         // This adds the functions directly to the marker
@@ -157,11 +221,17 @@ function addNodeToMap(node, map){
             console.log(`${node.name} clicked, no active node`);
         }
 
-        if(window.event.altKey){
-            // Default behaviour for adding a node
+        if(window.event.altKey && window.event.shiftKey){
+            //Dump all nodes and connections to console
 
             printAllNodes();
 
+        }
+        else if (window.event.altKey){
+            // Delete the node and all its connections
+            // Make sure to check if it's active and unset it if it is.
+            // Weird place for this note but the graph could be generated on the fly for the stairs thing to avoid dangling edges
+            
         }
 
         else{
@@ -184,7 +254,7 @@ function addNodeToMap(node, map){
 
             }
             else if (activeNode != null){
-                toggleConnection(node, activeNode);
+                toggleConnection(node, activeNode, map);
             }
             else {
                 setActiveNode(node);
@@ -201,7 +271,7 @@ function printAllNodes(){
     console.print("This function will take all the nodes and all the connections, splice them together and then print them to the console");
 }
 
-function toggleConnection(node, ActiveNode) {
+function toggleConnection(node, ActiveNode, map) {
     // Function takes in two nodes
     // Checks connections_gbl for an existing connection between the nodes
     // if one exists, delete it
@@ -214,6 +284,14 @@ function toggleConnection(node, ActiveNode) {
                     } */
 
     console.log("toggleConnection not yet populated");
+}
+
+function addConnection(node1, node2, map){
+
+    let newConnection = new wfConnection(node1,node2);
+
+    newConnection.line.addTo(map);
+
 }
 
 function toggleAccess(node){
@@ -257,6 +335,15 @@ function setActiveNode(node){
     else {
         console.log("Active Node Unset")
     }
+}
+
+function dist2D(_p1, _p2){
+
+    rise = _p1[0] - _p2[0];
+    run = _p1[1] - _p2[1];
+
+    return Math.sqrt(rise*rise + run*run);
+
 }
 
 // function printJsonToTextArea(textAreaId, nodeId, nodeCoords, nodeConnections, nodeFloor){
