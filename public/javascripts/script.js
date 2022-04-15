@@ -118,7 +118,7 @@ overworld_map.on('click', (e) => {
 overworld_map.on('zoom', (e) => {
 
     //info.update(overworld_map.zoom);
-    console.log(overworld_map.getZoom());
+    // console.log(overworld_map.getZoom());
     // let buildingtags = document.getElementsByName("building");
     // let visible_prefix = "<p name='building', class='label', style='opacity: 100%'>";
     // let invisible_prefix = "<p name='building', class='label', style='opacity: 0%'>";
@@ -183,6 +183,25 @@ function style(feature) {
 
 }
 
+// function replace(str, char_out, char_in){
+
+//     let replacment = "";
+    
+//     for (let i = 0; i < str.length; i++) {
+
+//         if (str[i] == "_"){
+//             replacment += "<br>";
+//         }
+//         else{
+//             replacment += str[i];
+//         }
+
+//     }
+
+//     return replacment;
+
+// }
+
 
 function onEachFeature(feature, layer) {
 
@@ -234,7 +253,7 @@ function onEachFeature(feature, layer) {
           
         let modal_content = "";
         
-        if (feature.aka != "" && feature.aka != "null" && feature.aka != null){
+        if (feature.properties.aka != "" && feature.properties.aka != "null" && feature.properties.aka != null){
             modal_content += modal_aka;
         }
         
@@ -257,12 +276,12 @@ function onEachFeature(feature, layer) {
 
     if (feature) {
 
-        let contentOfTheFirstPopup = "<p name='building'  class='zoomedInLabel'>" + feature.properties.ZoomedInLabel + " </p>";
-        let contentOfTheSecondPopup = "<p name='building' class='zoomedOutLabel'>" + feature.properties.ZoomedOutLabel + "</p>";
+        let contentOfTheFirstPopup = "<p align='center' name='building'  class='zoomedInLabel'>" + feature.properties.ZoomedInLabel.replace(/([\\])/g, '<br>') + " </p>";
+        let contentOfTheSecondPopup = "<p align='center' name='building' class='zoomedOutLabel'>" + feature.properties.ZoomedOutLabel.replace(/([\\])/g, '<br>') + "</p>";
         //layer.bindPopup(contentOfThePopup, {closeButton: false, offset: L.point(0, -20)});
 
-        layer.bindTooltip(contentOfTheFirstPopup, {direction: "top", opacity:1, permanent: true}).addTo(overworld_map);
-        layer.bindTooltip(contentOfTheSecondPopup, {direction: "top", opacity:1, permanent: true}).openTooltip();
+        layer.bindTooltip(contentOfTheFirstPopup, {direction: "top", offset:[0,-20], opacity:1, permanent: true}).addTo(overworld_map);
+        layer.bindTooltip(contentOfTheSecondPopup, {direction: "top", offset:[0,-20], opacity:1, permanent: true}).openTooltip();
 
         //littleText.bindTooltip(tip);
         //tooltips.push(tip);
