@@ -10,8 +10,9 @@ var activeNode = null;
 var nodeExists = false;
 
 const stairsColour = "#ff3333"
-const notStairsColour = "#3388ff"
+const deselectColour = "#3388ff"
 const activeColour = "#26ff4a"
+const defaultColour = "#fff"
 
 class wfNode{
 
@@ -27,8 +28,8 @@ class wfNode{
     constructor(name, coords){
 
         let options = {
-            fillColor: notStairsColour,
-            color: "#fff",
+            fillColor: deselectColour,
+            color: defaultColour,
             fillOpacity: 0.7,
             opacity: 0.5,
             draggable: true
@@ -77,6 +78,9 @@ class wfNode{
                 e.delete();
             })
 
+            console.print(`Removed node ${this.name}`);
+            this.marker.remove();
+
         }
         else{
             console.print(`Tried to remove ${this.name}, but it couldn't be found`);
@@ -124,6 +128,8 @@ class wfConnection{
             // Remove from both local arrays
             this.pointA.disconnect(this);
             this.pointB.disconnect(this);
+            console.print(`Removed connection ${this.pointA.name}:${this.pointB.name}`);
+            this.line.remove();
         }
         else{
             console.print(`Tried to remove connection ${this.pointA.name}:${this.pointB.name}, but it couldn't be found`);
@@ -234,23 +240,31 @@ function addNodeToMap(node, map){
             
         }
 
+        else if (window.event.shiftKey){
+            // Rotate between access states
+
+            toggleAccess(node);
+            
+        }
+
         else{
             
             if(node == activeNode){
-                // console.log(node);
+                // If you click on the selected node without holding a control key
+                // just deselect it
 
-                if(window.event.shiftKey){
+                // if(window.event.shiftKey){
                     
-                    toggleAccess(node);
+                //     toggleAccess(node);
                     
-                    console.log(`${node.name} clicked, no active node`);
+                //     console.log(`${node.name} clicked, no active node`);
                 
-                }
-                else{
+                // }
+                // else{
 
                     setActiveNode(null);
 
-                }
+                // }
 
             }
             else if (activeNode != null){
@@ -283,6 +297,21 @@ function toggleConnection(node, ActiveNode, map) {
                         line: L.polyline
                     } */
 
+    //Check for the connection
+
+    let con = findConnection(node, ActiveNode);
+
+    if ( con != null ){
+        //Connection exists; delete it
+        con.delete()
+
+    }
+    else{
+        //Conection doesn't exist; create it
+        addConnection(node, activeNode, map);
+    }
+
+
     console.log("toggleConnection not yet populated");
 }
 
@@ -291,6 +320,24 @@ function addConnection(node1, node2, map){
     let newConnection = new wfConnection(node1,node2);
 
     newConnection.line.addTo(map);
+
+}
+
+function findConnection(node1, node2){
+    // If a connection between node1 and node2 exists
+    // return that node
+
+    connections_gbl.forEach(con => {
+        
+        //Connections are bidirectional, check both ways
+        if ((con.pointA == node1 && con.pointB == node2) || (con.pointA == node2 && con.pointB == node1)){
+            return con;
+        }
+    })
+
+    // If every connection is checked and none match,
+    // what can ya do
+    return null;
 
 }
 
@@ -311,19 +358,21 @@ function updateColour(node) {
     // console.log(node)
 
     if (!node.stairs){
-        node.marker.setStyle({fillColor: notStairsColour});
+        node.marker.setStyle({color: defaultColour});
         console.log(`updateColour(${node.name}):notStairsColour`);
     }
     else{
-        node.marker.setStyle({fillColor: stairsColour});
+        node.marker.setStyle({color: stairsColour});
         console.log(`updateColour(${node.name}):stairsColour`);
     }
+
+    // node.redraw();
 }
 
 function setActiveNode(node){
 
     if (activeNode != null){
-        updateColour(activeNode);
+        activeNode.marker.setStyle({fillColor: deselectColour});
     }
 
     activeNode = node;
