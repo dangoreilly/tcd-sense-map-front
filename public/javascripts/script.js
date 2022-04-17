@@ -316,12 +316,18 @@ function onEachFeature(feature, layer) {
     }
 }
 
-var geojson = L.geoJson(_buildings, {
-    style: style,
-    onEachFeature: onEachFeature
+if (urlParams.has('drawNodes')){
+    
+    console.log("Playing with nodes, no need to draw buildings");
+}
+else{
 
-}).addTo(overworld_map);
+    var geojson = L.geoJson(_buildings, {
+        style: style,
+        onEachFeature: onEachFeature
 
+    }).addTo(overworld_map);
+}
 //Info Box
 
 info.onAdd = function (overworld_map) {
