@@ -13,6 +13,7 @@ const stairsColour = "#ff3333"
 const deselectColour = "#3388ff"
 const activeColour = "#26ff4a"
 const defaultColour = "#fff"
+const connectionColour = "#00ffff"
 
 class wfNode{
 
@@ -32,7 +33,7 @@ class wfNode{
             color: defaultColour,
             fillOpacity: 0.7,
             opacity: 0.5,
-            draggable: true
+            // draggable: true
         }
 
         this.name = name;
@@ -57,34 +58,42 @@ class wfNode{
     disconnect(cntcn){
         let i = this.connects.indexOf(cntcn)
 
-        if(i <= 0){
+        if(i >= 0){
             // Remove the connection from the local array
             this.connects.splice(i,1);
         }
         else{
-            console.print(`Tried to remove a connection from ${this.name} (${cntcn.pointA.name}:${cntcn.pointB.name}), but it couldn't be found`);
+            console.log(`Tried to remove a connection from ${this.name} (${cntcn.pointA.name}:${cntcn.pointB.name}), but it couldn't be found`);
         }
     }
 
     delete(){
         let i = wayFindingNodes.indexOf(this);
 
-        if(i <= 0){
+        if(i >= 0){
             // Remove the node from the global array
             wayFindingNodes.splice(i,1);
 
             // Then go through and delete every connection it has
-            this.connects.forEach((e)=> {
-                e.delete();
-            })
+            this.printConnections()
+            while(this.connects.length > 0) {
+                this.connects[0].delete();
+            }
 
-            console.print(`Removed node ${this.name}`);
+            console.log(`Removed node ${this.name}`);
             this.marker.remove();
 
         }
         else{
-            console.print(`Tried to remove ${this.name}, but it couldn't be found`);
+            console.log(`Tried to remove ${this.name}, but it couldn't be found`);
         }
+    }
+
+    printConnections(){
+        console.log("Connections:")
+        this.connects.forEach( con =>{
+            console.log(con.name)
+        })
     }
 
 }
@@ -95,16 +104,28 @@ class wfConnection{
     pointB;
     length;
     line;
+    name;
 
     constructor(_pointA, _pointB){
+
+        // style
+        let options = {
+            // fillColor: deselectColour,
+            color: defaultColour,
+            // fillOpacity: 0.7,
+            opacity: 0.5,
+            interactive: false
+            // draggable: true
+        }
 
         // The key details
         this.pointA = _pointA;
         this.pointB = _pointB;
         this.length = dist2D(_pointA.coords, _pointB.coords);
+        this.name = _pointA.name + ":" + _pointB.name //Mostly for debugging
 
         // Draw it on the map so we can see what we're doing
-        this.line = L.polyline([_pointA.coords, _pointB.coords], {colour: "red"});
+        this.line = L.polyline([_pointA.coords, _pointB.coords], options);
 
         // Connect both ends to the nodes
         // It has to be connected on both sides so that we can crawl in both directions
@@ -119,25 +140,35 @@ class wfConnection{
 
 
     delete(){
+
+        console.log(`Attempting to remove connection ${this.name}`)
         let i = connections_gbl.indexOf(this);
 
-        if(i <= 0){
+        if(i >= 0){
             // Remove from global array
             connections_gbl.splice(i,1);
 
             // Remove from both local arrays
             this.pointA.disconnect(this);
             this.pointB.disconnect(this);
-            console.print(`Removed connection ${this.pointA.name}:${this.pointB.name}`);
+            console.log(`Removed connection ${this.name}`);
             this.line.remove();
         }
         else{
-            console.print(`Tried to remove connection ${this.pointA.name}:${this.pointB.name}, but it couldn't be found`);
+            console.log(`Tried to remove connection ${this.name}, but it couldn't be found`);
         }
     }
     
 
 }
+
+// function findGlobalConnectionIndex(connection){
+
+//     let i = 0;
+//     let n = -1;
+
+//     for(i = 0; i < connections_gbl.length; i++)
+// }
 
 // Inspired by method by hanesh
 // https://stackoverflow.com/questions/41871519/leaflet-js-quickest-path-with-custom-points
@@ -220,12 +251,12 @@ function addNodeToMap(node, map){
         // I previously deleted this line thinking it was superfluous
         // It was not
 
-        if (activeNode != null){
-            console.log(`${node.name} clicked, ${activeNode.name} is active`);
-        }
-        else {
-            console.log(`${node.name} clicked, no active node`);
-        }
+        // if (activeNode != null){
+        //     console.log(`${node.name} clicked, ${activeNode.name} is active`);
+        // }
+        // else {
+        //     console.log(`${node.name} clicked, no active node`);
+        // }
 
         if(window.event.altKey && window.event.shiftKey){
             //Dump all nodes and connections to console
@@ -236,6 +267,13 @@ function addNodeToMap(node, map){
         else if (window.event.altKey){
             // Delete the node and all its connections
             // Make sure to check if it's active and unset it if it is.
+
+            if(node == activeNode){
+                setActiveNode(null);
+            }
+
+            node.delete();
+
             // Weird place for this note but the graph could be generated on the fly for the stairs thing to avoid dangling edges
             
         }
@@ -253,18 +291,7 @@ function addNodeToMap(node, map){
                 // If you click on the selected node without holding a control key
                 // just deselect it
 
-                // if(window.event.shiftKey){
-                    
-                //     toggleAccess(node);
-                    
-                //     console.log(`${node.name} clicked, no active node`);
-                
-                // }
-                // else{
-
-                    setActiveNode(null);
-
-                // }
+                setActiveNode(null);
 
             }
             else if (activeNode != null){
@@ -282,7 +309,7 @@ function addNodeToMap(node, map){
 }
 
 function printAllNodes(){
-    console.print("This function will take all the nodes and all the connections, splice them together and then print them to the console");
+    console.log("This function will take all the nodes and all the connections, splice them together and then print them to the console");
 }
 
 function toggleConnection(node, ActiveNode, map) {
@@ -301,6 +328,8 @@ function toggleConnection(node, ActiveNode, map) {
 
     let con = findConnection(node, ActiveNode);
 
+    console.log(`con = ${con}`)
+
     if ( con != null ){
         //Connection exists; delete it
         con.delete()
@@ -312,7 +341,7 @@ function toggleConnection(node, ActiveNode, map) {
     }
 
 
-    console.log("toggleConnection not yet populated");
+    // console.log("toggleConnection not yet populated");
 }
 
 function addConnection(node1, node2, map){
@@ -327,16 +356,27 @@ function findConnection(node1, node2){
     // If a connection between node1 and node2 exists
     // return that node
 
-    connections_gbl.forEach(con => {
+    console.log(`Looking for a connection ${node1.name}:${node2.name}`)
+
+    // connections_gbl.forEach(con => {
+
+    for (i = 0; i < node1.connects.length; i++){
+
+        let con = node1.connects[i];
+
+        console.log(`Checking ${con.name}`)
         
         //Connections are bidirectional, check both ways
-        if ((con.pointA == node1 && con.pointB == node2) || (con.pointA == node2 && con.pointB == node1)){
+        if ((con.pointA.name == node1.name && con.pointB.name == node2.name) || (con.pointA.name == node2.name && con.pointB.name == node1.name)){
+            console.log(`connection found between ${node1.name}:${node2.name}`)
             return con;
         }
-    })
+    }
 
     // If every connection is checked and none match,
     // what can ya do
+    
+    console.log(`no connection found between ${node1.name}:${node2.name}`)
     return null;
 
 }
@@ -380,6 +420,7 @@ function setActiveNode(node){
     if (activeNode != null){
         node.marker.setStyle({fillColor: activeColour});
         console.log(`Active Node Set: ${activeNode.name}`)
+        activeNode.printConnections();
     }
     else {
         console.log("Active Node Unset")
