@@ -370,11 +370,12 @@ function printAllNodes(){
     let holdString = "["
 
     for (let i = 0; i < wayFindingNodes.length; i++){
-        holdString += `{${wayFindingNodes[i].json()}},
+        holdString += `${wayFindingNodes[i].json()},
         `;
+        // console.log(holdString)
     }
 
-    holdString =+ "]";
+    holdString += "]";
 
     // console.log("all nodes printed")
     
@@ -382,7 +383,8 @@ function printAllNodes(){
     // In future we'll just post directly to the server but I don't understnad
     // user authentication yet (18/04)
 
-    download("nodes.json", holdString);
+    // console.log(holdString)
+    download("nodes.txt", holdString);
 
     // console.log("This function will take all the nodes and all the connections, splice them together and then print them to the console");
 
@@ -390,6 +392,7 @@ function printAllNodes(){
 
 }
 
+//Download handling
 function download(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -402,6 +405,12 @@ function download(filename, text) {
 
     document.body.removeChild(element);
 }
+// document.getElementById("btn")
+//     .addEventListener("click", function () {
+//         let text = document.getElementById("text").value;
+//         let filename = "output.txt";
+//         download(filename, text);
+//     }, false);
 
 function toggleConnection(node, ActiveNode, map) {
     // Function takes in two nodes

@@ -106,6 +106,8 @@
         <span id="click-coords-display"></span> <br>
         <span id="saved-coordinates"></span>
     </div> --}}
+    {{!-- dummy button that to facilitate downloading --}}
+    <input type="button" id="btn" value="Download" style="display: none;"/>
 
 </body>
 </html>
