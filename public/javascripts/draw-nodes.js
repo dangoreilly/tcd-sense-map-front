@@ -41,7 +41,7 @@ class wfNode{
         this.connects = [];
         this.stairs = false;
         this.marker = L.circleMarker(coords, options);
-        wayFindingNodes.push(this);
+       
     }
 
     // updatePos(_coords){
@@ -94,6 +94,49 @@ class wfNode{
         this.connects.forEach( con =>{
             console.log(con.name)
         })
+    }
+
+    connectedTo(){
+        let list = [];
+
+        this.connects.forEach(con =>{
+            // Loop through all connections
+            // Establish who the second party is for each connection
+            // add it to the list
+            if (con.pointA.name == this.name){
+                list.push(con.pointB.name);
+            }
+            else list.push(con.pointA.name);
+
+        })
+
+        return list;
+    }
+    
+
+    json(){
+
+        let c_l = this.connectedTo()
+        let connectslist = "";
+
+        for(i = 0; i < c_l.length; i++){
+            connectslist += `'${c_l[i]}'`
+
+            if (i+1 < this.connects.length){
+                connectslist += `,
+                `
+            }
+        }
+
+        let jsontxt = 
+        `{  
+        name: '${this.name}', 
+        coords: [${this.coords}], 
+        connects: [${connectslist}],
+        stairs: ${this.stairs}
+        }`;
+
+        return jsontxt;
     }
 
 }
@@ -158,6 +201,16 @@ class wfConnection{
             console.log(`Tried to remove connection ${this.name}, but it couldn't be found`);
         }
     }
+
+    json(){
+        let jsontxt = 
+        `{  name: '${this.name}', 
+        pointA: '${this.pointA.name}', 
+        pointB: '${this.pointB.name}'
+        }`;
+
+        return jsontxt
+    }
     
 
 }
@@ -215,7 +268,7 @@ function newNode(_name, _coords){
 
     // console.log(_node);
 
-    // wayFindingNodes.push(_node);
+    wayFindingNodes.push(_node);
 
     return _node
 }
@@ -309,7 +362,45 @@ function addNodeToMap(node, map){
 }
 
 function printAllNodes(){
-    console.log("This function will take all the nodes and all the connections, splice them together and then print them to the console");
+    // Take all the nodes and their connections
+    // Put them into a file
+    // Have user download the file
+
+    // Add all nodes to holding string
+    let holdString = "["
+
+    for (let i = 0; i < wayFindingNodes.length; i++){
+        holdString += `{${wayFindingNodes[i].json()}},
+        `;
+    }
+
+    holdString =+ "]";
+
+    // console.log("all nodes printed")
+    
+    // Now throw that hold string into a json file and let the user download it
+    // In future we'll just post directly to the server but I don't understnad
+    // user authentication yet (18/04)
+
+    download("nodes.json", holdString);
+
+    // console.log("This function will take all the nodes and all the connections, splice them together and then print them to the console");
+
+
+
+}
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }
 
 function toggleConnection(node, ActiveNode, map) {
