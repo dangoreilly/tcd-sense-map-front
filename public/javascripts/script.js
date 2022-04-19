@@ -7,6 +7,8 @@ var wayfind_start;
 var startListenFlag = false;
 var endListenFlag = false;
 var wayfind_listening = false;
+
+var displayNodes = true;
 // let coordinates_array = [];
 
 const queryString = window.location.search;
@@ -64,6 +66,12 @@ $.ajax({
     }
 });
 
+var _wfNodes = [];
+
+// Standin for debugging
+// PROD will make ajax request
+loadNodes(wfNodes_hard, overworld_map);
+
 function setBuildings(blds){
     _buildings = blds;
         //console.log(_buildings);
@@ -80,7 +88,8 @@ overworld_map.on('click', (e) => {
 
     if (urlParams.has('drawNodes') && window.event.ctrlKey) {
         
-        drawNode(e, overworld_map)
+        drawNode(e, overworld_map);
+        // displayNodes = true;
     }
 
     if (endListenFlag || startListenFlag){
@@ -380,6 +389,7 @@ function fadeLayerLeaflet(lyr, startOpacity, finalOpacity, opacityStep, delay) {
 // }
 
 info.addTo(overworld_map);
+wayfind.addTo(overworld_map);
 // openInfoModal();
 
 // function openInfoModal() {

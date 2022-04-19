@@ -1,219 +1,219 @@
-var curr_node = 0;
-var selected_node = '';
-var wayFindingNodes = [];
-// let coordinates_array = [];
-// let coordinates_array_draw = [];
+// var curr_node = 0;
+// var selected_node = '';
+// var wayFindingNodes = [];
+// // let coordinates_array = [];
+// // let coordinates_array_draw = [];
 
-var connections_gbl = [];
-var activeNode = null;
+// var connections_gbl = [];
+// var activeNode = null;
 
-var nodeExists = false;
+// var nodeExists = false;
 
-const stairsColour = "#ff3333"
-const deselectColour = "#3388ff"
-const activeColour = "#26ff4a"
-const defaultColour = "#fff"
-const connectionColour = "#00ffff"
+// const stairsColour = "#ff3333"
+// const deselectColour = "#3388ff"
+// const activeColour = "#26ff4a"
+// const defaultColour = "#fff"
+// const connectionColour = "#00ffff"
 
-class wfNode{
-
-
-
-    name;
-    coords;
-    connects;
-    stairs;
-    marker;
+// class wfNode{
 
 
-    constructor(name, coords){
 
-        let options = {
-            fillColor: deselectColour,
-            color: defaultColour,
-            fillOpacity: 0.7,
-            opacity: 0.5,
-            // draggable: true
-        }
+//     name;
+//     coords;
+//     connects;
+//     stairs;
+//     marker;
 
-        this.name = name;
-        this.coords = coords;
-        this.connects = [];
-        this.stairs = false;
-        this.marker = L.circleMarker(coords, options);
+
+//     constructor(name, coords){
+
+//         let options = {
+//             fillColor: deselectColour,
+//             color: defaultColour,
+//             fillOpacity: 0.7,
+//             opacity: 0.5,
+//             // draggable: true
+//         }
+
+//         this.name = name;
+//         this.coords = coords;
+//         this.connects = [];
+//         this.stairs = false;
+//         this.marker = L.circleMarker(coords, options);
        
-    }
+//     }
 
-    // updatePos(_coords){
-    //     this.coords = _coords;
-    //     this.marker.redraw();
-    //     // TODO:
-    //     // redraw connections
-    // }
+//     // updatePos(_coords){
+//     //     this.coords = _coords;
+//     //     this.marker.redraw();
+//     //     // TODO:
+//     //     // redraw connections
+//     // }
 
-    connect(cntcn){
-        this.connects.push(cntcn);
-    }
+//     connect(cntcn){
+//         this.connects.push(cntcn);
+//     }
     
-    disconnect(cntcn){
-        let i = this.connects.indexOf(cntcn)
+//     disconnect(cntcn){
+//         let i = this.connects.indexOf(cntcn)
 
-        if(i >= 0){
-            // Remove the connection from the local array
-            this.connects.splice(i,1);
-        }
-        else{
-            console.log(`Tried to remove a connection from ${this.name} (${cntcn.pointA.name}:${cntcn.pointB.name}), but it couldn't be found`);
-        }
-    }
+//         if(i >= 0){
+//             // Remove the connection from the local array
+//             this.connects.splice(i,1);
+//         }
+//         else{
+//             console.log(`Tried to remove a connection from ${this.name} (${cntcn.pointA.name}:${cntcn.pointB.name}), but it couldn't be found`);
+//         }
+//     }
 
-    delete(){
-        let i = wayFindingNodes.indexOf(this);
+//     delete(){
+//         let i = wayFindingNodes.indexOf(this);
 
-        if(i >= 0){
-            // Remove the node from the global array
-            wayFindingNodes.splice(i,1);
+//         if(i >= 0){
+//             // Remove the node from the global array
+//             wayFindingNodes.splice(i,1);
 
-            // Then go through and delete every connection it has
-            this.printConnections()
-            while(this.connects.length > 0) {
-                this.connects[0].delete();
-            }
+//             // Then go through and delete every connection it has
+//             this.printConnections()
+//             while(this.connects.length > 0) {
+//                 this.connects[0].delete();
+//             }
 
-            console.log(`Removed node ${this.name}`);
-            this.marker.remove();
+//             console.log(`Removed node ${this.name}`);
+//             this.marker.remove();
 
-        }
-        else{
-            console.log(`Tried to remove ${this.name}, but it couldn't be found`);
-        }
-    }
+//         }
+//         else{
+//             console.log(`Tried to remove ${this.name}, but it couldn't be found`);
+//         }
+//     }
 
-    printConnections(){
-        console.log("Connections:")
-        this.connects.forEach( con =>{
-            console.log(con.name)
-        })
-    }
+//     printConnections(){
+//         console.log("Connections:")
+//         this.connects.forEach( con =>{
+//             console.log(con.name)
+//         })
+//     }
 
-    connectedTo(){
-        let list = [];
+//     connectedTo(){
+//         let list = [];
 
-        this.connects.forEach(con =>{
-            // Loop through all connections
-            // Establish who the second party is for each connection
-            // add it to the list
-            if (con.pointA.name == this.name){
-                list.push(con.pointB.name);
-            }
-            else list.push(con.pointA.name);
+//         this.connects.forEach(con =>{
+//             // Loop through all connections
+//             // Establish who the second party is for each connection
+//             // add it to the list
+//             if (con.pointA.name == this.name){
+//                 list.push(con.pointB.name);
+//             }
+//             else list.push(con.pointA.name);
 
-        })
+//         })
 
-        return list;
-    }
-    
-
-    json(){
-
-        let c_l = this.connectedTo()
-        let connectslist = "";
-
-        for(i = 0; i < c_l.length; i++){
-            connectslist += `'${c_l[i]}'`
-
-            if (i+1 < this.connects.length){
-                connectslist += `,
-                `
-            }
-        }
-
-        let jsontxt = 
-        `{  
-        name: '${this.name}', 
-        coords: [${this.coords}], 
-        connects: [${connectslist}],
-        stairs: ${this.stairs}
-        }`;
-
-        return jsontxt;
-    }
-
-}
-
-class wfConnection{
-
-    pointA;
-    pointB;
-    length;
-    line;
-    name;
-
-    constructor(_pointA, _pointB){
-
-        // style
-        let options = {
-            // fillColor: deselectColour,
-            color: defaultColour,
-            // fillOpacity: 0.7,
-            opacity: 0.5,
-            interactive: false
-            // draggable: true
-        }
-
-        // The key details
-        this.pointA = _pointA;
-        this.pointB = _pointB;
-        this.length = dist2D(_pointA.coords, _pointB.coords);
-        this.name = _pointA.name + ":" + _pointB.name //Mostly for debugging
-
-        // Draw it on the map so we can see what we're doing
-        this.line = L.polyline([_pointA.coords, _pointB.coords], options);
-
-        // Connect both ends to the nodes
-        // It has to be connected on both sides so that we can crawl in both directions
-        _pointA.connect(this);
-        _pointB.connect(this);
-
-        //Once all the details are set, add it to the global array
-        connections_gbl.push(this);
-
-
-    }
-
-
-    delete(){
-
-        console.log(`Attempting to remove connection ${this.name}`)
-        let i = connections_gbl.indexOf(this);
-
-        if(i >= 0){
-            // Remove from global array
-            connections_gbl.splice(i,1);
-
-            // Remove from both local arrays
-            this.pointA.disconnect(this);
-            this.pointB.disconnect(this);
-            console.log(`Removed connection ${this.name}`);
-            this.line.remove();
-        }
-        else{
-            console.log(`Tried to remove connection ${this.name}, but it couldn't be found`);
-        }
-    }
-
-    json(){
-        let jsontxt = 
-        `{  name: '${this.name}', 
-        pointA: '${this.pointA.name}', 
-        pointB: '${this.pointB.name}'
-        }`;
-
-        return jsontxt
-    }
+//         return list;
+//     }
     
 
-}
+//     json(){
+
+//         let c_l = this.connectedTo()
+//         let connectslist = "";
+
+//         for(i = 0; i < c_l.length; i++){
+//             connectslist += `'${c_l[i]}'`
+
+//             if (i+1 < this.connects.length){
+//                 connectslist += `,
+//                 `
+//             }
+//         }
+
+//         let jsontxt = 
+//         `{  
+//         name: '${this.name}', 
+//         coords: [${this.coords}], 
+//         connects: [${connectslist}],
+//         stairs: ${this.stairs}
+//         }`;
+
+//         return jsontxt;
+//     }
+
+// }
+
+// class wfConnection{
+
+//     pointA;
+//     pointB;
+//     length;
+//     line;
+//     name;
+
+//     constructor(_pointA, _pointB){
+
+//         // style
+//         let options = {
+//             // fillColor: deselectColour,
+//             color: defaultColour,
+//             // fillOpacity: 0.7,
+//             opacity: 0.5,
+//             interactive: false
+//             // draggable: true
+//         }
+
+//         // The key details
+//         this.pointA = _pointA;
+//         this.pointB = _pointB;
+//         this.length = dist2D(_pointA.coords, _pointB.coords);
+//         this.name = _pointA.name + ":" + _pointB.name //Mostly for debugging
+
+//         // Draw it on the map so we can see what we're doing
+//         this.line = L.polyline([_pointA.coords, _pointB.coords], options);
+
+//         // Connect both ends to the nodes
+//         // It has to be connected on both sides so that we can crawl in both directions
+//         _pointA.connect(this);
+//         _pointB.connect(this);
+
+//         //Once all the details are set, add it to the global array
+//         connections_gbl.push(this);
+
+
+//     }
+
+
+//     delete(){
+
+//         console.log(`Attempting to remove connection ${this.name}`)
+//         let i = connections_gbl.indexOf(this);
+
+//         if(i >= 0){
+//             // Remove from global array
+//             connections_gbl.splice(i,1);
+
+//             // Remove from both local arrays
+//             this.pointA.disconnect(this);
+//             this.pointB.disconnect(this);
+//             console.log(`Removed connection ${this.name}`);
+//             this.line.remove();
+//         }
+//         else{
+//             console.log(`Tried to remove connection ${this.name}, but it couldn't be found`);
+//         }
+//     }
+
+//     json(){
+//         let jsontxt = 
+//         `{  name: '${this.name}', 
+//         pointA: '${this.pointA.name}', 
+//         pointB: '${this.pointB.name}'
+//         }`;
+
+//         return jsontxt
+//     }
+    
+
+// }
 
 // function findGlobalConnectionIndex(connection){
 
@@ -250,7 +250,7 @@ function drawNode(e, mymap) {
     // node[0] = e.latlng.lat;
     // node[1] = e.latlng.lng;    
 
-    let nodeName = alphaNumeric(curr_node);
+    let nodeName = alphaNumeric(wayFindingNodes.length);
     // addNodes(node, nodeName, mymap);
     let node = newNode(nodeName, [e.latlng.lat, e.latlng.lng]);
     addNodeToMap(node, mymap) 
