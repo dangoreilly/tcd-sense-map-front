@@ -24,6 +24,9 @@ class wfNode{
     connects;
     stairs;
     marker;
+    crowFlies;
+    rabbitJumps;
+    
 
 
     constructor(name, coords, stairs = false){
@@ -357,3 +360,22 @@ function findNodeByName(name){
 
 
 // wayfind.addTo(overworld_map)
+
+//==================================================================
+//========DJIKSTRA==================================================
+//==================================================================
+
+function shortestPath(start, end, stairs){
+
+    let shortest;
+
+    // First, process all the nodes to figure out the straightline distance
+    for (i = 0; i < wayFindingNodes.length; i++){
+        wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
+    }
+
+    for (i = 0; i < start.connects.length; i++){
+        start.connects[i]
+    }
+
+}
