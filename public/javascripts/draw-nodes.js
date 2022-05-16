@@ -279,7 +279,9 @@ function addNodeToMap(node, map){
     // so that they can be drawn from the JSON on a build
 
     // console.log(map);
-    let _marker = node.marker.addTo(map);
+    let _marker = node.marker.setStyle(visibleOptions);//.addTo(map);
+    node.marker.setStyle({interactive: true});
+    updateColour(node);
 
     // Dragging doesn't seem to work.
     // I can't find any reports online of this bug
@@ -525,15 +527,6 @@ function setActiveNode(node){
     else {
         console.log("Active Node Unset")
     }
-}
-
-function dist2D(_p1, _p2){
-
-    rise = _p1[0] - _p2[0];
-    run = _p1[1] - _p2[1];
-
-    return Math.sqrt(rise*rise + run*run);
-
 }
 
 // function printJsonToTextArea(textAreaId, nodeId, nodeCoords, nodeConnections, nodeFloor){

@@ -8,12 +8,18 @@ var connections_gbl = [];
 var activeNode = null;
 
 var nodeExists = false;
+var stairs = false;
 
 const stairsColour = "#ff3333"
 const deselectColour = "#3388ff"
 const activeColour = "#26ff4a"
 const defaultColour = "#fff"
 const connectionColour = "#00ffff"
+
+const visibleOptions = {
+    fillOpacity: 0.7,
+    opacity: 0.5
+}
 
 class wfNode{
 
@@ -34,8 +40,11 @@ class wfNode{
         let options = {
             fillColor: deselectColour,
             color: defaultColour,
-            fillOpacity: 0.7,
-            opacity: 0.5,
+            // fillOpacity: 0.7,
+            // opacity: 0.5,
+            fillOpacity:0,
+            opacity:0,
+            interactive: false
             // draggable: true
         }
 
@@ -43,7 +52,7 @@ class wfNode{
         this.coords = coords;
         this.connects = [];
         this.stairs = stairs;
-        this.marker = L.circleMarker(coords, options);
+        this.marker = L.circleMarker(coords, options).addTo(overworld_map);
        
     }
 
@@ -230,7 +239,10 @@ var wayfind = L.control({position:"topright"});
 wayfind.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'wayfind'); // create a div with a class "info"
     // this.update();
-    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>?</span></p><p onclick='listenForEnd()'>End: <span id='end_coords'>?</span></p>`
+    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>?</span>
+    </p><p onclick='listenForEnd()'>End: <span id='end_coords'>?</span></p>
+    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
+    <label for="stairs">Include Stairs</label>`
     
     
 
@@ -238,7 +250,19 @@ wayfind.onAdd = function (map) {
 };
 
 wayfind.update = function () {
-    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>${wayfind_start}</span></p><p onclick='listenForEnd()'>End: <span id='end_coords'>${wayfind_end}</span></p>`
+    // Nicely format the coords so that 18 decimal places don't print to the GUI
+    let start_coords_y = Math.round(wayfind_start.coords[0] * 100) / 100;
+    let start_coords_x = Math.round(wayfind_start.coords[1] * 100) / 100;
+
+    let end_coords_y = Math.round(wayfind_end.coords[0] * 100) / 100;
+    let end_coords_x = Math.round(wayfind_end.coords[1] * 100) / 100;
+
+    let start_coords_text = `${start_coords_x}, ${start_coords_y}`;
+    let end_coords_text = `${end_coords_x}, ${end_coords_y}`;
+    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>${start_coords_text}</span></p>
+    <p onclick='listenForEnd()'>End: <span id='end_coords'>${end_coords_text}</span></p>
+    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
+    <label for="stairs">Include Stairs</label>`
 };
 
 
@@ -250,48 +274,72 @@ function listenForEnd(){
     startListenFlag = false;
     endListenFlag = true;
 }
+function toggleStairs(){
+    stairs = !stairs;
+    console.log(`Stairs = ${stairs}`);
+    // findWay(overworld_map, [wayfind_start, wayfind_end], route);
+}
 
 function findWay(map, points, route){
 
-    let start = {
-        ll: points[0],
+    let start = points[0];
+    let end = points[1];
 
-        x: points[0].lat,
-        y: points[0].lng
-    }
-    let end = {
-        ll: points[1],
+    // let start = {
+    //     ll: points[0],
 
-        x: points[1].lat,
-        y: points[1].lng
-    }
+    //     x: points[0].lat,
+    //     y: points[0].lng
+    // }
+    // let end = {
+    //     ll: points[1],
+
+    //     x: points[1].lat,
+    //     y: points[1].lng
+    // }
 
     // let startMarker = new L.marker(e.latlng).addTo(mymap)
-    var startMarker = new L.marker(start.ll).addTo(map);
-    var endMarker = new L.marker(end.ll).addTo(map);
+    // var startMarker = new L.marker(start.ll).addTo(map);
+    // var endMarker = new L.marker(end.ll).addTo(map);
     
-    var startIcon = L.icon({
-        iconUrl: './stylesheets/images/point.png',
-        iconSize: [16, 16],
-        iconAnchor: [8, 8]
-        // popupAnchor: [-3, -76]
-    });
-    var endIcon = L.icon({
-        iconUrl: './stylesheets/images/point_c.png',
-        iconSize: [16, 16],
-        iconAnchor: [8, 8],
-        opacity: 1
-        // popupAnchor: [-3, -76]
-    });
+    // var startIcon = L.icon({
+    //     iconUrl: './stylesheets/images/point.png',
+    //     iconSize: [16, 16],
+    //     iconAnchor: [8, 8]
+    //     // popupAnchor: [-3, -76]
+    // });
+    // var endIcon = L.icon({
+    //     iconUrl: './stylesheets/images/point_c.png',
+    //     iconSize: [16, 16],
+    //     iconAnchor: [8, 8],
+    //     opacity: 1
+    //     // popupAnchor: [-3, -76]
+    // });
 
-    startMarker.setIcon(startIcon);
-    endMarker.setIcon(endIcon);
+    // startMarker.setIcon(startIcon);
+    // endMarker.setIcon(endIcon);
+
+    let nodePath = shortestPath(start, end, stairs);
+    let pointPath = nodes_to_latlng(nodePath);
 
 
     // let route = L.polyline([start.ll,end.ll], {color: 'red'}).addTo(map);
-    route.setLatLngs([start.ll, [start.x*1.2, start.y*1.2], [end.x*1.2, end.y*1.2], end.ll]);
+    route.setLatLngs(pointPath);
     route.setStyle({opacity:1});
     route.redraw();
+}
+
+//Function to take in array of node objects and return array of latlngs for drawing
+function nodes_to_latlng(arr){
+
+    let return_arr = [];
+
+    for (i = 0; i < arr.length; i++){
+        return_arr.push(arr[i].coords);
+    }
+
+    return return_arr;
+
 }
 
 function loadNodes(nodes, map){
@@ -318,6 +366,7 @@ function loadNodes(nodes, map){
         if (urlParams.has('drawNodes')){
             // Normally when we load nodes, they should just be hidden
             addNodeToMap(wayFindingNodes[i], map)
+            wayFindingNodes[i].marker.setStyle(visibleOptions);
         }
 
         for(let j = 0; j < nodes[i].connects.length; j++){
@@ -358,6 +407,49 @@ function findNodeByName(name){
 
 }
 
+function findNearestWfNode(latlng){
+
+    let testPoint = [latlng.lat, latlng.lng];
+    // console.log(`Test Point at ${testPoint}`);
+
+    let closest_node = null;
+    let dist_to_closest;
+
+    for(let i = 0; i < wayFindingNodes.length; i++){
+
+        if (closest_node == null){
+            closest_node = wayFindingNodes[i];
+            dist_to_closest = dist2D(testPoint, closest_node.coords);
+        }
+
+        else{
+
+            let dist_to_i = dist2D(testPoint, wayFindingNodes[i].coords)
+
+            console.log(`Distance from ${testPoint} to ${wayFindingNodes[i].coords} is ${dist_to_i}`);
+
+            if (dist_to_closest > dist_to_i){
+                closest_node = wayFindingNodes[i];
+                dist_to_closest = dist_to_i;
+            }
+
+        }
+
+    }
+
+    return closest_node
+
+}
+
+function dist2D(_p1, _p2){
+
+    rise = _p1[0] - _p2[0];
+    run = _p1[1] - _p2[1];
+
+    return Math.sqrt(rise*rise + run*run);
+
+}
+
 
 // wayfind.addTo(overworld_map)
 
@@ -367,15 +459,74 @@ function findNodeByName(name){
 
 function shortestPath(start, end, stairs){
 
-    let shortest;
+    // let shortest;
 
-    // First, process all the nodes to figure out the straightline distance
+    // // First, process all the nodes to figure out the straightline distance
+    // for (i = 0; i < wayFindingNodes.length; i++){
+    //     wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
+    // }
+
+    // //Then go through each 
+
+    // for (i = 0; i < start.connects.length; i++){
+    //     start.connects[i]
+    // }
+
+    //Third Party Djikstra Implementation
+    //First we need to prepare our data for processing:
+
+    //Generate an empty map
+    var map = {};
+
+    //Add in all our nodes
     for (i = 0; i < wayFindingNodes.length; i++){
-        wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
+
+        //Function will have stairs value passed
+        //If stairs is false, then only nodes which also have stairs=false should be processed
+        if (!stairs){
+            if(!wayFindingNodes[i].stairs){
+                map[wayFindingNodes[i].name] = {};
+            }
+        }
+        else {
+            map[wayFindingNodes[i].name] = {};
+        }
+
+        
+
+        // wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
     }
 
-    for (i = 0; i < start.connects.length; i++){
-        start.connects[i]
+    //cycle through connections and add to whatever node is first
+    //because this implementation does not look double edges
+
+    for (i = 0; i < connections_gbl.length; i++){
+
+        let d_con = connections_gbl[i];
+
+        //because we may have filtered for stairs earlier, we need to make sure the node exists
+        if(map[d_con.pointA.name] != null && map[d_con.pointB.name] != null)
+            map[d_con.pointA.name][d_con.pointB.name] = d_con.length;
+
     }
+
+    // Generating this map every time is much more resource intensive than it needs to be; but is only temporary
+    // To properly handle room to room nav, this function will need to be an API call in which case everything can be much more centralised
+    var graph = new Graph(map);
+
+    return route_names_to_nodes(graph.findShortestPath(start.name, end.name))
+
+}
+
+//We need to convert the names of the nodes back to the node objects so that we can handle drawing the route
+function route_names_to_nodes(arr){
+
+    let return_arr = [];
+
+    for (i = 0; i < arr.length; i++){
+        return_arr.push(findNodeByName(arr[i]));
+    }
+
+    return return_arr;
 
 }

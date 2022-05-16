@@ -40,6 +40,9 @@
     {{!-- <script src="javascripts/leaflet/leaflet.js"></script> --}}
     {{!-- <script src="javascripts/leaflet/leaflet.fullscreen.js"></script> --}}
     {{!-- <script src="javascripts/leaflet/L.Modal.min.js"></script> --}}
+    
+    <script src="javascripts/graph.js"></script>
+    
     <script src="javascripts/wayfinding.js"></script>
     <script src="javascripts/draw-nodes.js"></script>
     <script src="javascripts/draw-polygons.js"></script>
