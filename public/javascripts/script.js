@@ -9,7 +9,7 @@ var endListenFlag = false;
 var wayfind_listening = false;
 
 var displayNodes = true;
-// let coordinates_array = [];
+var coordinates_array = [];
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -25,9 +25,20 @@ const overworld_map = L.map('overworld', {
     maxZoom: 2.5
 });
 
-var route = L.polyline([[0,0],[0,0]], {color: 'red', opacity: 0}).addTo(overworld_map);
+// L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+//     attribution: '©OpenStreetMap, ©CartoDB'
+// }).addTo(overworld_map);
 
-const bounds = [[0,0], [1000,1000]];
+var route = L.polyline([[0,0],[0,0]], {color: 'red', opacity: 0}).addTo(overworld_map);
+var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0, fillOpacity: 0.4}).addTo(overworld_map);
+
+
+const bounds = [
+    [0,0],
+    [1000,1000] //SVG only map
+    // [53.345575, 353.740604],
+    // [53.341412, 353.750356]    //LatLng map
+    ];
 
 const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
 //zoom level 
@@ -38,6 +49,8 @@ var tooltips = [];
 overworld_map.fitBounds(bounds).setMaxBounds([
     [850,-100],
     [0,1200]
+    // [53.346286, 353.738973],
+    // [53.339714, 353.754187]    
     ])
 
 
@@ -80,11 +93,18 @@ function setBuildings(blds){
   //console.log("_buildings");
   //console.log(JSON.stringify(_buildings, null, 1));
 
-overworld_map.on('click', (e) => {
+overworld_map.on('contextmenu', (e) => {
 
     if (urlParams.has('drawPolygons')) {
+
         draw_clicks(overworld_map, e)
     }
+
+});
+
+overworld_map.on('click', (e) => {
+
+    console.log(`Coordinates: ${e.latlng}`)
 
     if (urlParams.has('drawNodes') && window.event.ctrlKey) {
         
@@ -94,14 +114,19 @@ overworld_map.on('click', (e) => {
 
     if (endListenFlag || startListenFlag){
 
-        //Buffer needed because leaflet tricks click on control as a click on the map
+        //Buffer needed because leaflet treats click on control as a click on the map
         if(wayfind_listening){
+
+                //debugging marker
+                // L.circleMarker(e.latlng, {color: 'red'}).addTo(overworld_map);
             
             if (endListenFlag) {
-                wayfind_end = e.latlng;
+                wayfind_end = findNearestWfNode(e.latlng);
+                wayfind_end.marker.setStyle({opacity:0.7, fillOpacity:0.3});
             }
             else {
-                wayfind_start = e.latlng;
+                wayfind_start = findNearestWfNode(e.latlng);
+                wayfind_start.marker.setStyle({opacity:0.7, fillOpacity:0.3});
             }
             
             startListenFlag = false;
@@ -279,9 +304,7 @@ function onEachFeature(feature, layer) {
 
     });
 
-    // if (urlParams.has(feature.name)){
-    //     highlightFeature_overload(layer);
-    // }
+    
 
     if (feature) {
 
@@ -312,6 +335,16 @@ function onEachFeature(feature, layer) {
         //     // highlightFeature(e);
         // });
 
+        if (urlParams.has(feature.properties.bldID)){
+            layer.setStyle({
+                weight: 5,
+                color: '#E53397',
+                fillOpacity: 1,
+                opacity: 0.5
+                
+            });
+        }
+
         layer.on('mouseover', function(e) { 
             //layer.openPopup();
             highlightFeature(e);
@@ -322,6 +355,8 @@ function onEachFeature(feature, layer) {
             resetHighlight(e);
             //fadeLayerLeaflet(layer, 1, 0, -0.05, 50)
         });
+
+        // if(urlParams)
     }
 }
 
@@ -349,25 +384,25 @@ info.onAdd = function (overworld_map) {
     return this.button;
 };
 
-function fadeLayerLeaflet(lyr, startOpacity, finalOpacity, opacityStep, delay) {
+// function fadeLayerLeaflet(lyr, startOpacity, finalOpacity, opacityStep, delay) {
     
-    let opacity = startOpacity;
-    let timer = setTimeout(function changeOpacity() {
+//     let opacity = startOpacity;
+//     let timer = setTimeout(function changeOpacity() {
     
-        if (opacity != finalOpacity) {
+//         if (opacity != finalOpacity) {
 
-            lyr.setStyle({
-                //opacity: opacity,
-                fillOpacity: opacity
-            });
+//             lyr.setStyle({
+//                 //opacity: opacity,
+//                 fillOpacity: opacity
+//             });
             
-            opacity = opacity + opacityStep
-        }
+//             opacity = opacity + opacityStep
+//         }
         
-        timer = setTimeout(changeOpacity, delay);
+//         timer = setTimeout(changeOpacity, delay);
     
-    }, delay);
-}
+//     }, delay);
+// }
 
 
 
