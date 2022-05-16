@@ -268,7 +268,7 @@ function onEachFeature(feature, layer) {
         }
 
         let modal_info_button = {
-            text: "More Info",
+            text: "Sensory Info",
             link: `/info/${feature.properties.bldID}`,
             disabled: !feature.properties.infoPageEnabled
         }
