@@ -155,6 +155,11 @@ class wfNode{
         return jsontxt;
     }
 
+    findCrowFlies(point){
+        this.crowFlies = dist2D(this.coords, point);
+        return this.crowFlies;
+    }
+
 }
 
 class wfConnection{
@@ -239,32 +244,87 @@ var wayfind = L.control({position:"topright"});
 wayfind.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'wayfind'); // create a div with a class "info"
     // this.update();
-    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>?</span>
-    </p><p onclick='listenForEnd()'>End: <span id='end_coords'>?</span></p>
-    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
-    <label for="stairs">Include Stairs</label>`
+    // this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>?</span>
+    // </p><p onclick='listenForEnd()'>End: <span id='end_coords'>?</span></p>
+    // <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
+    // <label for="stairs">Include Stairs</label></br>`+
+    // `
+    //  <button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
+    // this.update();
+
     
+    this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates">
+    <button type="button" class="btn btn-outline-primary" onclick='listenForStart()'>Start</button>
+    <button type="button" class="btn btn-outline-primary" disabled>?</button>
+    </div> </br>
+    <div class="btn-group" role="group" aria-label="End Coordinates">
+    <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()'>End</button>
+    <button type="button" class="btn btn-outline-primary" disabled>?</button>
+    </div></br>
+    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
+    <label for="stairs">Include Stairs</label></br>
+    <button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
     
 
     return this._div;
 };
 
 wayfind.update = function () {
+
+    let end_coords_text = `?`;
+    let start_coords_text = `?`;
+
     // Nicely format the coords so that 18 decimal places don't print to the GUI
-    let start_coords_y = Math.round(wayfind_start.coords[0] * 100) / 100;
-    let start_coords_x = Math.round(wayfind_start.coords[1] * 100) / 100;
+    if (wayfind_start != null){
+        let start_coords_y = Math.round(wayfind_start.coords[0] * 100) / 100;
+        let start_coords_x = Math.round(wayfind_start.coords[1] * 100) / 100;
 
-    let end_coords_y = Math.round(wayfind_end.coords[0] * 100) / 100;
-    let end_coords_x = Math.round(wayfind_end.coords[1] * 100) / 100;
+        start_coords_text = `${start_coords_x}, ${start_coords_y}`;
+    }
 
-    let start_coords_text = `${start_coords_x}, ${start_coords_y}`;
-    let end_coords_text = `${end_coords_x}, ${end_coords_y}`;
-    this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>${start_coords_text}</span></p>
-    <p onclick='listenForEnd()'>End: <span id='end_coords'>${end_coords_text}</span></p>
-    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
-    <label for="stairs">Include Stairs</label>`
+    
+    if (wayfind_end != null){
+        let end_coords_y = Math.round(wayfind_end.coords[0] * 100) / 100;
+        let end_coords_x = Math.round(wayfind_end.coords[1] * 100) / 100;
+
+        end_coords_text = `${end_coords_x}, ${end_coords_y}`;
+    }
+
+    
+
+    let stairs_check = stairs ? "checked" : "";
+    
+
+    if (startListenFlag){
+        start_coords_text = "--,--";
+    }
+    if (endListenFlag){
+        end_coords_text = "--,--";
+    }
+
+    // let start_coords_text = start_coords_x != null ? `${start_coords_x}, ${start_coords_y}` : "?";
+    // let end_coords_text = start_coords_y != null ? `${end_coords_x}, ${end_coords_y}` : "?";
+    // let stairs_check = stairs ? "checked" : "";
+    // this._div.innerHTML = `<p onclick='listenForStart()'>Start: <span id='start_coords'>${start_coords_text}</span></p>
+    // <p onclick='listenForEnd()'>End: <span id='end_coords'>${end_coords_text}</span></p>
+    // <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()' ${stairs_check}>
+    // <label for="stairs">Include Stairs</label> </br>` +
+    // `<button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
+
+    this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates">
+    <button type="button" class="btn btn-outline-primary" onclick='listenForStart()'>Start</button>
+    <button type="button" class="btn btn-outline-primary" disabled>${start_coords_text}</button>
+    </div> </br>
+    <div class="btn-group" role="group" aria-label="End Coordinates">
+    <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()'>End</button>
+    <button type="button" class="btn btn-outline-primary" disabled>${end_coords_text}</button>
+    </div></br>
+    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()' ${stairs_check}>
+    <label for="stairs">Include Stairs</label></br>
+    <button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
 };
 
+wayfind.update();
 
 function listenForStart(){
     startListenFlag = true;
@@ -279,6 +339,10 @@ function toggleStairs(){
     console.log(`Stairs = ${stairs}`);
     // findWay(overworld_map, [wayfind_start, wayfind_end], route);
 }
+
+function makeRoute(){
+    findWay(overworld_map, [wayfind_start, wayfind_end], route)
+};
 
 function findWay(map, points, route){
 
@@ -358,7 +422,7 @@ function loadNodes(nodes, map){
         let newNode = new wfNode(_name,_coords,_stairs);
 
         wayFindingNodes.push(newNode);
-        console.log(`Adding node ${newNode.name}`)
+        // console.log(`Adding node ${newNode.name}`)
     }
 
     for(let i = 0; i < wayFindingNodes.length; i++){
@@ -367,11 +431,12 @@ function loadNodes(nodes, map){
             // Normally when we load nodes, they should just be hidden
             addNodeToMap(wayFindingNodes[i], map)
             wayFindingNodes[i].marker.setStyle(visibleOptions);
+            wayFindingNodes[i].marker.setStyle({interactive:true});
         }
 
         for(let j = 0; j < nodes[i].connects.length; j++){
 
-            console.log(`Connecting ${wayFindingNodes[i].name} to ${wayFindingNodes[i].connects[j]}`)
+            // console.log(`Connecting ${wayFindingNodes[i].name} to ${wayFindingNodes[i].connects[j]}`)
 
             let otherSide = findNodeByName(nodes[i].connects[j])
 
@@ -426,7 +491,7 @@ function findNearestWfNode(latlng){
 
             let dist_to_i = dist2D(testPoint, wayFindingNodes[i].coords)
 
-            console.log(`Distance from ${testPoint} to ${wayFindingNodes[i].coords} is ${dist_to_i}`);
+            // console.log(`Distance from ${testPoint} to ${wayFindingNodes[i].coords} is ${dist_to_i}`);
 
             if (dist_to_closest > dist_to_i){
                 closest_node = wayFindingNodes[i];
@@ -459,21 +524,9 @@ function dist2D(_p1, _p2){
 
 function shortestPath(start, end, stairs){
 
-    // let shortest;
-
-    // // First, process all the nodes to figure out the straightline distance
-    // for (i = 0; i < wayFindingNodes.length; i++){
-    //     wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
-    // }
-
-    // //Then go through each 
-
-    // for (i = 0; i < start.connects.length; i++){
-    //     start.connects[i]
-    // }
-
-    //Third Party Djikstra Implementation
-    //First we need to prepare our data for processing:
+    // Third Party Djikstra Implementation
+    // Extended to A*
+    // First we need to prepare our data for processing:
 
     //Generate an empty map
     var map = {};
@@ -481,22 +534,48 @@ function shortestPath(start, end, stairs){
     //Add in all our nodes
     for (i = 0; i < wayFindingNodes.length; i++){
 
+        let node_added = false;
+
         //Function will have stairs value passed
         //If stairs is false, then only nodes which also have stairs=false should be processed
         if (!stairs){
             if(!wayFindingNodes[i].stairs){
                 map[wayFindingNodes[i].name] = {};
+                node_added = true;
             }
         }
         else {
             map[wayFindingNodes[i].name] = {};
+            node_added = true;
         }
 
-        
+        //Add the connections
+        //This may be deleted if the double edge problem breaks it
+        //First, check if the node passed the vibe (stair) check
+        if(node_added){
+            //Loop through all the connections, add them to the hash map
+
+            // wayFindingNodes[i].connectedTo().forEach( e => {
+            //     //Find the actual node
+
+            // })
+            let otherSide;
+
+            for(j = 0; j < wayFindingNodes[i].connects.length; j++){
+                let d_con = wayFindingNodes[i].connects[j];
+
+                if (d_con.pointA.name == wayFindingNodes[i].name) otherSide = d_con.pointB;
+                else otherSide = d_con.pointA;
+
+                map[wayFindingNodes[i].name][otherSide.name] = d_con.length + otherSide.findCrowFlies(end.coords);
+            }
+        }
+
 
         // wayFindingNodes[i].crowFlies = dist2D(wayFindingNodes[i].coords, end.coords)
     }
 
+    /* I'm gonna make it like double edges
     //cycle through connections and add to whatever node is first
     //because this implementation does not look double edges
 
@@ -505,9 +584,21 @@ function shortestPath(start, end, stairs){
         let d_con = connections_gbl[i];
 
         //because we may have filtered for stairs earlier, we need to make sure the node exists
-        if(map[d_con.pointA.name] != null && map[d_con.pointB.name] != null)
-            map[d_con.pointA.name][d_con.pointB.name] = d_con.length;
+        if(!d_con.pointA.stairs && !d_con.pointB.stairs){
+            // Base connection length plus CrowFlies distance for this route
+            map[d_con.pointA.name][d_con.pointB.name] = d_con.length + d_con.pointB.findCrowFlies(end.coords);
+        }
+    }
+    */
 
+
+
+
+
+    //Print the map for debugging
+    for (i = 0; i < wayFindingNodes.length; i++){
+        console.log(wayFindingNodes[i].name);
+        console.log(map[wayFindingNodes[i].name]);
     }
 
     // Generating this map every time is much more resource intensive than it needs to be; but is only temporary
@@ -520,6 +611,11 @@ function shortestPath(start, end, stairs){
 
 //We need to convert the names of the nodes back to the node objects so that we can handle drawing the route
 function route_names_to_nodes(arr){
+
+    if (arr == null){
+        console.log("No route found");
+        return;
+    }
 
     let return_arr = [];
 
