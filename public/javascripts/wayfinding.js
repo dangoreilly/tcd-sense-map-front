@@ -36,7 +36,7 @@ class wfNode{
     
 
 
-    constructor(name, coords, stairs = false){
+    constructor(name, coords, stairs = false, _interactive = true){
 
         let options = {
             fillColor: deselectColour,
@@ -45,7 +45,7 @@ class wfNode{
             // opacity: 0.5,
             fillOpacity:0,
             opacity:0,
-            interactive: false
+            interactive: _interactive
             // draggable: true
         }
 
@@ -421,7 +421,9 @@ function nodes_to_latlng(arr){
 
 function loadNodes(nodes, map){
 
+    let _interactive = false;
     console.log(`Loading ${nodes.length} nodes`)
+    if (urlParams.has('drawNodes')) _interactive = true;
 
     for(let i = 0; i < nodes.length; i++){
 
@@ -429,10 +431,8 @@ function loadNodes(nodes, map){
         let _coords = nodes[i].coords;
         let _connects = nodes[i].connects;
         let _stairs = nodes[i].stairs;
-        let _display = false;
-        // if (urlParams.has('drawNodes')) _display = true;
 
-        let newNode = new wfNode(_name,_coords,_stairs);
+        let newNode = new wfNode(_name,_coords,_stairs, _interactive);
 
         wayFindingNodes.push(newNode);
         // console.log(`Adding node ${newNode.name}`)
