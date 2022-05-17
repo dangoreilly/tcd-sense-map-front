@@ -105,7 +105,7 @@ function setBuildings(blds){
 
 overworld_map.on('click', (e) => {
 
-    // console.log(`Coordinates: ${e.latlng}`)
+    console.log(`Coordinates: ${e.latlng}`)
 
     if (urlParams.has('drawNodes') && window.event.ctrlKey) {
         
@@ -130,7 +130,13 @@ overworld_map.on('click', (e) => {
                 }
 
                 //Then update it
-                wayfind_end = findNearestWfNode(e.latlng);
+                if ("ontouchstart" in document.documentElement){
+                    wayfind_end = findNearestWfNode(overworld_map.getCenter());
+                }
+                else{
+                    wayfind_end = findNearestWfNode(e.latlng);
+                }
+
                 wayfind_end.marker.setStyle({opacity:0.7, fillOpacity:0.3});
             }
             else {
@@ -141,7 +147,12 @@ overworld_map.on('click', (e) => {
                 }
 
                 //Then update it
-                wayfind_start = findNearestWfNode(e.latlng);
+                if ("ontouchstart" in document.documentElement){
+                    wayfind_start = findNearestWfNode(overworld_map.getCenter());
+                }
+                else{
+                    wayfind_start = findNearestWfNode(e.latlng);
+                }
                 wayfind_start.marker.setStyle({opacity:0.7, fillOpacity:0.3});
             }
             
