@@ -1,4 +1,4 @@
-[{  
+var wfNodes_hard = [{  
         name: 'a', 
         coords: [458.9123009900694,171.4733944377378], 
         connects: ['g',
