@@ -9,6 +9,7 @@ var activeNode = null;
 
 var nodeExists = false;
 var stairs = false;
+var showNav = true;
 
 const stairsColour = "#ff3333"
 const deselectColour = "#3388ff"
@@ -253,17 +254,18 @@ wayfind.onAdd = function (map) {
     // this.update();
 
     
-    this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates">
-    <button type="button" class="btn btn-outline-primary" onclick='listenForStart()'>Start</button>
-    <button type="button" class="btn btn-outline-primary" disabled>?</button>
+    this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates" >
+    <button type="button" class="btn btn-outline-primary" onclick='listenForStart()' style="margin-top:0">Start</button>
+    <button type="button" class="btn btn-outline-primary" disabled style="margin-top:0">?</button>
     </div> </br>
     <div class="btn-group" role="group" aria-label="End Coordinates">
-    <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()'>End</button>
-    <button type="button" class="btn btn-outline-primary" disabled>?</button>
+    <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()' style="margin-top:0.2rem">End</button>
+    <button type="button" class="btn btn-outline-primary" disabled style="margin-top:0.2rem">?</button>
     </div></br>
     <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()'>
     <label for="stairs">Include Stairs</label></br>
-    <button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
+    <button type="button" class="btn btn-primary" onclick="makeRoute()" style="margin-top:0.2rem">Make Route</button>
+    <button type="button" class="btn btn-outline-secondary" onclick="toggleNav()" style="margin-top:0.2rem">Hide</button>`;
     
 
     return this._div;
@@ -311,17 +313,24 @@ wayfind.update = function () {
     // <label for="stairs">Include Stairs</label> </br>` +
     // `<button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
 
-    this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates">
-    <button type="button" class="btn btn-outline-primary" onclick='listenForStart()'>Start</button>
-    <button type="button" class="btn btn-outline-primary" disabled>${start_coords_text}</button>
-    </div> </br>
-    <div class="btn-group" role="group" aria-label="End Coordinates">
-    <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()'>End</button>
-    <button type="button" class="btn btn-outline-primary" disabled>${end_coords_text}</button>
-    </div></br>
-    <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()' ${stairs_check}>
-    <label for="stairs">Include Stairs</label></br>
-    <button type="button" class="btn btn-primary" onclick="makeRoute()">Make Route</button>`;
+    if (showNav){
+        this._div.innerHTML = `<div class="btn-group" role="group" aria-label="Start Coordinates">
+        <button type="button" class="btn btn-outline-primary" onclick='listenForStart()' style="margin-top:0">Start</button>
+        <button type="button" class="btn btn-outline-primary" disabled style="margin-top:0">${start_coords_text}</button>
+        </div> </br>
+        <div class="btn-group" role="group" aria-label="End Coordinates">
+        <button type="button" class="btn btn-outline-primary" onclick='listenForEnd()' style="margin-top:0.2rem">End</button>
+        <button type="button" class="btn btn-outline-primary" disabled style="margin-top:0.2rem">${end_coords_text}</button>
+        </div></br>
+        <input type="checkbox" id="stairs" name="stairs" value="stairs" onclick='toggleStairs()' ${stairs_check}>
+        <label for="stairs">Include Stairs</label></br>
+        <button type="button" class="btn btn-primary" onclick="makeRoute()" style="margin-top:0.2rem">Make Route</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="toggleNav()" style="margin-top:0.2rem">Hide</button>`;
+    }
+
+    else{
+        this._div.innerHTML = `<button type="button" class="btn btn-outline-secondary" onclick="toggleNav()" style="margin-top:0">Navigation</button>`
+    }
 };
 
 wayfind.update();
@@ -338,6 +347,10 @@ function toggleStairs(){
     stairs = !stairs;
     console.log(`Stairs = ${stairs}`);
     // findWay(overworld_map, [wayfind_start, wayfind_end], route);
+}
+function toggleNav(){
+    showNav = !showNav;
+    wayfind.update();
 }
 
 function makeRoute(){

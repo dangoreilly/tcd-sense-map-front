@@ -93,14 +93,14 @@ function setBuildings(blds){
   //console.log("_buildings");
   //console.log(JSON.stringify(_buildings, null, 1));
 
-overworld_map.on('contextmenu', (e) => {
+// overworld_map.on('contextmenu', (e) => {
 
-    if (urlParams.has('drawPolygons')) {
+//     if (urlParams.has('drawPolygons')) {
 
-        draw_clicks(overworld_map, e)
-    }
+//         draw_clicks(overworld_map, e)
+//     }
 
-});
+// });
 
 
 overworld_map.on('click', (e) => {
