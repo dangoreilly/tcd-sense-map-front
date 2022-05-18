@@ -18,40 +18,50 @@ var info = L.control({position:"bottomleft"});
 
 
 const overworld_map = L.map('overworld', {
-    crs: L.CRS.Simple,
+    // crs: L.CRS.Simple,
     //fullscreenControl: true
     zoomSnap: 0.25,
     zoomDelta: 0.25,
-    maxZoom: 2.5
+    maxZoom: 20
 });
 
-// L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
-//     attribution: '©OpenStreetMap, ©CartoDB'
-// }).addTo(overworld_map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+    attribution: '©OpenStreetMap, ©CartoDB'
+}).addTo(overworld_map);
 
 var route = L.polyline([[0,0],[0,0]], {color: 'red', opacity: 0}).addTo(overworld_map);
 var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0, fillOpacity: 0.4}).addTo(overworld_map);
 
+//Parameterise it to limit stretching problems
+let overlay_topLeft_x = 53.345575;
+let overlay_topLeft_y = 353.740604;
 
-const bounds = [
-    [0,0],
-    [1000,1000] //SVG only map
-    // [53.345575, 353.740604],
-    // [53.341412, 353.750356]    //LatLng map
+let aspect_ratio = 0.46;
+let width = 0.000095; //2500 in pixels originall, 0.000095 in degrees
+let height = width*aspect_ratio;
+
+let bounds = [
+    // [0,0],
+    // [1000,1000] //SVG only map
+    [53.345568, 353.740572],
+    [53.341853, 353.750523]    //LatLng map
+    // [overlay_topLeft_x, overlay_topLeft_y],
+    // [overlay_topLeft_x+width, overlay_topLeft_y+height]
     ];
 
-const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
+// const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
+const overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds).addTo(overworld_map);
 //zoom level 
 // var bigText = L.imageOverlay('images/Overworld_bigText.svg', bounds).addTo(overworld_map);
 // var littleText = L.imageOverlay('images/Overworld_littleText.svg', bounds);
 var tooltips = [];
 
-overworld_map.fitBounds(bounds).setMaxBounds([
-    [850,-100],
-    [0,1200]
-    // [53.346286, 353.738973],
-    // [53.339714, 353.754187]    
-    ])
+overworld_map.fitBounds(bounds); 
+    //bounds);
+// overworld_map.setMaxBounds([
+//     // [850,-100],
+//     // [0,1200]   
+// ])
 
 
 var _buildings = [];
