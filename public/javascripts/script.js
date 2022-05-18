@@ -28,7 +28,7 @@ const overworld_map = L.map('overworld', {
 const zoomedIn = 18;
 const zoomedOut = 17;
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', { //rastertiles/voyager_nolabels
     attribution: '©OpenStreetMap, ©CartoDB',
     // maxNativeZoom: 18,
     maxZoom:20
