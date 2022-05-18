@@ -508,7 +508,7 @@ function findConnection(node1, node2){
 
         let con = node1.connects[i];
 
-        console.log(`Checking ${con.name}`)
+        // console.log(`Checking ${con.name}`)
         
         //Connections are bidirectional, check both ways
         if ((con.pointA.name == node1.name && con.pointB.name == node2.name) || (con.pointA.name == node2.name && con.pointB.name == node1.name)){
@@ -520,7 +520,7 @@ function findConnection(node1, node2){
     // If every connection is checked and none match,
     // what can ya do
     
-    console.log(`no connection found between ${node1.name}:${node2.name}`)
+    // console.log(`no connection found between ${node1.name}:${node2.name}`)
     return null;
 
 }
