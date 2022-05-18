@@ -244,11 +244,47 @@ function alphaNumeric(num){
     return alphaNum;
 }
 
+function Numeric_from_alphaNumeric(alpha){
+
+    alphaNums = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    let alphaNum = 0;
+
+    let j = 1;
+
+    for (i = alpha.length-1; i>=0; i--){
+        let pre_an = alphaNum;
+        alphaNum += Math.pow((alphaNums.indexOf(alpha[i])+1),j);
+        console.log(`The value of ${alpha[i]} is ${alphaNums.indexOf(alpha[i])+1}, i(${i})`)
+        console.log(`The magnitude of ${alpha[i]} is ${j}`)
+        console.log(`${pre_an} += ${j}*${alpha.indexOf(alpha[i])+1} is ${alphaNum}`)
+        j++;
+    }
+
+    return alphaNum;
+}
+
+let SETUP_FLAG = false;
 
 function drawNode(e, mymap) {
     // let node = [];
     // node[0] = e.latlng.lat;
     // node[1] = e.latlng.lng;    
+
+    if (true){
+        
+        let nodeNum = 0;
+
+        for (node_i = 0; node_i < wayFindingNodes.length; node_i++){
+            nodeNum = Numeric_from_alphaNumeric(wayFindingNodes[node_i].name);
+            console.log(`CurrNode(${curr_node}), nodeNume(${nodeNum}), i(${node_i})\n`);
+            if(curr_node < nodeNum){
+                curr_node = nodeNum;
+            }
+        }
+        // curr_node = Numeric_from_alphaNumeric(wayFindingNodes[lastNode].name);
+        console.log(`Highest node is ${curr_node}`);
+        SETUP_FLAG = !SETUP_FLAG;
+    }
 
     let nodeName = alphaNumeric(wayFindingNodes.length);
     // addNodes(node, nodeName, mymap);
@@ -256,7 +292,7 @@ function drawNode(e, mymap) {
     addNodeToMap(node, mymap) 
     // addNodesToJSON(node, nodeName, floor);
 
-    console.log("Logging node " + node.name + ": " + node.coords);
+    console.log("Logging node " + node.name + ": " + node.coords + "(" + Numeric_from_alphaNumeric(node.name) + ")");
 
     curr_node += 1;
 
@@ -367,6 +403,12 @@ function printAllNodes(){
     // Take all the nodes and their connections
     // Put them into a file
     // Have user download the file
+
+    //Prepare the nodes for download by renumbering them all in case there were deletions
+    //Might break things? We'll find out
+    for (let i = 0; i < wayFindingNodes.length; i++){
+        wayFindingNodes[i].name = alphaNumeric(i);
+    }
 
     // Add all nodes to holding string
     let holdString = "["

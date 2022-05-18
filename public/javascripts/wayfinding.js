@@ -176,7 +176,7 @@ class wfConnection{
         // style
         let options = {
             // fillColor: deselectColour,
-            color: defaultColour,
+            color: connectionColour,
             // fillOpacity: 0.7,
             opacity: 0.5,
             interactive: false

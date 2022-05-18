@@ -191,6 +191,18 @@ overworld_map.on('click', (e) => {
 
 });
 
+// function onLocationFound(e) {
+//     var radius = e.accuracy;
+
+//     L.marker(e.latlng).addTo(overworld_map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+//     L.circle(e.latlng, radius).addTo(overworld_map);
+// }
+
+// overworld_map.locate();
+
+// overworld_map.on('locationfound', onLocationFound);
+
 overworld_map.on('zoom', (e) => {
 
     //info.update(overworld_map.zoom);
