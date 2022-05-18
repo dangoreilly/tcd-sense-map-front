@@ -76,7 +76,7 @@ router.get('/areas', function(req, res, next) {
         "type":"Feature", 
         "geometry":{
           "type": "Point",
-          "coordinates":element.attributes.location
+          "coordinates":element.attributes.location.coordinates
         }
       });
       
@@ -87,6 +87,7 @@ router.get('/areas', function(req, res, next) {
     // console.log(buildings[0].geometry);
     res.json(areas);
     console.log("areas read successfully from database");
+    // console.log(areas);
 
   })
   .catch(function (error) {

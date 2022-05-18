@@ -90,7 +90,7 @@ $.ajax({
         else if (typeof data === 'string')
         _buildings = JSON.parse(data).responseJSON; // parse if its string
 
-        //  console.log(JSON.stringify(_buildings, null, 1));
+         console.log(JSON.stringify(_buildings[0], null, 1));
         setBuildings(_buildings);
 
     }
@@ -113,7 +113,7 @@ $.ajax({
         else if (typeof data === 'string')
         _areas = JSON.parse(data).responseJSON; // parse if its string
 
-        //  console.log(JSON.stringify(_buildings, null, 1));
+         console.log(JSON.stringify(_areas, null, 1));
         setAreas(_areas);
 
     }
@@ -131,7 +131,7 @@ function setBuildings(blds){
 }
 function setAreas(areas){
     _areas = areas;
-        //console.log(_buildings);
+        // console.log(_areas);
 }
 
   //console.log("_buildings");
@@ -307,13 +307,14 @@ function style(feature) {
 
 // }
 
-function onEachFeature_areas(feature, layer) {
+function addIconToAreas(feature, layer) {
 
     let myIcon = L.icon({
-        iconUrl: feature.properties.Icon.data.attributes.url,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-        popupAnchor: [-3, -76],
+        iconUrl: feature.properties.Icon.data.attributes.formats.thumbnail.url,
+        iconSize: [50, 50],
+        className: "zoomedInLabel"
+        // iconAnchor: [15, 15],
+        // popupAnchor: [-3, -76],
         // shadowUrl: 'my-icon-shadow.png',
         // shadowSize: [68, 95],
         // shadowAnchor: [22, 94]
@@ -337,12 +338,26 @@ function onEachFeature_areas(feature, layer) {
         link: `/info/${feature.properties.bldID}`,
         disabled: true //!feature.properties.infoPageEnabled
     }
+
+    console.log(`feature.geometry: ${feature.geometry.coordinates}`)
     
-    L.marker(feature.geometry, {icon: myIcon})
+    L.marker([feature.geometry.coordinates[0],feature.geometry.coordinates[1]], {
+        icon: myIcon,
+        zIndexOffset:1000,
+
+        })
         .on("click", e=>{
             openInfoModal(feature.properties.Name, modal_content, [modal_info_button]);
         })
-        .addTo(map);
+        .addTo(overworld_map);
+
+    // L.circleMarker([feature.geometry.coordinates[1],feature.geometry.coordinates[0]], {
+    //     radius:30,
+    //     interactive:true,
+    //     opacity:1
+    // }).addTo(overworld_map);
+
+    console.log(`Marker added for ${feature.properties.Name}`)
 
     
 
@@ -485,7 +500,7 @@ else{
 
     var geojson_areas = L.geoJson(_areas, {
         // style: style,
-        onEachFeature: onEachFeature_areas
+        onEachFeature: addIconToAreas
 
     }).addTo(overworld_map);
 }
