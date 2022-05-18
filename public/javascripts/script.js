@@ -192,17 +192,22 @@ overworld_map.on('click', (e) => {
 
 });
 
-// function onLocationFound(e) {
-//     var radius = e.accuracy;
+function onLocationFound(e) {
+    let options = {
+        radius: e.accuracy,
+        interactive: false,
 
-//     L.marker(e.latlng).addTo(overworld_map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+    }
 
-//     L.circle(e.latlng, radius).addTo(overworld_map);
-// }
+    // L.marker(e.latlng).addTo(overworld_map).bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-// overworld_map.locate();
+    L.circleMarker(e.latlng, options).addTo(overworld_map);
+    console.log(`User is within ${e.accuracy} of ${e.latlng}`);
+}
 
-// overworld_map.on('locationfound', onLocationFound);
+overworld_map.locate({setView: false});
+
+overworld_map.on('locationfound', onLocationFound);
 
 function updateLabels(){
 
