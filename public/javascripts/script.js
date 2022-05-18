@@ -26,11 +26,12 @@ const overworld_map = L.map('overworld', {
 });
 
 const zoomedIn = 18;
-const zoomedOut = 16;
+const zoomedOut = 17;
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
     attribution: '©OpenStreetMap, ©CartoDB',
-    // maxNativeZoom: 17
+    // maxNativeZoom: 18,
+    maxZoom:20
 
 }).addTo(overworld_map);
 
@@ -203,55 +204,37 @@ overworld_map.on('click', (e) => {
 
 // overworld_map.on('locationfound', onLocationFound);
 
-overworld_map.on('zoom', (e) => {
+function updateLabels(){
 
-    //info.update(overworld_map.zoom);
-    // console.log(overworld_map.getZoom());
-    // let buildingtags = document.getElementsByName("building");
-    // let visible_prefix = "<p name='building', class='label', style='opacity: 100%'>";
-    // let invisible_prefix = "<p name='building', class='label', style='opacity: 0%'>";
-    // let cap = "%'>";
-    // let suffix = "</p>";
     let htmlStyle = "margin: 0px; width: 100%; height: 100%; overflow: hidden;";
 
     if (overworld_map.getZoom() > zoomedOut && overworld_map.getZoom() < zoomedIn){
-        // bigText.remove();
-        // littleText.addTo(overworld_map);
-
-        // for(i = 0; i <= 10; i++){
-            // buildingtags.forEach(element => {
-            //     element.parentElement.innerHTML = visible_prefix + element.innerText + suffix;
-            //     console.log(element);
-            // });
-        // }
-
+        
         document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%; --vis-out: 100%";
-        // document.documentElement.style.cssText = htmlStyle + "--vis-out: 100%";
-
-
+        
     }
     else if (overworld_map.getZoom() <= zoomedOut){
-        // bigText.addTo(overworld_map);
-        // littleText.remove();
-
-        // for(i = 0; i <= 10; i++){
-            // buildingtags.forEach(element => {
-            //     element.parentElement.innerHTML = invisible_prefix + element.innerText + suffix;
-            //     console.log(element);
-            // });
-        // }
         
         document.documentElement.style.cssText = htmlStyle + "--vis-in: 0%; --vis-out: 0%";
-        // document.documentElement.style.cssText = htmlStyle + "--vis-out: 0%";
+
     }
     else{
-        // bigText.remove()
-        // littleText.remove();
+
         document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%; --vis-out: 0%";
-        // document.documentElement.style.cssText = htmlStyle + ";
 
     }
 
+}
+
+overworld_map.on('zoom', (e) => {
+
+    updateLabels();
+
+});
+
+overworld_map.on('movestart', (e) => {
+
+    updateLabels();
 
 });
 
