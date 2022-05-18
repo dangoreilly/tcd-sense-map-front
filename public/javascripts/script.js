@@ -30,7 +30,7 @@ const zoomedOut = 16;
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
     attribution: '©OpenStreetMap, ©CartoDB',
-    maxNativeZoom: 20
+    // maxNativeZoom: 17
 
 }).addTo(overworld_map);
 
