@@ -25,20 +25,25 @@ const overworld_map = L.map('overworld', {
     maxZoom: 20
 });
 
+const zoomedIn = 18;
+const zoomedOut = 16;
+
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png', {
-    attribution: '©OpenStreetMap, ©CartoDB'
+    attribution: '©OpenStreetMap, ©CartoDB',
+    maxNativeZoom: 20
+
 }).addTo(overworld_map);
 
 var route = L.polyline([[0,0],[0,0]], {color: 'red', opacity: 0}).addTo(overworld_map);
 var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0, fillOpacity: 0.4}).addTo(overworld_map);
 
 //Parameterise it to limit stretching problems
-let overlay_topLeft_x = 53.345575;
-let overlay_topLeft_y = 353.740604;
+// let overlay_topLeft_x = 53.345575;
+// let overlay_topLeft_y = 353.740604;
 
-let aspect_ratio = 0.46;
-let width = 0.000095; //2500 in pixels originall, 0.000095 in degrees
-let height = width*aspect_ratio;
+// let aspect_ratio = 0.46;
+// let width = 0.000095; //2500 in pixels originall, 0.000095 in degrees
+// let height = width*aspect_ratio;
 
 let bounds = [
     // [0,0],
@@ -197,7 +202,7 @@ overworld_map.on('zoom', (e) => {
     // let suffix = "</p>";
     let htmlStyle = "margin: 0px; width: 100%; height: 100%; overflow: hidden;";
 
-    if (overworld_map.getZoom() > 0.5 && overworld_map.getZoom() < 2){
+    if (overworld_map.getZoom() > zoomedOut && overworld_map.getZoom() < zoomedIn){
         // bigText.remove();
         // littleText.addTo(overworld_map);
 
@@ -213,7 +218,7 @@ overworld_map.on('zoom', (e) => {
 
 
     }
-    else if (overworld_map.getZoom() <= 0.5){
+    else if (overworld_map.getZoom() <= zoomedOut){
         // bigText.addTo(overworld_map);
         // littleText.remove();
 
@@ -232,6 +237,7 @@ overworld_map.on('zoom', (e) => {
         // littleText.remove();
         document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%; --vis-out: 0%";
         // document.documentElement.style.cssText = htmlStyle + ";
+
     }
 
 

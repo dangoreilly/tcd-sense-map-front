@@ -430,7 +430,7 @@ function toggleConnection(node, ActiveNode, map) {
 
     let con = findConnection(node, ActiveNode);
 
-    console.log(`con = ${con}`)
+    // console.log(`con = ${con}`)
 
     if ( con != null ){
         //Connection exists; delete it
@@ -458,7 +458,7 @@ function findConnection(node1, node2){
     // If a connection between node1 and node2 exists
     // return that node
 
-    console.log(`Looking for a connection ${node1.name}:${node2.name}`)
+    // console.log(`Looking for a connection ${node1.name}:${node2.name}`)
 
     // connections_gbl.forEach(con => {
 
@@ -470,7 +470,7 @@ function findConnection(node1, node2){
         
         //Connections are bidirectional, check both ways
         if ((con.pointA.name == node1.name && con.pointB.name == node2.name) || (con.pointA.name == node2.name && con.pointB.name == node1.name)){
-            console.log(`connection found between ${node1.name}:${node2.name}`)
+            // console.log(`connection found between ${node1.name}:${node2.name}`)
             return con;
         }
     }

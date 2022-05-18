@@ -610,8 +610,8 @@ function shortestPath(start, end, stairs){
 
     //Print the map for debugging
     for (i = 0; i < wayFindingNodes.length; i++){
-        console.log(wayFindingNodes[i].name);
-        console.log(map[wayFindingNodes[i].name]);
+        // console.log(wayFindingNodes[i].name);
+        // console.log(map[wayFindingNodes[i].name]);
     }
 
     // Generating this map every time is much more resource intensive than it needs to be; but is only temporary
