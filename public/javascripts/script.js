@@ -71,6 +71,7 @@ overworld_map.fitBounds(bounds);
 
 
 var _buildings = [];
+var _areas = [];
 
 $.ajax({
     type: "GET",
@@ -95,6 +96,29 @@ $.ajax({
     }
 });
 
+$.ajax({
+    type: "GET",
+    async: false,
+    dataType: "json",
+    url: 'get/areas',
+    complete: function(data) {
+        
+        //console.log("data");
+        //console.log($.parseJSON(data));
+        //_buildings = $.parseJSON(data);
+
+        if (typeof data === 'object')
+            _areas = data.responseJSON; // dont parse if its object
+        
+        else if (typeof data === 'string')
+        _areas = JSON.parse(data).responseJSON; // parse if its string
+
+        //  console.log(JSON.stringify(_buildings, null, 1));
+        setAreas(_areas);
+
+    }
+});
+
 var _wfNodes = [];
 
 // Standin for debugging
@@ -103,6 +127,10 @@ loadNodes(wfNodes_hard, overworld_map);
 
 function setBuildings(blds){
     _buildings = blds;
+        //console.log(_buildings);
+}
+function setAreas(areas){
+    _areas = areas;
         //console.log(_buildings);
 }
 
@@ -192,22 +220,22 @@ overworld_map.on('click', (e) => {
 
 });
 
-function onLocationFound(e) {
-    let options = {
-        radius: e.accuracy,
-        interactive: false,
+// function onLocationFound(e) {
+//     let options = {
+//         radius: e.accuracy,
+//         interactive: false,
 
-    }
+//     }
 
-    // L.marker(e.latlng).addTo(overworld_map).bindPopup("You are within " + radius + " meters from this point").openPopup();
+//     // L.marker(e.latlng).addTo(overworld_map).bindPopup("You are within " + radius + " meters from this point").openPopup();
 
-    L.circleMarker(e.latlng, options).addTo(overworld_map);
-    console.log(`User is within ${e.accuracy} of ${e.latlng}`);
-}
+//     L.circleMarker(e.latlng, options).addTo(overworld_map);
+//     console.log(`User is within ${e.accuracy} of ${e.latlng}`);
+// }
 
-overworld_map.locate({setView: false});
+// overworld_map.locate({setView: false});
 
-overworld_map.on('locationfound', onLocationFound);
+// overworld_map.on('locationfound', onLocationFound);
 
 function updateLabels(){
 
@@ -279,6 +307,46 @@ function style(feature) {
 
 // }
 
+function onEachFeature_areas(feature, layer) {
+
+    let myIcon = L.icon({
+        iconUrl: feature.properties.Icon.data.attributes.url,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+        popupAnchor: [-3, -76],
+        // shadowUrl: 'my-icon-shadow.png',
+        // shadowSize: [68, 95],
+        // shadowAnchor: [22, 94]
+    });
+
+    let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
+    let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
+    let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>';
+
+    let modal_content = "";
+        
+    if (feature.properties.aka != "" && feature.properties.aka != "null" && feature.properties.aka != null){
+        modal_content += modal_aka;
+    }
+    
+    modal_content += modal_Description;
+    modal_content += modal_sensorycontent;
+
+    let modal_info_button = {
+        text: "Sensory Info",
+        link: `/info/${feature.properties.bldID}`,
+        disabled: true //!feature.properties.infoPageEnabled
+    }
+    
+    L.marker(feature.geometry, {icon: myIcon})
+        .on("click", e=>{
+            openInfoModal(feature.properties.Name, modal_content, [modal_info_button]);
+        })
+        .addTo(map);
+
+    
+
+}
 
 function onEachFeature(feature, layer) {
 
@@ -300,15 +368,15 @@ function onEachFeature(feature, layer) {
         //     '<p><b>Smell</b><br>' + feature.properties.Smell + '</p><br>' +
         // '</div></div>';
         //cheap and dirty button disabler
-        function checkEnabled(chk){
-            if(chk) return "";
-            else return "disabled";
-        }
-        function provideLink(chk, url){
-            if(chk) return `href="/info/${url}"`;
-            else return "";
+        // function checkEnabled(chk){
+        //     if(chk) return "";
+        //     else return "disabled";
+        // }
+        // function provideLink(chk, url){
+        //     if(chk) return `href="/info/${url}"`;
+        //     else return "";
 
-        }
+        // }
 
         let modal_info_button = {
             text: "Sensory Info",
@@ -412,6 +480,12 @@ else{
     var geojson = L.geoJson(_buildings, {
         style: style,
         onEachFeature: onEachFeature
+
+    }).addTo(overworld_map);
+
+    var geojson_areas = L.geoJson(_areas, {
+        // style: style,
+        onEachFeature: onEachFeature_areas
 
     }).addTo(overworld_map);
 }
