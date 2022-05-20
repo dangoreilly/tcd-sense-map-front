@@ -38,6 +38,7 @@ router.get('/:id', function(req, res, next) {
   let buildingInfo = "TestData";
     
   res.render('Arts', {buildingInfo});
+  // console.log("Arts Rendered");
 
 });
 

@@ -58,12 +58,12 @@
 
 
 <div class="parent">
-  <img class="Floor1" id="Floor1" style="display:none" src="Arts01_1x.png" usemap="#Floor1_map" />
-  <img class="Floor2" id="Floor2" style="display:block" src="Arts02_1x.png" usemap="#Floor2_map" />
-  <img class="Floor3" id="Floor3" style="display:none" src="Arts03_1x.png" usemap="#Floor3_map" /> 
-  <img class="Floor4" id="Floor4" style="display:none" src="Arts04_1x.png" usemap="#Floor4_map" />
-  <img class="Floor5" id="Floor5" style="display:none" src="Arts05_1x.png" usemap="#Floor5_map" />
-  <img class="Floor6" id="Floor6" style="display:none" src="Arts06_1x.png" usemap="#Floor6_map" />
+  <img class="Floor1" id="Floor1" style="display:none" src="../images/Arts/Arts01_1x.png" usemap="#Floor1_map" />
+  <img class="Floor2" id="Floor2" style="display:block" src="../images/Arts/Arts02_1x.png" usemap="#Floor2_map" />
+  <img class="Floor3" id="Floor3" style="display:none" src="../images/Arts/Arts03_1x.png" usemap="#Floor3_map" /> 
+  <img class="Floor4" id="Floor4" style="display:none" src="../images/Arts/Arts04_1x.png" usemap="#Floor4_map" />
+  <img class="Floor5" id="Floor5" style="display:none" src="../images/Arts/Arts05_1x.png" usemap="#Floor5_map" />
+  <img class="Floor6" id="Floor6" style="display:none" src="../images/Arts/Arts06_1x.png" usemap="#Floor6_map" />
 
   <img class="Lift" id="Lift" style="display:none" src="Lift_1x.png" usemap="#Lift_Map" /> 
 </div>
