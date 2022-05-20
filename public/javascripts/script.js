@@ -401,7 +401,8 @@ function onEachFeature(feature, layer) {
         
         let modal_map_button = {
             text: "Internal Map",
-            link: `/map/${feature.properties.bldID}`,
+            // link: `/map/${feature.properties.bldID}`,
+            link: "/map/Arts",
             disabled: (!feature.properties.mapped) || true
         }
         

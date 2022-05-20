@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .parent {
+        position: relative;
+        top: 0;
+        left: 0;
+        }
+        .Floor1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        }
+        .Floor2 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        }
+        .Floor3 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        }
+        .Floor4 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 4;
+        }
+        .Floor5 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        }
+        .Floor6 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 6;
+        }
+        .Lift {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 7;
+        }
+    </style>
+  <title>Arts Block</title>
+</head>
+<body>
+
+
+
+<div class="parent">
+  <img class="Floor1" id="Floor1" style="display:none" src="Arts01_1x.png" usemap="#Floor1_map" />
+  <img class="Floor2" id="Floor2" style="display:block" src="Arts02_1x.png" usemap="#Floor2_map" />
+  <img class="Floor3" id="Floor3" style="display:none" src="Arts03_1x.png" usemap="#Floor3_map" /> 
+  <img class="Floor4" id="Floor4" style="display:none" src="Arts04_1x.png" usemap="#Floor4_map" />
+  <img class="Floor5" id="Floor5" style="display:none" src="Arts05_1x.png" usemap="#Floor5_map" />
+  <img class="Floor6" id="Floor6" style="display:none" src="Arts06_1x.png" usemap="#Floor6_map" />
+
+  <img class="Lift" id="Lift" style="display:none" src="Lift_1x.png" usemap="#Lift_Map" /> 
+</div>
+
+<map name="Floor1_map">
+
+	<!-- Perch steps -->
+  		<area 
+  			shape="poly" 
+	  		coords="690,389,
+	  				742,389,
+	  				742,459,
+	  				690,459" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(2)">
+
+		<!-- Stairs C Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="633,563,
+	  				659,563,
+	  				659,669,
+	  				633,669" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(2)">
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+
+
+<map name="Floor2_map">
+
+		<!-- Perch steps -->
+  		<area 
+  			shape="poly" 
+	  		coords="690,389,
+	  				742,389,
+	  				742,459,
+	  				690,459" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(1)">
+
+		<!-- Stairs C Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="633,563,
+	  				659,563,
+	  				659,669,
+	  				633,669" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(3)">
+
+		<!-- Stairs C Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="608,563,
+	  				633,563,
+	  				633,669,
+	  				608,669" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(1)">
+
+		<!-- Stairs B Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1137,563,
+	  				1162,563,
+	  				1162,668,
+	  				1137,668" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(3)">
+
+			<!-- Stairs A Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1702,668,
+	  				1750,668,
+	  				1750,694,
+	  				1702,694" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(3)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+<map name="Floor3_map">
+
+		<!-- Stairs D Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,662,
+	  				90,662,
+	  				90,688,
+	  				42,688" 
+			alt="Stairs Up"
+			title="Stairs Up"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs C Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="633,563,
+	  				659,563,
+	  				659,669,
+	  				633,669" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs C Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="608,563,
+	  				633,563,
+	  				633,669,
+	  				608,669" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(2)">
+
+		<!-- Stairs B Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1137,563,
+	  				1162,563,
+	  				1162,668,
+	  				1137,668" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs B Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="1162,563,
+	  				1188,563,
+	  				1188,668,
+	  				1162,668" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(2)">
+
+			<!-- Stairs A Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1702,668,
+	  				1750,668,
+	  				1750,694,
+	  				1702,694" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs A Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="1702,642,
+	  				1750,642,
+	  				1750,668,
+	  				1702,668"
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(2)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+<map name="Floor4_map">
+
+		<!-- Stairs D Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,637,
+	  				90,637,
+	  				90,662,
+	  				42,662" 
+			alt="Stairs Down"
+			title="Stairs Down"
+			onclick="GotoFloor(3)">
+
+		<!-- Stairs D Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,662,
+	  				90,662,
+	  				90,688,
+	  				42,688" 
+			alt="Stairs Up"
+			title="Stairs Up"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs C Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="633,563,
+	  				659,563,
+	  				659,669,
+	  				633,669" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs C Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="608,563,
+	  				633,563,
+	  				633,669,
+	  				608,669" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(3)">
+
+		<!-- Stairs B Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1137,563,
+	  				1162,563,
+	  				1162,668,
+	  				1137,668" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs B Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="1162,563,
+	  				1188,563,
+	  				1188,668,
+	  				1162,668" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(3)">
+
+			<!-- Stairs A Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1702,668,
+	  				1750,668,
+	  				1750,694,
+	  				1702,694"
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs A Down -->
+  		<area 
+  			shape="poly"  
+	  		coords="1702,642,
+	  				1750,642,
+	  				1750,668,
+	  				1702,668"
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(3)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+<map name="Floor5_map">
+
+		<!-- Stairs D Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,637,
+	  				90,637,
+	  				90,662,
+	  				42,662" 
+			alt="Stairs Down"
+			title="Stairs Down"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs D Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,662,
+	  				90,662,
+	  				90,688,
+	  				42,688" 
+			alt="Stairs Up"
+			title="Stairs Up"
+			onclick="GotoFloor(6)">
+
+		<!-- Stairs C Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="633,563,
+	  				659,563,
+	  				659,669,
+	  				633,669" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(6)">
+
+		<!-- Stairs C Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="608,563,
+	  				633,563,
+	  				633,669,
+	  				608,669" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(4)">
+
+		<!-- Stairs B Up -->
+  		<area 
+  			shape="poly" 
+	  		coords="1137,563,
+	  				1162,563,
+	  				1162,668,
+	  				1137,668" 
+			alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(6)">
+
+		<!-- Stairs B Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="1162,563,
+	  				1188,563,
+	  				1188,668,
+	  				1162,668" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(4)">
+
+			<!-- Stairs A Up -->
+  		<area 
+  			shape="poly" 
+  			coords="1702,668,
+	  				1750,668,
+	  				1750,694,
+	  				1702,694" 
+	  		alt="Stairs up"
+			title="Stairs up"
+			onclick="GotoFloor(6)">
+
+		<!-- Stairs A Down -->
+  		<area 
+  			shape="poly" 
+			coords="1702,642,
+	  				1750,642,
+	  				1750,668,
+	  				1702,668" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(4)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+<map name="Floor6_map">
+
+		<!-- Stairs D Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="42,637,
+	  				90,637,
+	  				90,662,
+	  				42,662" 
+			alt="Stairs Down"
+			title="Stairs Down"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs C Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="608,563,
+	  				633,563,
+	  				633,669,
+	  				608,669" 
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs B Down -->
+  		<area 
+  			shape="poly" 
+	  		coords="1162,563,
+	  				1188,563,
+	  				1188,668,
+	  				1162,668"
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(5)">
+
+		<!-- Stairs A Down -->
+  		<area 
+  			shape="poly" 
+			coords="1702,642,
+	  				1750,642,
+	  				1750,668,
+	  				1702,668"
+			alt="Stairs down"
+			title="Stairs down"
+			onclick="GotoFloor(5)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="548,818,
+	  				745,818,
+	  				585,856,
+	  				548,856" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+
+
+
+</map>
+
+<map name="Lift_Map">
+		<!-- Button 1 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,690,	745,690,	745,725,	710,725" 
+			alt="Take lift to floor 1"
+			title="Take lift to floor 1"
+			onclick="Lift_GotoFloor(1)">
+		<!-- Button 2 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,725,	745,725,	745,760,	710,760" 
+			alt="Take lift to floor 1"
+			title="Take lift to floor 2"
+			onclick="Lift_GotoFloor(2)">
+		<!-- Button 3 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,760,	745,760,	745,796,	710,796" 
+			alt="Take lift to floor 3"
+			title="Take lift to floor 3"
+			onclick="Lift_GotoFloor(3)">
+		<!-- Button 4 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,796,	745,796,	745,831,	710,831" 
+			alt="Take lift to floor 4"
+			title="Take lift to floor 4"
+			onclick="Lift_GotoFloor(4)">
+		<!-- Button 5 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,831,	745,831,	745,867,	710,867" 
+			alt="Take lift to floor 5"
+			title="Take lift to floor 5"
+			onclick="Lift_GotoFloor(5)">
+		<!-- Button 6 -->
+  		<area 
+  			shape="poly" 
+	  		coords="710,867,	745,867,	745,902,	710,902" 
+			alt="Take lift to floor 6"
+			title="Take lift to floor 6"
+			onclick="Lift_GotoFloor(6)">
+
+
+		<!-- Lift -->
+  		<area 
+  			shape="poly" 
+	  		coords="393,582,
+					419,582,
+					419,609,
+					393,609" 
+			alt="Lift"
+			title="Lift"
+			onclick="ToggleLift()">
+</map>
+
+
+
+
+</html>
+</body>
+
+<script>
+
+function Lift_GotoFloor(num){
+	ToggleLift();
+	GotoFloor(num);
+}
+
+function GotoFloor(num)
+{
+   if( num == 1 )
+   {
+      document.getElementById("Floor1").style.display = "block";
+      document.getElementById("Floor2").style.display = "none";
+      document.getElementById("Floor3").style.display = "none";
+      document.getElementById("Floor4").style.display = "none";
+      document.getElementById("Floor5").style.display = "none";
+      document.getElementById("Floor6").style.display = "none";
+   }
+   else if( num == 2 )
+   {
+      document.getElementById("Floor1").style.display = "none";
+      document.getElementById("Floor2").style.display = "block";
+      document.getElementById("Floor3").style.display = "none";
+      document.getElementById("Floor4").style.display = "none";
+      document.getElementById("Floor5").style.display = "none";
+      document.getElementById("Floor6").style.display = "none";
+   }
+   else if( num == 3 )
+   {
+      document.getElementById("Floor1").style.display = "none";
+      document.getElementById("Floor2").style.display = "none";
+      document.getElementById("Floor3").style.display = "block";
+      document.getElementById("Floor4").style.display = "none";
+      document.getElementById("Floor5").style.display = "none";
+      document.getElementById("Floor6").style.display = "none";
+   }
+   else if( num == 4 )
+   {
+      document.getElementById("Floor1").style.display = "none";
+      document.getElementById("Floor2").style.display = "none";
+      document.getElementById("Floor3").style.display = "none";
+      document.getElementById("Floor4").style.display = "block";
+      document.getElementById("Floor5").style.display = "none";
+      document.getElementById("Floor6").style.display = "none";
+   }
+   else if( num == 5 )
+   {
+      document.getElementById("Floor1").style.display = "none";
+      document.getElementById("Floor2").style.display = "none";
+      document.getElementById("Floor3").style.display = "none";
+      document.getElementById("Floor4").style.display = "none";
+      document.getElementById("Floor5").style.display = "block";
+      document.getElementById("Floor6").style.display = "none";
+   }
+   else if( num == 6 )
+   {
+      document.getElementById("Floor1").style.display = "none";
+      document.getElementById("Floor2").style.display = "none";
+      document.getElementById("Floor3").style.display = "none";
+      document.getElementById("Floor4").style.display = "none";
+      document.getElementById("Floor5").style.display = "none";
+      document.getElementById("Floor6").style.display = "block";
+   }
+}
+
+function ToggleLift(){
+
+	if( document.getElementById("Lift").style.display == "block" )
+	{
+   		document.getElementById("Lift").style.display = "none";
+   	}
+   
+	else
+	{
+		document.getElementById("Lift").style.display = "block";
+	}
+}
+
+</script>
+
