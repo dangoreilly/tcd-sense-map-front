@@ -46,23 +46,62 @@ var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0
 // let width = 0.000095; //2500 in pixels originall, 0.000095 in degrees
 // let height = width*aspect_ratio;
 
-let bounds = [
-    // [0,0],
-    // [1000,1000] //SVG only map
+let bounds_campus = [
     [53.345568, 353.740572],
     [53.341853, 353.750523]    //LatLng map
-    // [overlay_topLeft_x, overlay_topLeft_y],
-    // [overlay_topLeft_x+width, overlay_topLeft_y+height]
     ];
 
+let bounds_DOlier = [
+    [53.34678946771465,353.7418887019158],
+    [53.34641718736026,353.7427859008313]
+];
+
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
-const overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds).addTo(overworld_map);
+var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus).addTo(overworld_map);
+var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', [[53.346788, 353.741861],[53.346419, 353.742815]]).addTo(overworld_map);
+
+
+// Resizing handles
+// Change the target to activate on different images
+var target_image = overworld_image;
+var target_bounds = bounds_campus;
+target_image.setOpacity(0);
+
+var redDot = L.icon({
+    iconUrl: 'images/red-dot.png',
+    iconSize: [10, 10],
+    // iconAnchor: [5, 5],
+    opacity:0.5
+});
+
+var bound1_marker = L.marker(target_bounds[0], {
+    draggable:true,
+    icon: redDot
+}).addTo(overworld_map);
+
+var bound2_marker = L.marker(target_bounds[1], {
+    draggable:true,
+    icon: redDot
+}).addTo(overworld_map);
+
+bound1_marker.on('move', e => {updateBounds()});
+bound2_marker.on('move', e => {updateBounds()});
+bound1_marker.on('moveend', e => {printNewBounds()});
+bound2_marker.on('moveend', e => {printNewBounds()});
+
+function updateBounds(){
+    target_image.setBounds([bound1_marker.getLatLng(), bound2_marker.getLatLng()]);
+}
+
+function printNewBounds(){
+    console.log(`Bounds have been updated to [[${[bound1_marker.getLatLng().lat, bound1_marker.getLatLng().lng]}],[${[bound2_marker.getLatLng().lat, bound2_marker.getLatLng().lng]}]]`)
+}
 //zoom level 
 // var bigText = L.imageOverlay('images/Overworld_bigText.svg', bounds).addTo(overworld_map);
 // var littleText = L.imageOverlay('images/Overworld_littleText.svg', bounds);
 var tooltips = [];
 
-overworld_map.fitBounds(bounds); 
+overworld_map.fitBounds(bounds_campus); 
     //bounds);
 // overworld_map.setMaxBounds([
 //     // [850,-100],
@@ -90,7 +129,7 @@ $.ajax({
         else if (typeof data === 'string')
         _buildings = JSON.parse(data).responseJSON; // parse if its string
 
-         console.log(JSON.stringify(_buildings[0], null, 1));
+        //  console.log(JSON.stringify(_buildings[0], null, 1));
         setBuildings(_buildings);
 
     }
@@ -113,7 +152,7 @@ $.ajax({
         else if (typeof data === 'string')
         _areas = JSON.parse(data).responseJSON; // parse if its string
 
-         console.log(JSON.stringify(_areas, null, 1));
+        //  console.log(JSON.stringify(_areas, null, 1));
         setAreas(_areas);
 
     }
@@ -339,7 +378,7 @@ function addIconToAreas(feature, layer) {
         disabled: true //!feature.properties.infoPageEnabled
     }
 
-    console.log(`feature.geometry: ${feature.geometry.coordinates}`)
+    // console.log(`feature.geometry: ${feature.geometry.coordinates}`)
     
     L.marker([feature.geometry.coordinates[0],feature.geometry.coordinates[1]], {
         icon: myIcon,
