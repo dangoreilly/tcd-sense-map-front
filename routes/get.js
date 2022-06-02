@@ -30,8 +30,27 @@ router.get('/all', function(req, res, next) {
 
     _buildings.forEach(element => {
 
+      let attribs = element.attributes;
+
+      let buildingInfo = {
+        "name": attribs.Name || "NO NAME",
+        "aka": attribs.aka || "",
+        "bldID": attribs.bldID || "error",
+        "description": attribs.Description || "No description available",
+        "sensoryOverview": attribs.SensoryOverview || "No sensory overview available",
+
+        "infoPageEnabled": attribs.infoPageEnabled || false,
+        "sensoryAvailable": attribs.sensoryAvailable || false,
+        "PhysicalAccessLink":attribs.PhysicalAccessLink || "#",
+
+        "ZoomedInLabel": attribs.ZoomedInLabel || "",
+        "ZoomedOutLabel": attribs.ZoomedOutLabel || "",
+        "mapped": attribs.mapped || false
+  
+      }
+
       buildings.push({
-        "properties":element.attributes, 
+        "properties": buildingInfo, 
         "type":"Feature", 
         "geometry":{
           "type": "Polygon",
