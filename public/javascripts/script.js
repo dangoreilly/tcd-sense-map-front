@@ -53,7 +53,13 @@ let bounds_campus = [
 
 let bounds_DOlier = [
     [53.346788, 353.741861],
-    [53.346419, 353.742815]];
+    [53.346419, 353.742815]
+];
+
+let bounds_james = [
+    [53.342308, 353.703917],
+    [53.340803, 353.707961]
+];
 
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
 var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus).addTo(overworld_map);
