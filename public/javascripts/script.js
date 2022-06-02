@@ -52,20 +52,23 @@ let bounds_campus = [
     ];
 
 let bounds_DOlier = [
-    [53.34678946771465,353.7418887019158],
-    [53.34641718736026,353.7427859008313]
-];
+    [53.346788, 353.741861],
+    [53.346419, 353.742815]];
 
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
 var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus).addTo(overworld_map);
-var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', [[53.346788, 353.741861],[53.346419, 353.742815]]).addTo(overworld_map);
+var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', bounds_DOlier).addTo(overworld_map);
 
+// Holder for debugging
+let dummy_bounds = [[0, 0],[0.0000001, 0.0000001]];
+var dummy_image = L.imageOverlay('images/red-dot.png', dummy_bounds).addTo(overworld_map);
 
 // Resizing handles
 // Change the target to activate on different images
-var target_image = overworld_image;
-var target_bounds = bounds_campus;
-target_image.setOpacity(0);
+var target_image = dummy_image;
+var target_bounds = dummy_bounds;
+
+target_image.setOpacity(0.5);
 
 var redDot = L.icon({
     iconUrl: 'images/red-dot.png',
