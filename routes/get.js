@@ -54,7 +54,7 @@ router.get('/all', function(req, res, next) {
         "type":"Feature", 
         "geometry":{
           "type": "Polygon",
-          "coordinates":element.attributes.geometry.coordinates
+          "coordinates":element.attributes.geometry.coordinates || [[[0,0],[1,1]]]
         }
       });
       
