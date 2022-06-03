@@ -48,7 +48,7 @@ var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0
 
 let bounds_campus = [
     [53.345568, 353.740572],
-    [53.341853, 353.750523]    //LatLng map
+    [53.341853, 353.750523]
     ];
 
 let bounds_DOlier = [
