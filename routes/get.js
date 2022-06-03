@@ -33,11 +33,11 @@ router.get('/all', function(req, res, next) {
       let attribs = element.attributes;
 
       let buildingInfo = {
-        "name": attribs.Name || "NO NAME",
+        "Name": attribs.Name || "NO NAME",
         "aka": attribs.aka || "",
         "bldID": attribs.bldID || "error",
-        "description": attribs.Description || "No description available",
-        "sensoryOverview": attribs.SensoryOverview || "No sensory overview available",
+        "Description": attribs.Description || "No description available",
+        "SensoryOverview": attribs.SensoryOverview || "No sensory overview available",
 
         "infoPageEnabled": attribs.infoPageEnabled || false,
         "sensoryAvailable": attribs.sensoryAvailable || false,
