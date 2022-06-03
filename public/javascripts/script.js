@@ -62,13 +62,13 @@ let bounds_james = [
 ];
 
 let bounds_foster = [
-    [53.34500649553145,353.7374415993691],
-    [53.34426190043457,353.7396168708802]
+    [53.34500329299972,353.7376347184182],
+    [53.34425229267094,353.73941570520407]
 ];
 
 let bounds_pearse = [
-    [53.34439235277708,353.7504144998012],
-    [53.34256643518884,353.7539645937555]
+    [53.34421730506959,353.7504099888813],
+    [53.342757648513114,353.75396910467543]
 ];
 
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
@@ -84,7 +84,7 @@ var dummy_image = L.imageOverlay('images/red-dot.png', dummy_bounds).addTo(overw
 
 // Resizing handles
 // Change the target to activate on different images
-var target_image =  dummy_image;
+var target_image = dummy_image;
 var target_bounds = dummy_bounds;
 
 target_image.setOpacity(0.5);
