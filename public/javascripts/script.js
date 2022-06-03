@@ -57,13 +57,26 @@ let bounds_DOlier = [
 ];
 
 let bounds_james = [
-    [53.342308, 353.703917],
-    [53.340803, 353.707961]
+    [53.34230827729277,353.70393276214605],
+    [53.34077093713762,353.7077736854554]
+];
+
+let bounds_foster = [
+    [53.34500649553145,353.7374415993691],
+    [53.34426190043457,353.7396168708802]
+];
+
+let bounds_pearse = [
+    [53.34439235277708,353.7504144998012],
+    [53.34256643518884,353.7539645937555]
 ];
 
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
 var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus).addTo(overworld_map);
 var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', bounds_DOlier).addTo(overworld_map);
+var PearseSt_image = L.imageOverlay('images/Pearse_Street.svg', bounds_pearse).addTo(overworld_map);
+var FosterPlace_image = L.imageOverlay('images/Foster_Place.svg', bounds_foster).addTo(overworld_map);
+var StJames_image = L.imageOverlay('images/St_James.svg', bounds_james).addTo(overworld_map);
 
 // Holder for debugging
 let dummy_bounds = [[0, 0],[0.0000001, 0.0000001]];
@@ -71,7 +84,7 @@ var dummy_image = L.imageOverlay('images/red-dot.png', dummy_bounds).addTo(overw
 
 // Resizing handles
 // Change the target to activate on different images
-var target_image = dummy_image;
+var target_image =  dummy_image;
 var target_bounds = dummy_bounds;
 
 target_image.setOpacity(0.5);
