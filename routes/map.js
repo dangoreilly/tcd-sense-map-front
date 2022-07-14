@@ -17,27 +17,44 @@ const config = {
 /* GET info page. */
 router.get('/:id', function(req, res, next) {
   
-  // axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?filters[bldID][$eq]=${req.params.id}&populate=*`, config)
-  // .then(function (response) {
-  //   // handle success
-  //   console.log(response.status);
-    
-  //   res.render('map', {buildingInfo});
+  axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/floors?filters[building][bldID][$eq]=${req.params.id}&populate[Layout][fields][0]=url&populate[building][fields][0]=Name`, config)
+  .then(function (response) {
+    // handle success
+    console.log(response.status);
+    let B = response.data.data;
 
-  // })
-  // .catch(function (error) {
-  //   // handle error
-  //   console.log(error);
-  //   res.redirect("../");
-  // })
-  // .then(function () {
-  //   // always executed
-  //   return;
-  // });
+    _floors = [];
 
-  let buildingInfo = "TestData";
+    B.forEach(_floor => {
+      _floors.push({
+        floorID: _floor.id,
+        floorImageURL: _floor.attributes.Layout.data.attributes.url,
+        floorPosition: _floor.attributes.FloorPosition
+      });
+    });
+
+    let buildingInfo = {
+      name:B[0].attributes.building.data.attributes.Name,
+      floors: _floors
+    };
     
-  res.render('Arts', {buildingInfo});
+    res.render('map', {buildingInfo});
+    // console.log(buildingInfo);
+
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+    res.redirect("../");
+  })
+  .then(function () {
+    // always executed
+    return;
+  });
+
+  // let buildingInfo = "TestData";
+    
+  // res.render('map', {buildingInfo});
   // console.log("Arts Rendered");
 
 });
