@@ -16,6 +16,8 @@ const urlParams = new URLSearchParams(queryString);
 
 var info = L.control({position:"bottomleft"});
 
+console.log(urlParams.get("b"));
+console.log(urlParams.get("welcome"));
 
 const overworld_map = L.map('overworld', {
     // crs: L.CRS.Simple,
@@ -129,7 +131,8 @@ overworld_map.on('load', (e) => {
     updateLabels();
     console.log("labels updated on load");
 
-    if (urlParams.has("noWelcome")){
+    console.log(`Checking whether to display the welcome modal: ${urlParams.get("welcome")}`);
+    if (urlParams.get("welcome") == "no"){
         closeModal("welcomeModal")
     }
 
@@ -352,12 +355,12 @@ function style(feature) {
 
         return {
 
-            fillColor: '#e53397',
-            weight: 2,
-            opacity: 0,
-            color: 'white',
+            fillColor: '#0087A2',
+            weight: 1,
+            opacity: 1,
+            color: '#FCE891',
             dashArray: '0',
-            fillOpacity: 0
+            fillOpacity: 1
         };
 
 }
@@ -536,7 +539,7 @@ function onEachFeature(feature, layer) {
         //     // highlightFeature(e);
         // });
 
-        if (urlParams.has(feature.properties.bldID)){
+        if (urlParams.get("b") == feature.properties.bldID){
             layer.setStyle({
                 weight: 5,
                 color: '#E53397',
@@ -604,6 +607,7 @@ function highlightFeature(e) {
     layer.setStyle({
         weight: 5,
         color: '#E53397',
+        fillColor: '#E53397',
         fillOpacity: 1,
         opacity: 0.5
         
