@@ -35,3 +35,10 @@ function openInfoModal(_title, _bodyhtml, buttons){
     myModal.show(); 
 
 }
+
+function closeModal(_modal){
+    
+    var myModal = new bootstrap.Modal(document.getElementById(_modal))
+    myModal.hide(); 
+
+}

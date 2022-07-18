@@ -123,6 +123,18 @@ function printNewBounds(){
 // var littleText = L.imageOverlay('images/Overworld_littleText.svg', bounds);
 var tooltips = [];
 
+
+overworld_map.on('load', (e) => {
+
+    updateLabels();
+    console.log("labels updated on load");
+
+    if (urlParams.has("noWelcome")){
+        closeModal("welcomeModal")
+    }
+
+});
+
 overworld_map.fitBounds(bounds_campus); 
     //bounds);
 // overworld_map.setMaxBounds([
@@ -333,6 +345,7 @@ overworld_map.on('movestart', (e) => {
 });
 
 
+
 function style(feature) {
 
     //if (featurepropertiesmapped == 'true'){
@@ -531,6 +544,9 @@ function onEachFeature(feature, layer) {
                 opacity: 0.5
                 
             });
+            layer.bindPopup(`<p>${feature.properties.Name}</p>`).openPopup();
+            overworld_map.panTo(layer.getCenter());
+            
         }
 
         layer.on('mouseover', function(e) { 
@@ -578,61 +594,9 @@ info.onAdd = function (overworld_map) {
     return this.button;
 };
 
-// function fadeLayerLeaflet(lyr, startOpacity, finalOpacity, opacityStep, delay) {
-    
-//     let opacity = startOpacity;
-//     let timer = setTimeout(function changeOpacity() {
-    
-//         if (opacity != finalOpacity) {
-
-//             lyr.setStyle({
-//                 //opacity: opacity,
-//                 fillOpacity: opacity
-//             });
-            
-//             opacity = opacity + opacityStep
-//         }
-        
-//         timer = setTimeout(changeOpacity, delay);
-    
-//     }, delay);
-// }
-
-
-
-// function changeInfo(){
-
-//     if (document.getElementById("infoButton").value == "i"){
-
-//         document.getElementById("infoButton").value="x";
-//         document.getElementById("infoBox").innerHTML="Click on buildings to get sensory information and access the internal map, if one exists";
-
-//     }
-
-//     else {
-
-//         document.getElementById("infoButton").value="i";
-//         document.getElementById("infoBox").innerHTML="";
-
-//     }
-// }
-
 info.addTo(overworld_map);
 wayfind.addTo(overworld_map);
-// openInfoModal();
 
-// function openInfoModal() {
-//     overworld_map.openModal({
-//         content: `
-//         <h1>Welcome</h1>
-//         <p> TCD Sense - The Trinity Sensory Processing Project - aims to make Trinity more inclusive by reviewing and improving new and existing spaces, building sensory awareness and delivering specialist supports to students who experience barriers to managing and adapting the sensory environments of college.</p>
-//         <br>
-//         <p> Press the X button in the top right to close this modal and view the map. Click/tap on a building to see the available sensory information, or click below for more information about the project</p>
-//         <a  class="btn welcome" href='https://www.tcd.ie/disability/services/tcdsense.php'>More Information about the TCD Sense Project</a>
-//     `
-//     }
-//     );
-// }
 
 function highlightFeature(e) {
     var layer = e.target;
