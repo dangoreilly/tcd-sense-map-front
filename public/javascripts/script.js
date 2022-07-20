@@ -12,7 +12,7 @@ var displayNodes = true;
 var coordinates_array = [];
 
 const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
+var urlParams = new URLSearchParams(queryString);
 
 var info = L.control({position:"bottomleft"});
 
@@ -131,10 +131,10 @@ overworld_map.on('load', (e) => {
     updateLabels();
     console.log("labels updated on load");
 
-    console.log(`Checking whether to display the welcome modal: ${urlParams.get("welcome")}`);
-    if (urlParams.get("welcome") == "no"){
-        closeModal("welcomeModal")
-    }
+    // console.log(`Checking whether to display the welcome modal: ${urlParams.get("welcome")}`);
+    // // if (urlParams.get("welcome") == "no"){
+    //     closeModal("welcomeModal")
+    // // }
 
 });
 
@@ -540,15 +540,17 @@ function onEachFeature(feature, layer) {
         // });
 
         if (urlParams.get("b") == feature.properties.bldID){
-            layer.setStyle({
-                weight: 5,
-                color: '#E53397',
-                fillOpacity: 1,
-                opacity: 0.5
+            // layer.setStyle({
+            //     weight: 5,
+            //     color: '#E53397',
+            //     fillOpacity: 1,
+            //     opacity: 0.5
                 
-            });
-            layer.bindPopup(`<p>${feature.properties.Name}</p>`).openPopup();
-            overworld_map.panTo(layer.getCenter());
+            // });
+            highlightFeature({target: layer});
+            // layer.bindPopup(`<p>${feature.properties.Name}</p>`).openPopup();
+            overworld_map.flyTo(layer.getCenter(), zoomedIn+2);
+            // overworld_map.setZoom(zoomedIn);
             
         }
 
