@@ -86,18 +86,20 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="welcomeModalLabel">Welcome</h5>
+                    <h5 class="modal-title" id="welcomeModalLabel">{{welcome.Heading}}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <p>TCD Sense - The Trinity Sensory Processing Project - aims to make Trinity more inclusive by reviewing and improving new and existing spaces, building sensory awareness and delivering specialist supports to students who experience barriers to managing and adapting the sensory environments of college.</p>
+                    <p>{{welcome.MainContent}}</p>
                 </div>
 
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                    <a role="button" href='https://www.tcd.ie/disability/services/tcdsense.php' class="btn btn-secondary" >About TCDSense</a>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{welcome.CloseButtonText}}</button>
+                    {{#welcome.ExternalButton.Exists}}
+                    <a role="button" href='{{welcome.ExternalButton.link}}' class="btn btn-secondary" >{{welcome.ExternalButton.Text}}</a>
+                    {{/welcome.ExternalButton.Exists}}
                 </div>
             
             </div>
