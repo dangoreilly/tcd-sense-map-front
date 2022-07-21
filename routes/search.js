@@ -60,7 +60,7 @@ router.get('/', function(req, res, next) {
           "mapped":  B.mapped || false
         })
       }
-      console.log(buildings);
+      // console.log(buildings);
 
       res.render('search', {buildings});
     }
