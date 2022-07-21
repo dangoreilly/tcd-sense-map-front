@@ -224,16 +224,11 @@
                 
                 //Use the static generated Fuse instance to get a list of matches
                 let result = fuse.search(input)
-                {{!-- console.log(`Searching for "${input}"`); --}}
-                {{!-- console.log("Found:"); --}}
-                {{!-- console.log(JSON.stringify(result, null, 1)); --}}
 
                 //convert that Fuse instance to an array of IDs for filtering
                 for (i = 0; i < result.length; i++){
                     filter.push(result[i].item.bldID);
                 }
-
-                {{!-- console.log(`Filtering for: ${filter}`) --}}
 
                 // Check there is a result
                 // If there's no result and no text in the textbox, show everything except the apology
@@ -256,7 +251,6 @@
                     // Loop through all list items, and hide those who don't match the search query
                     for (i = 0; i < li.length; i++) {
 
-                        {{!-- console.log(`Checking if filter includes ${li[i].id}`); --}}
                         
                         if (filter.includes(li[i].id)) {
                             li[i].style.display = "";
