@@ -17,6 +17,16 @@
         
         <link rel="stylesheet" href="/stylesheets/style.css" />
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S1PBW9CFZ"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-2S1PBW9CFZ');
+        </script>
+
         <style>
 
             .nav-item {
