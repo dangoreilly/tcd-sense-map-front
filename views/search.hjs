@@ -124,7 +124,7 @@
                         <div id="collapse-{{bldID}}" class="accordion-collapse collapse show" aria-labelledby="heading-{{bldID}}" data-bs-parent="#buildingsList" >
                             <div class="accordion-body" style="padding-top: 0;">
                                 <div class="container p-3">
-                                    {{description}}
+                                    {{Description}}
                                 </div>
                             
                                 <div class="row row-cols-1 row-cols-md-2 g-1">
