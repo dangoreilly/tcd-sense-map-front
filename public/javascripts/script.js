@@ -15,6 +15,7 @@ const queryString = window.location.search;
 var urlParams = new URLSearchParams(queryString);
 
 var info = L.control({position:"bottomleft"});
+var search = L.control({position:"bottomright"});
 
 console.log(urlParams.get("b"));
 console.log(urlParams.get("welcome"));
@@ -601,7 +602,19 @@ info.onAdd = function (overworld_map) {
     return this.button;
 };
 
+//Link to Search
+search.onAdd = function (overworld_map) {
+    this.button = L.DomUtil.create('div', 'search'); // create a div with a class "info"
+    // this.button.title = "Click on buildings to get sensory information and access the internal map, if one exists";
+     this.button.value = "i";
+    this.button.innerHTML = '<a role="button" href="/search" class="btn btn-primary" style="margin-top:0; ">Search</button>';
+    this.button.style = "padding:0;"
+
+    return this.button;
+};
+
 info.addTo(overworld_map);
+search.addTo(overworld_map);
 wayfind.addTo(overworld_map);
 
 

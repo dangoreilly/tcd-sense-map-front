@@ -40,6 +40,13 @@ h5 {
   color: var(--tcdsense-cream-one); 
 }
 
+a.btn-primary{
+  background-color: var(--tcdsense-blue-one); 
+  border-color: var(--tcdsense-blue-two); 
+  color: var(--tcdsense-cream-one) !important; 
+}
+
+
 .btn-primary:hover{
   background-color: var(--tcdsense-green-one);
   border-color: var(--tcdsense-green-one);
