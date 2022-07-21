@@ -105,7 +105,7 @@
                             <a class="nav-link" href="/">Campus Map</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="../search">Search</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Report an Issue</a>
@@ -127,7 +127,7 @@
                             <h3>Description</h3>
                             <p>{{buildingInfo.description}}</p>
                         </div>
-                        <div class="sensoryinfo" style="display:{{buildingInfo.sensoryAvailable}};">
+                        <div class="sensoryinfo">
                             <h3>Sensory Overview</h3>
                             <p>{{buildingInfo.sensoryOverview}}</p>
                         </div>
@@ -145,7 +145,7 @@
 
         <!-- Sensory Info -->
 
-        <div class="container" id="sensoryDetailsContainer" style="margin-top: 1rem; display:{{buildingInfo.sensoryAvailable}}"> 
+        <div class="container" id="sensoryDetailsContainer" style="margin-top: 1rem;"> 
             <div class="row row-cols-1 row-cols-sm-2 gy-4">
                 <div class="col themed-grid-col">
                     <div class="accordion" id="sensoryDetailsAccordion">
