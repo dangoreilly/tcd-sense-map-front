@@ -74,14 +74,51 @@ let bounds_pearse = [
     [53.342757648513114,353.75396910467543]
 ];
 
-let Zin = 1;
+
+var _overlays = [];
+var _buildings = [];
+var _areas = [];
+
+$.ajax({
+    type: "GET",
+    async: false,
+    dataType: "json",
+    url: 'get/overlays',
+    complete: function(data) {
+        
+        //console.log("data");
+        //console.log($.parseJSON(data));
+        //_buildings = $.parseJSON(data);
+
+        if (typeof data === 'object')
+            _overlays = data.responseJSON; // dont parse if its object
+        
+        else if (typeof data === 'string')
+        _overlays = JSON.parse(data).responseJSON; // parse if its string
+
+        //  console.log(JSON.stringify(_areas, null, 1));
+        setOverlays(_overlays);
+
+    }
+});
+
+var imageOverlays = [];
+
+_overlays.forEach(overlay => {
+
+    console.log(JSON.stringify(overlay, null, 1));
+
+    imageOverlays.push(L.imageOverlay(overlay.url, overlay.bounds, {zIndex:overlay.zIndex}).addTo(overworld_map));
+
+})
+
 
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
-var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus, {zIndex:Zin}).addTo(overworld_map);
-var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', bounds_DOlier).addTo(overworld_map);
-var PearseSt_image = L.imageOverlay('images/Pearse_Street.svg', bounds_pearse).addTo(overworld_map);
-var FosterPlace_image = L.imageOverlay('images/Foster_Place.svg', bounds_foster).addTo(overworld_map);
-var StJames_image = L.imageOverlay('images/St_James.svg', bounds_james).addTo(overworld_map);
+// var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus, {zIndex:Zin}).addTo(overworld_map);
+// var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', bounds_DOlier).addTo(overworld_map);
+// var PearseSt_image = L.imageOverlay('images/Pearse_Street.svg', bounds_pearse).addTo(overworld_map);
+// var FosterPlace_image = L.imageOverlay('images/Foster_Place.svg', bounds_foster).addTo(overworld_map);
+// var StJames_image = L.imageOverlay('images/St_James.svg', bounds_james).addTo(overworld_map);
 
 // Holder for debugging
 let dummy_bounds = [[0, 0],[0.0000001, 0.0000001]];
@@ -149,8 +186,6 @@ overworld_map.fitBounds(bounds_campus);
 // ])
 
 
-var _buildings = [];
-var _areas = [];
 
 $.ajax({
     type: "GET",
@@ -210,6 +245,10 @@ function setBuildings(blds){
 }
 function setAreas(areas){
     _areas = areas;
+        // console.log(_areas);
+}
+function setOverlays(overlays){
+    _overlays = overlays;
         // console.log(_areas);
 }
 
