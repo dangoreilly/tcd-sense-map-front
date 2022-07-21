@@ -73,8 +73,10 @@ let bounds_pearse = [
     [53.342757648513114,353.75396910467543]
 ];
 
+let Zin = 1;
+
 // const overworld_image = L.imageOverlay('images/Overworld.svg', bounds).addTo(overworld_map);
-var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus).addTo(overworld_map);
+var overworld_image = L.imageOverlay('images/Overworld_TCDsenseColours_CartoOverlay_Rough.svg', bounds_campus, {zIndex:Zin}).addTo(overworld_map);
 var DOlierSt_image = L.imageOverlay('images/DOlier_street.svg', bounds_DOlier).addTo(overworld_map);
 var PearseSt_image = L.imageOverlay('images/Pearse_Street.svg', bounds_pearse).addTo(overworld_map);
 var FosterPlace_image = L.imageOverlay('images/Foster_Place.svg', bounds_foster).addTo(overworld_map);

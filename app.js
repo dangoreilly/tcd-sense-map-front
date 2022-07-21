@@ -33,6 +33,7 @@ var getRouter = require('./routes/get');
 var colourRouter = require('./routes/colour');
 var infoRouter = require('./routes/info');
 var mapRouter = require('./routes/map');
+var searchRouter = require('./routes/search');
 
 var app = express();
 
@@ -57,6 +58,7 @@ app.use('/get', getRouter);
 app.use('/colour', colourRouter);
 app.use('/info', infoRouter);
 app.use('/map', mapRouter);
+app.use('/search', searchRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
