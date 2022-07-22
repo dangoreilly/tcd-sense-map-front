@@ -55,3 +55,51 @@ fromJames_marker.on('click', e => {overworld_map.flyToBounds(bounds_campus)});
 function printMarkerLocation(markerName, location){
     console.log(`${markerName}: ${location}`)
 }
+
+overworld_map.on("move", (e) => {
+
+    let flyButton = document.getElementById("mainCampusButton")
+
+    if (isInside(overworld_map.getCenter(),bounds_campus)){
+        flyButton.disabled = true;
+        flyButton.style.display = "none";
+    } 
+    else {
+        flyButton.disabled = false;
+        flyButton.style.display = "";
+    }
+
+    //Has to be added in this file because having two different triggers for on move causes a stackoverflow
+    // overworld_map.fitBounds(overworld_map.getBounds());
+
+});
+
+
+function flyHome(){
+    overworld_map.flyToBounds(bounds_campus);
+}
+
+//function to check if a point is inside bounds
+function isInside(point, bounds){
+    //point:[float, float]
+    //bounds:[ [float, float],[float, float] ]
+
+    // Check if the point is bigger/smaller than both corresponding points in the bounds
+    // If it's bigger/smaller than both corresponding points in any direction, that makes 
+    // the point outside the bounds
+    if (point.lat > bounds[0][0] && point.lat > bounds[1][0]){
+        return false;
+    }
+    if (point.lat < bounds[0][0] && point.lat < bounds[1][0]){
+        return false;
+    }
+    if (point.lng > bounds[0][1] && point.lng > bounds[1][1]){
+        return false;
+    }
+    if (point.lng < bounds[0][1] && point.lng < bounds[1][1]){
+        return false;
+    }
+
+    // If all those conditions failed, then the point is inside
+    return true;
+}

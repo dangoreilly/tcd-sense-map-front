@@ -17,8 +17,8 @@ var urlParams = new URLSearchParams(queryString);
 var info = L.control({position:"bottomleft"});
 var search = L.control({position:"bottomright"});
 
-console.log(urlParams.get("b"));
-console.log(urlParams.get("welcome"));
+// console.log(urlParams.get("b"));
+// console.log(urlParams.get("welcome"));
 
 const overworld_map = L.map('overworld', {
     // crs: L.CRS.Simple,
@@ -49,30 +49,30 @@ var polyg = L.polygon([[0,0],[0,0]], {color: 'red', fillColor: 'red', opacity: 0
 // let width = 0.000095; //2500 in pixels originall, 0.000095 in degrees
 // let height = width*aspect_ratio;
 
-let bounds_campus = [
+var bounds_campus = [
     [53.345568, 353.740572],
     [53.341853, 353.750523]
     ];
 
-let bounds_DOlier = [
-    [53.346788, 353.741861],
-    [53.346419, 353.742815]
-];
+// let bounds_DOlier = [
+//     [53.346788, 353.741861],
+//     [53.346419, 353.742815]
+// ];
 
-let bounds_james = [
-    [53.34230827729277,353.70393276214605],
-    [53.34077093713762,353.7077736854554]
-];
+// let bounds_james = [
+//     [53.34230827729277,353.70393276214605],
+//     [53.34077093713762,353.7077736854554]
+// ];
 
-let bounds_foster = [
-    [53.34500329299972,353.7376347184182],
-    [53.34425229267094,353.73941570520407]
-];
+// let bounds_foster = [
+//     [53.34500329299972,353.7376347184182],
+//     [53.34425229267094,353.73941570520407]
+// ];
 
-let bounds_pearse = [
-    [53.34421730506959,353.7504099888813],
-    [53.342757648513114,353.75396910467543]
-];
+// let bounds_pearse = [
+//     [53.34421730506959,353.7504099888813],
+//     [53.342757648513114,353.75396910467543]
+// ];
 
 
 var _overlays = [];
@@ -106,7 +106,7 @@ var imageOverlays = [];
 
 _overlays.forEach(overlay => {
 
-    console.log(JSON.stringify(overlay, null, 1));
+    // console.log(JSON.stringify(overlay, null, 1));
 
     imageOverlays.push(L.imageOverlay(overlay.url, overlay.bounds, {zIndex:overlay.zIndex}).addTo(overworld_map));
 
@@ -169,7 +169,7 @@ var tooltips = [];
 overworld_map.on('load', (e) => {
 
     updateLabels();
-    console.log("labels updated on load");
+    // console.log("labels updated on load");
 
     // console.log(`Checking whether to display the welcome modal: ${urlParams.get("welcome")}`);
     // // if (urlParams.get("welcome") == "no"){
@@ -389,6 +389,12 @@ overworld_map.on('movestart', (e) => {
 
 });
 
+// overworld_map.on('move', () => {
+
+
+
+// });
+
 
 
 function style(feature) {
@@ -402,29 +408,12 @@ function style(feature) {
             opacity: 1,
             color: '#FCE891',
             dashArray: '0',
-            fillOpacity: 1
+            fillOpacity: 1,
+            noClip:true
         };
 
 }
 
-// function replace(str, char_out, char_in){
-
-//     let replacment = "";
-    
-//     for (let i = 0; i < str.length; i++) {
-
-//         if (str[i] == "_"){
-//             replacment += "<br>";
-//         }
-//         else{
-//             replacment += str[i];
-//         }
-
-//     }
-
-//     return replacment;
-
-// }
 
 function addIconToAreas(feature, layer) {
 
@@ -635,7 +624,8 @@ info.onAdd = function (overworld_map) {
     this.button = L.DomUtil.create('div', 'info'); // create a div with a class "info"
     // this.button.title = "Click on buildings to get sensory information and access the internal map, if one exists";
      this.button.value = "i";
-    this.button.innerHTML = '<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#welcomeModal" style="margin-top:0">i</button>';
+     this.button.innerHTML = '<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#welcomeModal" style="margin-top:0">i</button>';
+     this.button.innerHTML += '<button type="button" id="mainCampusButton" disabled class="btn btn-outline-primary btn-sm" onclick="flyHome()" style="display: none; margin-top:0; margin-left:0.5rem;">Main Campus</button>';
     this.button.style = "padding:0;"
 
     return this.button;
@@ -654,7 +644,7 @@ search.onAdd = function (overworld_map) {
 
 info.addTo(overworld_map);
 search.addTo(overworld_map);
-wayfind.addTo(overworld_map);
+// wayfind.addTo(overworld_map);
 
 
 function highlightFeature(e) {
