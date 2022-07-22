@@ -25,7 +25,8 @@ const overworld_map = L.map('overworld', {
     //fullscreenControl: true
     zoomSnap: 0.25,
     zoomDelta: 0.25,
-    maxZoom: 20
+    maxZoom: 20,
+    renderer: L.canvas({padding: 1})
 });
 
 const zoomedIn = 18;
