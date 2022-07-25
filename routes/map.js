@@ -2,6 +2,7 @@ var express = require('express');
 // const building = require('../models/building');
 var router = express.Router();
 const axios = require('axios');
+var parseString = require('xml2js').parseString;
 const dotenv = require('dotenv').config();
 
 let token = process.env.STRAPI_BEARER;
@@ -33,10 +34,18 @@ router.get('/:id', function(req, res, next) {
       });
     });
 
+    let dimensions = remoteSVG_getWidthAndHeight(_floors[0].floorImageURL);
+
     let buildingInfo = {
       name:B[0].attributes.building.data.attributes.Name,
-      floors: _floors
+      floors: _floors,
+      floorImageWidth: dimensions.width,
+      floorImageHeight: dimensions.height
     };
+
+
+
+    console.log(buildingInfo);
     
     res.render('map', {buildingInfo});
     // console.log(buildingInfo);
@@ -58,5 +67,15 @@ router.get('/:id', function(req, res, next) {
   // console.log("Arts Rendered");
 
 });
+
+async function remoteSVG_getWidthAndHeight(url) {
+  let response = await axios.get(url);
+  const svgXml = response.data;
+  // console.log("Svg xml:", svgXml);
+  parseString(svgXml, function (err, result) {
+    console.log({"width":result.svg.$.width, "height":result.svg.$.height});
+    return {"width":result.svg.$.width, "height":result.svg.$.height};
+});
+}
 
 module.exports = router;
