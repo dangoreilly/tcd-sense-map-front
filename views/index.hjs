@@ -15,6 +15,8 @@
     <title>Mapping - Main Campus</title>
     <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapFavicon.svg">
 
+    {{!-- <script type="text/javascript" src="/path/to/leaflet-tooltip-layout.js"></script> --}}
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S1PBW9CFZ"></script>
     <script>
@@ -48,7 +50,7 @@
     <link rel="stylesheet" href="stylesheets/style.css" />
     
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-	{{!-- <script src="javascripts/buildings.js"></script> --}}
+    <script src="https://unpkg.com/leaflet-layervisibility/dist/leaflet-layervisibility.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {{!-- <script src="javascripts/leaflet/leaflet.js"></script> --}}
     {{!-- <script src="javascripts/leaflet/leaflet.fullscreen.js"></script> --}}
@@ -97,7 +99,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="welcomeModalLabel">{{welcome.Heading}}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="updateLabels()"></button>
                 </div>
 
                 <div class="modal-body">
@@ -106,7 +108,7 @@
 
                 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{welcome.CloseButtonText}}</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateLabels()">{{welcome.CloseButtonText}}</button>
                     {{#welcome.ExternalButton.Exists}}
                     <a role="button" href='{{welcome.ExternalButton.link}}' class="btn btn-secondary" >{{welcome.ExternalButton.Text}}</a>
                     {{/welcome.ExternalButton.Exists}}
@@ -119,14 +121,14 @@
          --}}
 
     <script>//Trigger welcome modal
-        console.log("Welcome!");
+        {{!-- console.log("Welcome!"); --}}
         var welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {});
 
         // Check the URL for a building flag first.
         // If a building is being directly linked to, we don't want to bring up the welcome screen. 
         if (!urlParams.has("b")){
 
-            console.log("urlParams.has('b') = false")
+            
             welcomeModal.show();
         }
         else {

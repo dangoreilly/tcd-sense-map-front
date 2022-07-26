@@ -180,6 +180,7 @@ overworld_map.on('load', (e) => {
 });
 
 overworld_map.fitBounds(bounds_campus); 
+overworld_map.setZoom(zoomedIn-0.5);
     //bounds);
 // overworld_map.setMaxBounds([
 //     // [850,-100],
@@ -375,6 +376,8 @@ function updateLabels(){
         document.documentElement.style.cssText = htmlStyle + "--vis-in: 100%; --vis-out: 0%";
 
     }
+
+    // console.log("labels updated")
 
 }
 
