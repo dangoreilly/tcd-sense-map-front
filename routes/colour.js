@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-const buildings = require('../models/building')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
