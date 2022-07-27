@@ -1,5 +1,4 @@
 var express = require('express');
-const building = require('../models/building');
 var router = express.Router();
 
 const buildings = require('../models/building')
