@@ -24,11 +24,7 @@ const dotenv = require('dotenv').config();
 
 
 var indexRouter = require('./routes/index');
-// var addRouter = require('./routes/add');
-// var addBuildingRouter = require('./routes/addBuilding');
-// var updateRouter = require('./routes/update');
-// var updateBuildingRouter = require('./routes/updateBuilding');
-// var getBuildingRouter = require('./routes/getBuilding');
+var drawRouter = require('./routes/draw');
 var getRouter = require('./routes/get');
 var colourRouter = require('./routes/colour');
 var infoRouter = require('./routes/info');
@@ -45,15 +41,11 @@ app.set("view engine", "hjs");
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-// app.use('/add', addRouter);
-// app.use('/addBuilding', addBuildingRouter);
-// app.use('/update', updateRouter);
-// app.use('/updateBuilding', updateBuildingRouter);
-// app.use('/getBuilding', getBuildingRouter);
+app.use('/draw', drawRouter);
 app.use('/get', getRouter);
 app.use('/colour', colourRouter);
 app.use('/info', infoRouter);
