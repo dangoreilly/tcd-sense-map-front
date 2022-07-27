@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/all', function(req, res, next) {
+router.get('/buildings', function(req, res, next) {
   //TODO: Handshake to get total and then request that. Hardcoded limit will not be a good SOP when rooms get involved
   axios.get('https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?pagination[pageSize]=100', config)
   .then(function (response) {

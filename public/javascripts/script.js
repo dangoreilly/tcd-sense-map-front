@@ -193,7 +193,7 @@ $.ajax({
     type: "GET",
     async: false,
     dataType: "json",
-    url: 'get/all',
+    url: 'get/buildings',
     complete: function(data) {
         
         //console.log("data");
