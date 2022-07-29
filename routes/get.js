@@ -157,27 +157,31 @@ router.get('/overlays', function(req, res, next) {
 
 
 router.get('/shortcuts', function(req, res, next) {
-  axios.get('https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/overlays?populate=*&fields=bounds,drawOverBuildings', config)
+  axios.get('https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/shortcuts?populate=marker', config)
   .then(function (response) {
     // handle success
-    let overlays = [];
-    let _overlays = response.data.data;
 
-    _overlays.forEach(element => {
+    
+    // console.log(response.data.data);
+    let shortcuts = [];
+    let _shortcuts = response.data.data;
 
-      let zIndex = 1;
-      if (element.attributes.drawOverBuildings){
-        zIndex = 200;
-      }
-
-      overlays.push({
-        "url":element.attributes.Image.data.attributes.url,
-        "bounds":element.attributes.Bounds, 
-        "zIndex":zIndex
+    _shortcuts.forEach(element => {
+      
+      let B = element.attributes;
+      
+      shortcuts.push({
+        "ZoomedOutLabel": B.ZoomedOutLabel,
+        "ZoomedInLabel": B.ZoomedInLabel, 
+        "target": B.target,
+        "markerLocation": B.markerLocation,
+        "marker": B.marker.data.attributes.url
       });
       
     });
-    res.json(overlays);
+
+    // console.log(shortcuts);
+    res.json(shortcuts);
 
   })
   .catch(function (error) {
