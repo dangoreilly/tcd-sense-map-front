@@ -33,7 +33,7 @@ const zoomedIn = 18;
 const zoomedOut = 17;
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', { //rastertiles/voyager_nolabels
-    attribution: '©OpenStreetMap, ©CartoDB',
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
     // maxNativeZoom: 18,
     maxZoom:20
 
