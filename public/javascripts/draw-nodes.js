@@ -265,6 +265,80 @@ function Numeric_from_alphaNumeric(alpha){
 
 let SETUP_FLAG = false;
 
+
+overworld_map.on('click', (e) => {
+
+    console.log(`Coordinates: ${e.latlng}`)
+
+    if (urlParams.has('drawNodes') && window.event.ctrlKey) {
+        
+        drawNode(e, overworld_map);
+        // displayNodes = true;
+    }
+
+    if (endListenFlag || startListenFlag){
+        wayfind.update();
+
+        //Buffer needed because leaflet treats click on control as a click on the map
+        if(wayfind_listening){
+
+                //debugging marker
+                // L.circleMarker(e.latlng, {color: 'red'}).addTo(overworld_map);
+            
+            if (endListenFlag) {
+
+                //First clear the old marker, if it exists
+                if (wayfind_end != null){
+                    wayfind_end.marker.setStyle({opacity:0, fillOpacity:0});
+                }
+
+                //Then update it
+                if ("ontouchstart" in document.documentElement){
+                    wayfind_end = findNearestWfNode(overworld_map.getCenter());
+                }
+                else{
+                    wayfind_end = findNearestWfNode(e.latlng);
+                }
+
+                wayfind_end.marker.setStyle({opacity:0.7, fillOpacity:0.3});
+            }
+            else {
+
+                //First clear the old marker, if it exists
+                if (wayfind_start != null){
+                    wayfind_start.marker.setStyle({opacity:0, fillOpacity:0});
+                }
+
+                //Then update it
+                if ("ontouchstart" in document.documentElement){
+                    wayfind_start = findNearestWfNode(overworld_map.getCenter());
+                }
+                else{
+                    wayfind_start = findNearestWfNode(e.latlng);
+                }
+                wayfind_start.marker.setStyle({opacity:0.7, fillOpacity:0.3});
+            }
+            
+            startListenFlag = false;
+            endListenFlag = false;
+            wayfind_listening = false;
+            wayfind.update();
+            if (typeof wayfind_start !== 'undefined' && typeof wayfind_end !== 'undefined'){
+                
+                // findWay(overworld_map, [wayfind_start, wayfind_end], route);
+
+            }
+        }
+        else {
+            wayfind_listening = true;
+        }
+    }
+    
+
+    //info.update(overworld_map.zoom);
+
+});
+
 function drawNode(e, mymap) {
     // let node = [];
     // node[0] = e.latlng.lat;
