@@ -61,7 +61,7 @@
     
     <script src="javascripts/wayfinding.js"></script>
     <script src="javascripts/draw-nodes.js"></script>
-    <script src="javascripts/draw-polygons.js"></script>
+    {{!-- <script src="javascripts/draw-polygons.js"></script> --}}
     <script src="javascripts/drawModal.js"></script>
     <script src="javascripts/wfNodes-hard.js"></script>
     <script src="javascripts/script.js"></script>
