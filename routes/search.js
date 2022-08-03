@@ -14,7 +14,7 @@ const config = {
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?fields=Name,aka, bldID, Description,infoPageEnabled,PhysicalAccessLink,mapped&pagination[pageSize]=150&sort[1]=Name`, config)
+  axios.get(`https://tcd-sense-map-back-zssh2.ondigitalocean.app/api/buildings?fields=Name,aka,bldID,Description,infoPageEnabled,PhysicalAccessLink,mapped,ZoomedInLabel,ZoomedOutLabel&pagination[pageSize]=150&sort[1]=Name`, config)
     .then(function (response) {
 
       let A = response.data.data;
@@ -52,6 +52,8 @@ router.get('/', function(req, res, next) {
           "aka": _aka,
           "akaList": _akaList,
           "bldID": B.bldID,
+          "ZoomedOutLabel": B.ZoomedOutLabel || "",
+          "ZoomedInLabel": B.ZoomedInLabel || "",
           "Description": B.Description,
           "infoPageEnabled": B.infoPageEnabled || false,
           "PhysicalAccessLink": B.PhysicalAccessLink,

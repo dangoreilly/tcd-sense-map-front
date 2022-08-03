@@ -202,12 +202,17 @@
             // Fuzzy Search
             const options = {
                 includeScore: true,
-                keys: ['buildingName','aka']
+                keys: [ {name:'buildingName', weight:3},
+                        {name:'aka', weight:1},
+                        {name:'ZoomedInLabel', weight:1},
+                        {name:'ZoomedOutLabel', weight:1}]
             }
 
             var buildings = [{{#buildings.list}}
-            {"buildingName":"{{name}}",
+            {"buildingName":"{{Name}}",
             "bldID":"{{bldID}}",
+            "ZoomedInLabel":"{{ZoomedInLabel}}",
+            "ZoomedOutLabel":"{{ZoomedOutLabel}}",
             "aka": "{{aka}}"
             },
             {{/buildings.list}}];
