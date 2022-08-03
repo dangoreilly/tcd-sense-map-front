@@ -115,7 +115,7 @@ function setShortcuts(__shortcuts){
 }
 
 function printMarkerLocation(markerName, location){
-    console.log(`${markerName}: ${location}`)
+    // console.log(`${markerName}: ${location}`)
 }
 
 overworld_map.on("move", (e) => {
@@ -173,8 +173,8 @@ function midPoint(_p1, _p2){
     //p2: [float, float]
     //returns [float, float]
 
-    console.log(`[(${_p1[0]} + ${_p2[0]})/2, (${_p1[1]} + ${_p2[1]})/2]`)
-    console.log(`${[(_p1[0] + _p2[0])/2, (_p1[1] + _p2[1])/2]}`)
+    // console.log(`[(${_p1[0]} + ${_p2[0]})/2, (${_p1[1]} + ${_p2[1]})/2]`)
+    // console.log(`${[(_p1[0] + _p2[0])/2, (_p1[1] + _p2[1])/2]}`)
 
     return [(_p1[0] + _p2[0])/2, (_p1[1] + _p2[1])/2]
 }
