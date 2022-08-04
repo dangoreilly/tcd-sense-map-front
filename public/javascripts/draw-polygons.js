@@ -190,7 +190,7 @@ info.update = function(coords){
 function printCenter(){
   let center = draft_map.getCenter();
 
-  pushCoordsToModal("Centre of the screen", [center])
+  pushCoordsToModal("Centre of the screen", [center], "point")
 }
 
 
@@ -226,7 +226,7 @@ draft_map.on('pm:create', (e) => {
   })
 });
 
-function stringyCoords(latlngs){
+function stringyCoords(latlngs, geometry="poly"){
   // let returnString = "[<br>&emsp;[";
 
   // for(i = 0; i < latlngs.length; i++){
@@ -240,29 +240,36 @@ function stringyCoords(latlngs){
   //   }
   // }
 
-  let returnString = "\n\t[\n\t\t[";
+  let returnString = ""
 
-  for(i = 0; i < latlngs.length; i++){
-    
-    returnString += `\n\t\t\t[\n\t\t\t\t${latlngs[i].lng},\n\t\t\t\t${latlngs[i].lat}\n\t\t\t]`
-    
-    if(i < latlngs.length-1){
+  if (geometry == "poly"){
+    returnString = "\n\t[\n\t\t[";
+
+    for(i = 0; i < latlngs.length; i++){
       
-      returnString += `,`
+      returnString += `\n\t\t\t[\n\t\t\t\t${latlngs[i].lng},\n\t\t\t\t${latlngs[i].lat}\n\t\t\t]`
+      
+      if(i < latlngs.length-1){
+        
+        returnString += `,`
 
+      }
     }
-  }
 
-  returnString += "\n\t\t]\n\t]\n";
+    returnString += "\n\t\t]\n\t]\n";
+  }
+  else {
+    returnString = `\n\t[\n\t\t${latlngs[0].lng},\n\t\t${latlngs[0].lat}\n\t]\n`;
+  }
 
   return returnString
 }
 
-function pushCoordsToModal(name, latlngs){
+function pushCoordsToModal(name, latlngs, geometry="poly"){
 
   let _title = `${name} Coordinates`;
 
-  let coords = `{"coordinates": ${stringyCoords(latlngs)}}`
+  let coords = `{"coordinates": ${stringyCoords(latlngs, geometry)}}`
 
   let _bodyhtml = `<b>Copy and paste these into the CMS to update the geometry</b><div class="container" style="height:40vh"><textarea readonly=true class="code">${coords}</textarea></div>`
 
