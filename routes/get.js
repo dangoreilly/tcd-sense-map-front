@@ -209,7 +209,7 @@ router.get('/scavengerLocations', function(req, res, next) {
         "type":"Feature", 
         "geometry":{
           "type": "Point",
-          "coordinates":element.attributes.location.coordinates
+          "coordinates":element.attributes.Location.coordinates
         }
       });
       
