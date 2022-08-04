@@ -39,7 +39,7 @@ var geojson_scavengerHunt = L.geoJson(_scavengerLocations, {
     onEachFeature: addIconToScavenger
 
 })
-.addTo(overworld_map);
+// .addTo(overworld_map);
 
 //Needed to escape the scope of the jquery
 function setScavengerLocations(__scavengerLocations){
@@ -78,7 +78,7 @@ function addIconToScavenger(feature, layer) {
             console.log("marker clicked");
             openInfoModal(feature.properties.Title, feature.properties.MainText, []);
         })
-        // .addTo(overworld_map);
+        .addTo(overworld_map);
         
         console.log(`Added clue with marker: ${feature.properties.keyParam}`)
     }
