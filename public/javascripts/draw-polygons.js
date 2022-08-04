@@ -16,7 +16,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { //r
 
 }).addTo(draft_map);
 
-
+//Drawing controls in the top left corner
 draft_map.pm.addControls({  
     position: 'topleft',  
     drawCircle: false,  
@@ -101,6 +101,25 @@ function style(feature) {
 
 }
 
+let centerMarker = L.marker(draft_map.getCenter())
+
+draft_map.on("move", e=> {
+
+  centerMarker.setLatLng(draft_map.getCenter());
+
+})
+
+function toggleCenterView(){
+
+  //First flip the value
+  showCenter = !showCenter;
+
+  //Then add or remove the center marker
+  if (showCenter) centerMarker.addTo(draft_map);
+  else centerMarker.remove();
+
+}
+
 function onEachFeature(feature, layer){
 
   layer.pm.enable()
@@ -139,30 +158,51 @@ var geojson = L.geoJson(_buildings, {
 
 }).addTo(draft_map);
 
-
+// Mouse readout for top right corner
 var info = L.control({  
   position: 'topright'
 });
 
+var showCenter = false;
+
 info.onAdd = function (draft_map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-    // this.update();
-    this._div.innerHTML = `<h4 style="width:14vw">Mouse</h4><p style="text-align:center">-,-</p>`;
-    // this._div.style = "width="
+    let center = draft_map.getCenter()
+    this.update([center.lng,center.lat]);
     return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
-// info.update = function (e) {
-    
-// };
+info.update = function(coords){
+  //Mouse readout
+  info._div.innerHTML = `<h4 style="width:14vw">Mouse</h4><p>[${coords[0]},<br>${coords[1]}]</p>`;
+
+  //Check if the toggle switch was toggled
+  let center_check = showCenter ? "checked" : "";
+  //toggle to display center marker
+  info._div.innerHTML += `<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="centerMarkerToggleSwitch" ${center_check} onclick="toggleCenterView()"><label class="form-check-label" for="centerMarkerToggleSwitch">Show screen center</label></div>`;
+  //Button to acquire centre
+  info._div.innerHTML += `<div class="d-grid gap-2"><button type="button" id="getCenterButton" class="btn btn-primary btn-sm" onclick="printCenter()" style="margin-top:0;">Screen Center</button></div>`
+
+
+}
+
+//handling of the getCenterButton
+function printCenter(){
+  let center = draft_map.getCenter();
+
+  pushCoordsToModal("Centre of the screen", [center])
+}
+
 
 info.addTo(draft_map);
 
-draft_map.on("mousemove mouseover", e => {
-  // console.log(e);
-  info._div.innerHTML = `<h4 style="width:14vw">Mouse</h4><p>[${e.latlng.lng},<br>${e.latlng.lat}]</p>`;
+draft_map.on("mousemove", e => {
+
+  info.update([e.latlng.lng, e.latlng.lat]);
+
 })
+
+
 
 draft_map.on('pm:create', (e) => {
   // console.log(stringyCoords(e.layer._latlngs[0]));
