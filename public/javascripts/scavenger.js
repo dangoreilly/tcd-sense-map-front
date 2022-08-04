@@ -28,7 +28,7 @@ $.ajax({
         else if (typeof data === 'string')
         scavengerLocations = JSON.parse(data).responseJSON; // parse if its string
 
-         console.log(JSON.stringify(scavengerLocations[0], null, 1));
+        //  console.log(JSON.stringify(scavengerLocations[0], null, 1));
         setScavengerLocations(scavengerLocations);
 
     }
@@ -75,16 +75,16 @@ function addIconToScavenger(feature, layer) {
         layer.setIcon(myScavengerIcon);
 
         layer.on("click", e=>{
-            console.log("marker clicked");
+            // console.log("marker clicked");
             openInfoModal(feature.properties.Title, feature.properties.MainText, []);
         })
         .addTo(overworld_map);
         
-        console.log(`Added clue with marker: ${feature.properties.keyParam}`)
+        // console.log(`Added clue with marker: ${feature.properties.keyParam}`)
     }
     else{
         
-        console.log(`did not add clue with marker: ${feature.properties.keyParam}`)
+        // console.log(`did not add clue with marker: ${feature.properties.keyParam}`)
     }
 
 }
