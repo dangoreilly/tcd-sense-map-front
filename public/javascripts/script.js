@@ -362,7 +362,6 @@ function addIconToAreas(feature, layer) {
 
     let modal_aka = '<p><em>Also known as: ' + feature.properties.aka + '</em></p>';
     let modal_Description = '<p><b>Description</b><br>' + feature.properties.Description + '</p>';
-    let modal_sensorycontent = '<p><b>Sensory Overview</b><br>' + feature.properties.SensoryOverview + '</p>';
 
     let modal_content = "";
         
@@ -371,7 +370,6 @@ function addIconToAreas(feature, layer) {
     }
     
     modal_content += modal_Description;
-    modal_content += modal_sensorycontent;
 
     let modal_info_button = {
         text: "Sensory Info",
