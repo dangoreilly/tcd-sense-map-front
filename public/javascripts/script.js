@@ -438,9 +438,9 @@ function onEachFeature(feature, layer) {
         }
         
         let modal_map_button = {
-            text: "Internal Map",
+            text: "Library Map",
+            link: feature.properties.libraryMapLink, //Temporary for launch
             // link: `/map/${feature.properties.bldID}`,
-            link: `/map/${feature.properties.bldID}`,
             disabled: !feature.properties.mapped
         }
         
@@ -465,7 +465,14 @@ function onEachFeature(feature, layer) {
         modal_content += modal_sensorycontent;
 
         // overworld_map.openModal({content: modal_content});
-        openInfoModal(feature.properties.Name, modal_content, [modal_info_button, modal_physical_access_button, modal_map_button]);
+
+        let modal_buttons_array = [modal_info_button, modal_physical_access_button];
+
+        if (!modal_map_button.disabled){
+            modal_buttons_array.push([modal_map_button]);
+        }
+
+        openInfoModal(feature.properties.Name, modal_content, modal_buttons_array);
 
     });
 

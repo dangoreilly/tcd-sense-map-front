@@ -44,6 +44,8 @@ router.get('/buildings', function(req, res, next) {
 
         "ZoomedInLabel": attribs.ZoomedInLabel || "",
         "ZoomedOutLabel": attribs.ZoomedOutLabel || "",
+
+        "libraryMapLink": attribs.libraryMapLink || "",
         "mapped": attribs.mapped || false
   
       }
