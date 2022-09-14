@@ -468,8 +468,8 @@ function onEachFeature(feature, layer) {
 
         let modal_buttons_array = [modal_info_button, modal_physical_access_button];
 
-        if (!modal_map_button.disabled){
-            modal_buttons_array.push([modal_map_button]);
+        if (feature.properties.mapped){
+            modal_buttons_array.push(modal_map_button);
         }
 
         openInfoModal(feature.properties.Name, modal_content, modal_buttons_array);
