@@ -15,7 +15,7 @@
     <title>Mapping - Main Campus</title>
     <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapFavicon.svg">
 
-    <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.outbound-links.js"></script>
+    <script defer data-domain="tcdsensemap-test.ie" src="https://plausible.io/js/script.outbound-links.js"></script>
 
 
     <!-- Make it fullscreen -->
