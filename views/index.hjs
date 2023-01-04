@@ -15,18 +15,8 @@
     <title>Mapping - Main Campus</title>
     <link rel="icon" type="image/x-icon" href="/images/TCDSenseMapFavicon.svg">
 
-    {{!-- <script type="text/javascript" src="/path/to/leaflet-tooltip-layout.js"></script> --}}
+    <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.outbound-links.js"></script>
 
-    <!-- Disabled until GDPR checks can be completed -->
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    {{!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S1PBW9CFZ"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-2S1PBW9CFZ');
-    </script> --}}
 
     <!-- Make it fullscreen -->
     <style>

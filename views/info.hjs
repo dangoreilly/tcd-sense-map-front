@@ -16,16 +16,8 @@
         
         <link rel="stylesheet" href="/stylesheets/style.css" />
 
-        <!-- Disabled until GDPR checks can be completed -->
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        {{!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-2S1PBW9CFZ"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+        <script defer data-domain="tcdsensemap-test.ie" src="https://plausible.io/js/script.js"></script>
 
-            gtag('config', 'G-2S1PBW9CFZ');
-        </script> --}}
 
         <style>
 
@@ -146,11 +138,11 @@
                     </div>
                 </div>
             
-            <div class="col themed-grid-col" >
-                <!-- Primary Image -->
-                <!-- <input type="image" src="{{buildingInfo.primaryImage.src}}" class="img-fluid" alt="{{buildingInfo.name}}}" style="padding-left: 0.5rem; padding-right: 0.5rem;">-->
-                <input type="image" src="{{buildingInfo.primaryImage.src}}" style="padding-left: 0.5rem; padding-right: 0.5rem;" class="card-img-top" alt="{{buildingInfo.name}}" data-bs-toggle="modal" data-bs-target="#pictureModal,#buildingCarousel" data-bs-slide-to="0" data-bs-src="{{buildingInfo.primaryImage.src}}" data-bs-cap="{{buildingInfo.name}}" data-bs-index="0"/>
-            </div>
+                <div class="col themed-grid-col" >
+                    <!-- Primary Image -->
+                    <!-- <input type="image" src="{{buildingInfo.primaryImage.src}}" class="img-fluid" alt="{{buildingInfo.name}}}" style="padding-left: 0.5rem; padding-right: 0.5rem;">-->
+                    <input type="image" src="{{buildingInfo.primaryImage.src}}" style="padding-left: 0.5rem; padding-right: 0.5rem;" class="card-img-top" alt="{{buildingInfo.name}}" data-bs-toggle="modal" data-bs-target="#pictureModal,#buildingCarousel" data-bs-slide-to="0" data-bs-src="{{buildingInfo.primaryImage.src}}" data-bs-cap="{{buildingInfo.name}}" data-bs-index="0"/>
+                </div>
             </div>
         </div>
 
