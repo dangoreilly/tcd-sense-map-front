@@ -462,7 +462,7 @@ function onEachFeature(feature, layer) {
         //     modal_content += modal_sensorycontent;
         // }
 
-        modal_content += modal_sensorycontent;
+        // modal_content += modal_sensorycontent;
 
         // overworld_map.openModal({content: modal_content});
 
